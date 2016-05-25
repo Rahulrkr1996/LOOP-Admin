@@ -1,0 +1,154 @@
+<resources>
+    <string name="app_name">LOOP Admin</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+
+    <string name="main_activity_title">Select Activity</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_profile">My Profile</string>
+    <string name="action_add_mandi">Add Mandi</string>
+    <string name="action_logout">Logout</string>
+    <string name="sell_button_text">SELL</string>
+    <string name="pay_button_text">PAY</string>
+    <string name="add_farmer_button_text">Add Contact</string>
+    <string name="add_crop_button_text">Add Crop</string>
+
+    <string name="past_transaction_button_text">Past Data</string>
+    <string name="dialog_select_date_text">Select Date</string>
+
+    <string name="combined_transaction_title"> : All Transactions</string>
+    <string name="add_combined_transaction_hint">Press \"+\" to add farmer transaction. </string>
+
+    <string name="add_combined_transaction_title"> : Add Transaction</string>
+    <string name="select_farmer_name_toast">Select Farmer Name</string>
+    <string name="select_mandi_name_toast">Select Mandi Name</string>
+    <string name="select_gaddidar_name">Select Gaddidar Name</string>
+    <string name="choose_crop_toast">Choose Crop</string>
+    <string name="rate_hint">Rate</string>
+    <string name="quantity_hint">Qty</string>
+    <string name="add_combined_transaction_toast">Quantity and Rate cannot be empty</string>
+
+    <string name="payment_summary_title">Payments Summary</string>
+
+    <string name="payment_title"> : Payment</string>
+    <string name="total_text">Total</string>
+    <string name="paid_text">Paid</string>
+    <string name="transport_total_text">Total Trspt</string>
+    <string name="transaction_amount_text">Total Amt</string>
+    <string name="transaction_weight_text">Total Weight</string>
+    <string name="balance_text">Balance</string>
+    <string name="all_filter_text">All</string>
+    <string name="paid_filter_text">Paid</string>
+    <string name="unpaid_filter_text">Unpaid</string>
+    <string name="history_detail_title">All Details</string>
+
+    <string name="farmer_list_title">Farmers List</string>
+    <string name="farmer">Farmers</string>
+
+    <string name="add_farmer_title">Add Farmer</string>
+    <string name="edit_farmer_title">Edit Farmer Details</string>
+    <string name="edit_crop_title">Edit Crop Details</string>
+    <string name="farmer_name_hint">Farmer Name</string>
+    <string name="crop_name_text_hint">Crop name can\'t be empty</string>
+    <string name="add_farmer_toast">Farmer Name and Phone Number cannot be empty</string>
+
+    <string name="crop_list_title">Crops</string>
+    <string name="search_farmer_text">Search Farmer</string>
+    <string name="search_crop_text">Search Crop</string>
+    <string name="search_transporter_text">Search Transporter</string>
+    <string name="search_gaddidar_text">Search Gaddidar</string>
+
+    <string name="add_crop_title">Add Crop</string>
+    <string name="crop_name_hint">Crop Name</string>
+
+    <string name="history_title">Historical Transactions</string>
+    <string name="to_text">TO</string>
+
+    <string name="checkInternetConnection">Check your internet connection, Try again later!</string>
+    <string name="unableToFetchData">Sorry Couldn\'t fetch your data, Try again later!</string>
+    <string name="pleaseWait">Please Wait</string>
+    <string name="phone">Phone Number</string>
+
+    <string name="authentication_error">Check your login credentials</string>
+    <string name="no_data_to_add_message">Please add come data to save</string>
+    <string name="measuring_unit">मापने की इकाई</string>
+    <string name="downloadingData">Downloading Data</string>
+    <string name="villages_assigned">Villages Assigned</string>
+    <string name="ok">OK</string>
+    <string name="yes">Yes</string>
+    <string name="cancel">Cancel</string>
+    <string name="select_village_name_text">Select Village Name</string>
+
+    <string name="myProfile">My Profile</string>
+    <string name="someProblemOccurred">There was some problem while syncing</string>
+    <string name="helpline">Helpline Number : </string>
+    <string name="syncing">syncing</string>
+    <string name="getting_data">Getting your data</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+
+    <string name="cannotLogout">Cannot Logout</string>
+    <string name="no_payment_due_hint"> No Payment Due</string>
+    <string name="village_name_hint">Village Name</string>
+    <string name="phone_number_toast">Mobile number cannot be less than 10 digits</string>
+    <string name="saveButton">Save</string>
+
+    <string name="vehicle_name_hint">Vehicle Name</string>
+    <string name="vehicle_number_hint">Vehicle Number</string>
+    <string name="transporter_name_hint">Transporter Name</string>
+    <string name="transporter_name">Transporter Name</string>
+
+    <string name="select_transporter_hint">Select Transporter</string>
+    <string name="choose_vehicle_hint">Select Vehicle</string>
+    <string name="add_transport_title">Transportation Expense</string>
+    <string name="cost">Cost</string>
+    <string name="select_transporter_mandi_name_toast">Select Transporter and Mandi Name</string>
+    <string name="choose_vehicle_toast">Choose Vehicle</string>
+    <string name="add_transportation_cost_toast">Transportation cost cannot be empty</string>
+    <string name="add_transporter">Add Transporter</string>
+    <string name="farmer_share">Farmers Share</string>
+    <string name="net_transport_expense">Net Transport</string>
+    <string name="farmer_share_cannot_be_greater_than_total_cost">Farmer share cannot be greater than total cost</string>
+    <string name="transporter_name_cannot_be_empty">Please enter transporter name</string>
+    <string name="transporter_phone_cannot_be_empty">Please enter transporter phone</string>
+    <string name="fill_transportation_details">You cannot proceed without filling transportation cost, Want to fill now ?</string>
+
+    <string name="add_vehicle_for_transporter">"Please add a vehicle for the transporter"</string>
+    <string name="enter_vehicle_number">Enter vehicle number</string>
+    <string name="select_vehicle">Select a vehicle</string>
+
+    <string name="language_changed_toast">Preferred language changed successfully</string>
+    <string name="mandi_name_hint">Mandi Name</string>
+    <string name="mandi_Latitude_hint">Enter Latitude</string>
+    <string name="mandi_Longitude_hint">Enter Longitude</string>
+    <string name="mandi_name">Mandi</string>
+    <string name="mandi_district_hint">Select District</string>
+    <string name="add_mandi_title">ADD A MANDI</string>
+
+    <string name="gender_hint">Gender</string>
+    <string name="transporter_list_title">Transporter List</string>
+    <string name="transporter">Transporter</string>
+
+    <string name="do_you_want_to_change_farmer">Changing the name of farmer will remove the records of previous farmer. Do want to continue?</string>
+    <string name="you_have_not_entered_transportation_details_for_mandi">You have not added transportation details for a mandi. Please add before proceeding.</string>
+    <string name="cannot_delete_this_vehicle_for_the_transporter">You are have used this vehicle of this transporter previously while filling transportation.</string>
+    <string name="transportation_dialog">Transportation Details</string>
+    <string name="gaddidar">Gaddidar</string>
+    <string name="choose_gaddidar_hint">Select Gaddidar</string>
+    <string name="gaddidar_list_title">Gaddidar List</string>
+    <string name="hindi">हिंदी</string>
+    <string name="English">English</string>
+    <string name="commission_text">Commission</string>
+    <string name="random_data">random data</string>
+    <string name="cannot_edit_transaction">You are not supposed to edit this because payment has already been done to this farmer for the respective transaction.</string>
+    <string name="all">All</string>
+    <string name="all_gaddidar">All gaddidar</string>
+    <string name="title_activity_add_mandi">Map</string>
+    <string name="gaddidar_heading"> <u> GADDIDAR DETAILS </u> </string>
+
+    <string name="gaddidar_mandi_hint">Select Mandi</string>
+    <string name="gaddidar_name_hint">Name :</string>
+    <string name="gaddidar_phone_hint">Phone No. :</string>
+    <string name="gaddidar_commision_hint">Commision</string>
+    <string name="add_vehicle_heading"><u>ADD A VEHICLE</u></string>
+</resources>
