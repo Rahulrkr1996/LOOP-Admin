@@ -25,6 +25,7 @@ public class Mandi extends Model {
 //            return new Mandi[size];
 //        }
 //    };
+
     @Expose
     @Column(name = "online_id")
     public int online_id;

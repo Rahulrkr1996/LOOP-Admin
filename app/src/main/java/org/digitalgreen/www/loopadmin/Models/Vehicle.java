@@ -37,7 +37,6 @@ public class Vehicle extends Model {
         this.action = GeneralConstants.NO_CHANGE;
     }
 
-
     public Vehicle(String vehicle_name) {
         super();
         this.vehicle_name = vehicle_name;
