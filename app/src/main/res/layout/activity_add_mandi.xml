@@ -7,22 +7,13 @@
     android:background="#808080"
     tools:context="com.rahul_kumar.gmapstesting.MapsActivity">
 
-    <fragment
-        android:id="@+id/mandiMap"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp" />
-
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/mandiSaveButton"
+        android:id="@+id/mandi_save_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="20dp"
         android:layout_marginRight="40dp"
         android:elevation="10dp"
         android:src="@mipmap/ic_tick"
@@ -31,12 +22,12 @@
         app:backgroundTint="#000000" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/mandiDiscardButton"
+        android:id="@+id/mandi_discard_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="20dp"
         android:layout_marginLeft="40dp"
         android:elevation="10dp"
         android:src="@mipmap/ic_cancel"
@@ -44,18 +35,19 @@
         app:backgroundTint="#000000" />
 
     <RelativeLayout
-        android:id="@+id/mandiLayout"
+        android:id="@+id/mandi_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="0dp">
 
         <EditText
-            android:id="@+id/mandiName"
+            android:id="@+id/mandi_name"
             android:layout_width="match_parent"
             android:layout_height="@dimen/text_view_height"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="7dp"
             android:layout_marginRight="7dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_marginTop="10dp"
             android:background="@drawable/round_corner"
             android:hint="@string/mandi_name_hint"
@@ -63,95 +55,132 @@
             android:singleLine="true"
             android:textColor="#000000" />
 
-        <LinearLayout
-            android:id="@+id/mandi_LatLng"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/mandiName"
-            android:orientation="horizontal"
-            android:weightSum="2"
-            android:layout_marginTop="8dp">
-
-            <TextView
-                android:id="@+id/mandi_Lat"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="#FFFFFF"
-                android:text="Latitude" />
-
-            <TextView
-                android:id="@+id/mandi_Long"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="#FFFFFF"
-                android:text="Longitude"
-                android:gravity="center_vertical"
-                android:layout_marginLeft="20dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/mandi_LatiLongi"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/text_view_layout_height"
-            android:layout_below="@+id/mandiName"
-            android:orientation="horizontal"
-            android:weightSum="2"
-            android:layout_marginTop="15dp">
-
-            <EditText
-                android:id="@+id/mandi_Latitude"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/text_view_height"
-                android:layout_marginLeft="7dp"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/round_corner"
-                android:gravity="center_vertical"
-                android:hint="@string/mandi_Latitude_hint"
-                android:inputType="numberDecimal"
-                android:padding="7dp"
-                android:textColor="#000000" />
-
-            <EditText
-                android:id="@+id/mandi_Longitude"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/text_view_height"
-                android:layout_marginLeft="7dp"
-                android:layout_marginRight="7dp"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/round_corner"
-                android:gravity="center_vertical"
-                android:hint="@string/mandi_Longitude_hint"
-                android:inputType="numberDecimal"
-                android:padding="7dp"
-                android:textColor="#000000" />
-
-        </LinearLayout>
-
 
         <TextView
-            android:id="@+id/mandiSelectDistrict"
-            android:layout_width="match_parent"
+            android:id="@+id/mandi_select_district"
+            android:layout_width="170dp"
             android:layout_height="@dimen/text_view_height"
-            android:layout_below="@id/mandi_LatiLongi"
+            android:layout_below="@id/mandi_name"
             android:layout_marginLeft="7dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="0dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_marginTop="7dp"
+            android:hint="@string/mandi_district_hint"
             android:background="@drawable/round_corner"
             android:drawableRight="@drawable/dropdown_icon_small"
             android:gravity="center_vertical"
             android:padding="2dp"
-            android:text="@string/mandi_district_hint"
+            android:textSize="18sp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:text="GET Location"
+            android:id="@+id/mandi_get_location"
+            android:layout_below="@+id/mandi_name"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:drawableRight="@mipmap/ic_place_red"
+            android:textColor="@color/red"
+            android:textSize="15dp"
+            android:background="@drawable/round_corner"
+            android:paddingRight="15dp"
+            android:paddingLeft="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="7dp" />
+
+        <TextView
+            android:id="@+id/mandi_select_aggregators"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/text_view_height"
+            android:layout_below="@id/mandi_select_district"
+            android:layout_marginLeft="7dp"
+            android:layout_marginTop="7dp"
+            android:background="@drawable/round_corner"
+            android:drawableRight="@drawable/dropdown_icon_small"
+            android:gravity="center_vertical"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:padding="2dp"
+            android:hint="Select Aggregators for this mandi"
             android:textSize="18sp"
-            android:visibility="gone" />
+            android:layout_marginRight="7dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Add Gaddidar(s) : "
+            android:id="@+id/mandi_select_gaddidars_header"
+            android:layout_below="@+id/mandi_select_aggregators"
+            android:layout_alignLeft="@+id/mandi_select_aggregators"
+            android:layout_alignStart="@+id/mandi_select_aggregators"
+            android:layout_marginTop="7dp"
+            android:textColor="@color/white" />
+
+        <EditText
+            android:id="@+id/mandi_select_gaddidar_name"
+            android:layout_width="130dp"
+            android:layout_height="@dimen/text_view_height"
+            android:layout_below="@id/mandi_select_gaddidars_header"
+            android:layout_marginLeft="7dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:background="@drawable/round_corner"
+            android:gravity="center_vertical"
+            android:padding="2dp"
+            android:hint="Gaddidar Name"
+            android:textSize="12sp" />
+
+        <EditText
+            android:id="@+id/mandi_select_gaddidar_contact"
+            android:layout_width="100dp"
+            android:layout_height="@dimen/text_view_height"
+            android:layout_below="@id/mandi_select_gaddidars_header"
+            android:layout_toRightOf="@+id/mandi_select_gaddidar_name"
+            android:layout_marginLeft="7dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:background="@drawable/round_corner"
+            android:gravity="center_vertical"
+            android:inputType="phone"
+            android:hint="Mobile No."
+            android:textSize="12sp"
+            android:padding="2dp" />
+
+        <EditText
+            android:id="@+id/mandi_select_gaddidar_commision"
+            android:layout_width="60dp"
+            android:layout_height="@dimen/text_view_height"
+            android:layout_below="@id/mandi_select_gaddidars_header"
+            android:layout_toRightOf="@+id/mandi_select_gaddidar_contact"
+            android:layout_marginLeft="7dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:background="@drawable/round_corner"
+            android:gravity="center_vertical"
+            android:padding="2dp"
+            android:inputType="numberDecimal"
+            android:hint="Commission"
+            android:textSize="12dp" />
+
+        <ImageButton
+            android:id="@+id/mandi_gaddidar_save_button"
+            android:layout_alignTop="@+id/mandi_select_gaddidar_name"
+            android:layout_width="33dp"
+            android:layout_height="33dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:background="@mipmap/ic_down"
+            android:layout_marginRight="5dp" />
 
     </RelativeLayout>
+
+    <ListView
+        android:id="@+id/mandi_gaddidar_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/mandi_save_button"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="15dp"
+        android:divider="@null"
+        android:layout_below="@+id/mandi_layout"
+        android:layout_marginBottom="5dp" />
 
 </RelativeLayout>

@@ -9,6 +9,7 @@ import android.widget.Button;
 public class LoginActivity extends AppCompatActivity {
 
     private Button Login_addMandiButton,Login_addGaddidar,Login_addVehicle;
+    private Button Login_addVillage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +39,15 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(LoginActivity.this,AddVehicle.class);
+                startActivity(i);
+            }
+        });
+
+        Login_addVillage = (Button)findViewById(R.id.Login_addVillage);
+        Login_addVillage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(LoginActivity.this,AddVillage.class);
                 startActivity(i);
             }
         });

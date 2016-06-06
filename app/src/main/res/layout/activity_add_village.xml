@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="org.digitalgreen.www.loopadmin.AddVillage">
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/village_save_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="40dp"
+        android:contextClickable="false"
+        android:elevation="10dp"
+        android:src="@mipmap/ic_tick"
+        app:backgroundTint="#000000"
+        app:elevation="10dp" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/village_discard_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="40dp"
+        android:elevation="10dp"
+        android:src="@mipmap/ic_cancel"
+        app:backgroundTint="#000000"
+        app:elevation="10dp" />
+
+    <RelativeLayout
+        android:id="@+id/village_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp">
+
+        <EditText
+            android:id="@+id/village_name"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/text_view_height"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="7dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/round_corner"
+            android:hint="Village Name"
+            android:padding="5dp"
+            android:singleLine="true"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#000000" />
+
+        <TextView
+            android:id="@+id/village_select_block"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/text_view_height"
+            android:layout_below="@id/village_name"
+            android:layout_marginLeft="7dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_marginTop="7dp"
+            android:hint="SElect a Block"
+            android:background="@drawable/round_corner"
+            android:drawableRight="@drawable/dropdown_icon_small"
+            android:gravity="center_vertical"
+            android:padding="2dp"
+            android:textSize="18sp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:text="GET Location"
+            android:id="@+id/village_get_location"
+            android:layout_below="@+id/village_select_block"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:drawableRight="@mipmap/ic_place_red"
+            android:textColor="@color/red"
+            android:textSize="15dp"
+            android:background="@drawable/round_corner"
+            android:paddingRight="15dp"
+            android:paddingLeft="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="7dp" />
+
+    </RelativeLayout>
+</RelativeLayout>

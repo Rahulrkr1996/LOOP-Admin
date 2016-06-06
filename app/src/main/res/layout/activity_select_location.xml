@@ -1,0 +1,71 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#808080"
+    tools:context="org.digitalgreen.www.loopadmin.SelectLocation">
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="95dp"
+        android:layout_above="@+id/SL_save_button"
+        android:layout_marginBottom="5dp" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/SL_save_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="40dp"
+        android:elevation="10dp"
+        android:src="@mipmap/ic_tick"
+        android:contextClickable="false"
+        map:elevation="10dp" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/SL_discard_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="40dp"
+        android:elevation="10dp"
+        android:src="@mipmap/ic_cancel"
+        map:elevation="10dp" />
+
+
+    <EditText
+        android:id="@+id/SL_searchBar"
+        android:layout_width="300dp"
+        android:layout_height="@dimen/text_view_height"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/round_corner"
+        android:drawableRight="@drawable/places_ic_search"
+        android:gravity="center_vertical"
+        android:hint="Select A Location for Mandi"
+        android:textSize="18sp"
+        android:paddingLeft="10dp"
+        android:elevation="0dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:text="Search"
+        android:id="@+id/SL_searchButton"
+        android:layout_below="@+id/SL_searchBar"
+        android:layout_centerHorizontal="true"
+        android:elevation="20dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/round_corner" />
+
+
+</RelativeLayout>

@@ -7,6 +7,10 @@ public class GeneralConstants {
 
     public static final String DIRECT_SELL = "Direct Sell";
 
+    // Map onActivityForResult Constants :
+    public static final int MAPCALL_FROM_ADDMANDI = 0;
+    public static final int MAPCALL_FROM_ADDVILLAGE = 1;
+
     //Language Selection Constants
     public static final String ENGLISH = "English";
     public static final String ENGLISH_LANGUAGE = "en";

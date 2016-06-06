@@ -9,6 +9,7 @@ package org.digitalgreen.www.loopadmin.Models;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 import com.google.gson.annotations.Expose;
 
@@ -16,15 +17,6 @@ import java.util.ArrayList;
 
 @Table(name = "Mandi")
 public class Mandi extends Model {
-    //    public static final Creator<Mandi> CREATOR = new Creator<Mandi>() {
-//        public Mandi createFromParcel(Parcel source) {
-//            return new Mandi(source);
-//        }
-//
-//        public Mandi[] newArray(int size) {
-//            return new Mandi[size];
-//        }
-//    };
 
     @Expose
     @Column(name = "online_id")
@@ -32,10 +24,16 @@ public class Mandi extends Model {
     @Expose
     @Column(name = "mandi_name")
     public String mandi_name;
+    @Expose
     @Column(name = "latitude")
     public double latitude;
+    @Expose
     @Column(name = "longitude")
     public double longitude;
+    @Expose
+    @Column(name = "district_name")
+    public String district_name;
+    @Expose
     @Column(name = "action")
     public int action;   // 0 = ADD , 1= EDIT ,  -1 = NO CHANGE
 
@@ -46,6 +44,7 @@ public class Mandi extends Model {
         this.latitude = 0;
         this.longitude = 0;
         this.action = -1;
+        this.district_name = null;
     }
 
     public Mandi(String mandi_name, double latitude, double longitude) {
@@ -55,23 +54,26 @@ public class Mandi extends Model {
         this.latitude = latitude;
         this.longitude = longitude;
         this.action = -1;
+        this.district_name=null;
     }
 
-    public Mandi(String mandi_name, double latitude, double longitude,int action) {
+    public Mandi(String mandi_name, double latitude, double longitude,int action,String district_name) {
         super();
         this.online_id = -1;
         this.mandi_name = mandi_name;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.district_name = district_name;
         this.action = action;
     }
 
-    public Mandi(int online_id, String mandi_name, double latitude, double longitude) {
+    public Mandi(int online_id, String mandi_name, double latitude, double longitude,String district_name) {
         super();
         this.online_id = online_id;
         this.mandi_name = mandi_name;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.district_name = district_name;
         this.action = -1;
     }
 
@@ -99,12 +101,11 @@ public class Mandi extends Model {
 */
 
     public ArrayList<Mandi> getMandis() {
+        return new Select().all().from(Mandi.class).execute();
+    }
 
-        Select select = new Select();
-        ArrayList<Mandi> mandi_name;
-//        Log.i("district id", district.getId()+"");
-        mandi_name = select.all().from(Mandi.class).execute();
-        return mandi_name;
+    public void deleteAllMandis(){
+        new Delete().from(Mandi.class).execute();
     }
 
     @Override
@@ -112,6 +113,11 @@ public class Mandi extends Model {
         return mandi_name;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        Mandi m = (Mandi) o;
+        return this.getId() == m.getId();
+    }
 /*
     @Override
     public int describeContents() {
@@ -128,9 +134,4 @@ public class Mandi extends Model {
     }
 */
 
-    @Override
-    public boolean equals(Object o) {
-        Mandi m = (Mandi) o;
-        return this.getId() == m.getId();
-    }
 }

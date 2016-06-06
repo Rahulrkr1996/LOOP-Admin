@@ -37,6 +37,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".AddMandi"
+            android:label="AddMandi" />
+        <activity android:name=".AddGaddidar" />
+        <activity android:name=".AddVehicle" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -50,10 +55,9 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".AddMandi"
-            android:label="@string/title_activity_add_mandi" />
-        <activity android:name=".AddGaddidar" />
-        <activity android:name=".AddVehicle"></activity>
+            android:name=".SelectLocation"
+            android:label="@string/title_activity_select_location" />
+        <activity android:name=".AddVillage"></activity>
     </application>
 
 </manifest>

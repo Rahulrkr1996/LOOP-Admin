@@ -151,4 +151,5 @@
     <string name="gaddidar_phone_hint">Phone No. :</string>
     <string name="gaddidar_commision_hint">Commision</string>
     <string name="add_vehicle_heading"><u>ADD A VEHICLE</u></string>
+    <string name="title_activity_select_location">Map</string>
 </resources>

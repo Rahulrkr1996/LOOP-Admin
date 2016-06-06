@@ -36,4 +36,13 @@
         android:layout_below="@+id/Login_addGaddidar"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="55dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ADD Village"
+        android:id="@+id/Login_addVillage"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="51dp" />
 </RelativeLayout>

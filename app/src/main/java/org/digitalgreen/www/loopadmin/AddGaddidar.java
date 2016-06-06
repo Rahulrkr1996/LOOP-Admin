@@ -74,11 +74,11 @@ public class AddGaddidar extends AppCompatActivity {
                 if (GeneralConstants.FLAG_IS_MANDI_CHANGE_ALLOWED) {
                     dialog = new Dialog(context);
                     dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                    dialog.setContentView(R.layout.custom_dialog);
+                    dialog.setContentView(R.layout.custom_dialog1);
 
-                    titleText = (TextView) dialog.findViewById(R.id.titleText);
-                    editText = (EditText) dialog.findViewById(R.id.editText);
-                    listView = (ListView) dialog.findViewById(R.id.listView);
+                    titleText = (TextView) dialog.findViewById(R.id.dialog1_titleText);
+                    editText = (EditText) dialog.findViewById(R.id.dialog1_editText);
+                    listView = (ListView) dialog.findViewById(R.id.dialog1_listView);
 
                     titleText.setText(getString(R.string.select_mandi_name_toast));
 

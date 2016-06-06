@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/titleText"
+        android:id="@+id/dialog1_titleText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/black"
@@ -15,7 +15,7 @@
         android:textColor="@color/white" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/dialog1_editText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:drawableLeft="@android:drawable/ic_search_category_default"
@@ -24,7 +24,7 @@
         android:textColor="@color/black" />
 
     <ListView
-        android:id="@+id/listView"
+        android:id="@+id/dialog1_listView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal" />
