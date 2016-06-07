@@ -189,9 +189,9 @@ public class AddVillage extends AppCompatActivity {
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
                 //  Getting the location data from intent
-                villageLatitude = (double) data.getDoubleExtra("location_data_lat", 0);
-                villageLongitude = (double) data.getDoubleExtra("location_data_long", 0);
-                latLongCheck = (boolean) data.getBooleanExtra("addVillageCheck", false);
+                villageLatitude = data.getDoubleExtra("location_data_lat", 0);
+                villageLongitude = data.getDoubleExtra("location_data_long", 0);
+                latLongCheck = data.getBooleanExtra("addVillageCheck", false);
   
                 if (latLongCheck == true) {
                     village_get_location.setTextColor(Color.GREEN);

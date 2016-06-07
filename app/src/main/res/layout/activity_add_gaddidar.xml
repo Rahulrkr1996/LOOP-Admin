@@ -81,7 +81,7 @@
         android:background="@drawable/round_corner"
         android:ems="10"
         android:hint="@string/gaddidar_phone_hint"
-        android:inputType="number"
+        android:inputType="phone"
         android:padding="8dp" />
 
     <TextView

@@ -149,11 +149,14 @@ public class AddGaddidar extends AppCompatActivity {
                 Bitmap image = fImage;
 
                 if (gaddidar_name.equals("")) {
+                    gaddidarName.setText("");
                     Toast.makeText(AddGaddidar.this, "Please add a name for Gaddidar!!", Toast.LENGTH_SHORT).show();
-                } else if (gaddidar_phone.equals("")) {
-                    Toast.makeText(AddGaddidar.this, "Please add Phone no. of the Gaddidar!!", Toast.LENGTH_SHORT).show();
+                } else if (gaddidar_phone.equals("")||gaddidar_phone.length()!=10) {
+                    gaddidarPhoneNo.setText("");
+                    Toast.makeText(AddGaddidar.this, "Please add a proper Phone no. of the Gaddidar!!", Toast.LENGTH_SHORT).show();
                 } else if (gaddidar_commission == 0) {
-                    Toast.makeText(AddGaddidar.this, "Please enter the commision of Gaddidar!", Toast.LENGTH_SHORT).show();
+                    gaddidarCommission.setText("");
+                    Toast.makeText(AddGaddidar.this, "Please enter the commission of Gaddidar!", Toast.LENGTH_SHORT).show();
                 } else {
                     if (currentGaddidar == null) {
                         saveGaddidar(gaddidar_name, gaddidar_commission, gaddidar_phone, gaddidar_mandi, image);
