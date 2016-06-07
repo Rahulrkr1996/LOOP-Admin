@@ -53,7 +53,8 @@
             android:hint="@string/mandi_name_hint"
             android:padding="5dp"
             android:singleLine="true"
-            android:textColor="#000000" />
+            android:textColor="#000000"
+            android:elevation="10dp" />
 
 
         <TextView
@@ -69,7 +70,8 @@
             android:drawableRight="@drawable/dropdown_icon_small"
             android:gravity="center_vertical"
             android:padding="2dp"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:elevation="10dp" />
 
         <Button
             android:layout_width="wrap_content"
@@ -102,7 +104,8 @@
             android:padding="2dp"
             android:hint="Select Aggregators for this mandi"
             android:textSize="18sp"
-            android:layout_marginRight="7dp" />
+            android:layout_marginRight="7dp"
+            android:elevation="10dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -127,7 +130,8 @@
             android:gravity="center_vertical"
             android:padding="2dp"
             android:hint="Gaddidar Name"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:elevation="10dp" />
 
         <EditText
             android:id="@+id/mandi_select_gaddidar_contact"
@@ -142,7 +146,8 @@
             android:inputType="phone"
             android:hint="Mobile No."
             android:textSize="12sp"
-            android:padding="2dp" />
+            android:padding="2dp"
+            android:elevation="10dp" />
 
         <EditText
             android:id="@+id/mandi_select_gaddidar_commision"
@@ -157,7 +162,8 @@
             android:padding="2dp"
             android:inputType="numberDecimal"
             android:hint="Commission"
-            android:textSize="12dp" />
+            android:textSize="12dp"
+            android:elevation="10dp" />
 
         <ImageButton
             android:id="@+id/mandi_gaddidar_save_button"

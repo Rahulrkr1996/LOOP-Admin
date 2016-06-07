@@ -205,6 +205,7 @@ public class AddMandi extends FragmentActivity {
                 latLongCheck = (boolean) data.getBooleanExtra("addMandiCheck", false);
 
                 if (latLongCheck == true) {
+                    Toast.makeText(AddMandi.this, "Location Data Captured!!", Toast.LENGTH_SHORT).show();
                     mandi_get_location.setTextColor(Color.GREEN);
                     mandi_get_location.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.mipmap.ic_place_green), null);
                 }

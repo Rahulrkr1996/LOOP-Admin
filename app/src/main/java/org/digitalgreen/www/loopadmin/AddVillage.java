@@ -142,8 +142,6 @@ public class AddVillage extends AppCompatActivity {
                     Toast.makeText(AddVillage.this, "Please add the district of the Village!!", Toast.LENGTH_SHORT).show();
                 } else if (latLongCheck == false) {
                     Toast.makeText(AddVillage.this, "Please Select the location of the Village!!", Toast.LENGTH_SHORT).show();
-                } else if (village_select_block.equals("")) {
-                    Toast.makeText(AddVillage.this, "Please Select a district for the Village!!", Toast.LENGTH_SHORT).show();
                 } else {
                     if (currentBlock == null) {
                         saveVillage(villageName, villageLat, villageLong, blockName);
@@ -196,6 +194,7 @@ public class AddVillage extends AppCompatActivity {
                 if (latLongCheck == true) {
                     village_get_location.setTextColor(Color.GREEN);
                     village_get_location.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.mipmap.ic_place_green), null);
+                    Toast.makeText(AddVillage.this, "Location data Captured", Toast.LENGTH_SHORT).show();
                 }
             }
         }

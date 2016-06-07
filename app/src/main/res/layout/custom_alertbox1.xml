@@ -9,8 +9,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Do you want your Current Location to be set as a Mandi location"
-        android:id="@+id/mandiPromtTitle"
+        android:text="Do you want your Current Location to be selected"
+        android:id="@+id/alert1_prompt_title"
         android:gravity="center_vertical|center_horizontal"
         android:background="#000000"
         android:textColor="#FFFFFF" />

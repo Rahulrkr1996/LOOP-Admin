@@ -11,9 +11,10 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="95dp"
         android:layout_above="@+id/SL_save_button"
-        android:layout_marginBottom="5dp" />
+        android:layout_marginBottom="5dp"
+        android:layout_below="@+id/SL_searchBar"
+        android:layout_marginTop="10dp" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/SL_save_button"
@@ -55,17 +56,6 @@
         android:textSize="18sp"
         android:paddingLeft="10dp"
         android:elevation="0dp" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:text="Search"
-        android:id="@+id/SL_searchButton"
-        android:layout_below="@+id/SL_searchBar"
-        android:layout_centerHorizontal="true"
-        android:elevation="20dp"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/round_corner" />
 
 
 </RelativeLayout>

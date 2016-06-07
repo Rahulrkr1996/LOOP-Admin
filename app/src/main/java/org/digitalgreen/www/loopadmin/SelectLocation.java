@@ -1,6 +1,8 @@
 package org.digitalgreen.www.loopadmin;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
@@ -8,16 +10,21 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.view.View.OnTouchListener;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -33,17 +40,18 @@ public class SelectLocation extends FragmentActivity implements OnMapReadyCallba
     private Context context = this;
     private GoogleMap mMap;
     private GPSTracker gps;
+    private LatLng selectLocation = null;
     private double currentLatitude = 0.0, currentLongitude = 0.0;
     private EditText SL_searchBar;
     private float zoomLevel = 10;
     private Marker currentLocationMarker = null, selectedLocationMarker = null;
-    private Button SL_searchButton;
     private FloatingActionButton SL_saveButton, SL_discardButton;
     private String activity = null, searchBar = null;
     private Intent intent;
     private boolean Check = false;
     private MarkerOptions markerOptions;
     private LatLng latLng;
+    private boolean IS_CURRENT_LOCATION_SELECTED = false;
 
 
     @Override
@@ -57,7 +65,6 @@ public class SelectLocation extends FragmentActivity implements OnMapReadyCallba
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         SL_searchBar = (EditText) findViewById(R.id.SL_searchBar);
-        SL_searchButton = (Button) findViewById(R.id.SL_searchButton);
         SL_saveButton = (FloatingActionButton) findViewById(R.id.SL_save_button);
         SL_discardButton = (FloatingActionButton) findViewById(R.id.SL_discard_button);
 
@@ -77,7 +84,7 @@ public class SelectLocation extends FragmentActivity implements OnMapReadyCallba
             currentLatitude = gps.getLatitude();
             currentLongitude = gps.getLongitude();
 
-            Check = true;
+            IS_CURRENT_LOCATION_SELECTED = true;
             // \n is for new line
             Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + currentLatitude + "\nLong: " + currentLongitude, Toast.LENGTH_LONG).show();
         } else {
@@ -86,11 +93,73 @@ public class SelectLocation extends FragmentActivity implements OnMapReadyCallba
             gps.showSettingsAlert();
         }
 
+        SL_searchBar.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                final int DRAWABLE_RIGHT = 2;
+
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (event.getRawX() >= (SL_searchBar.getRight() - SL_searchBar.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                        // Getting user input location
+                        String location = SL_searchBar.getText().toString();
+
+                        if (location != null && !location.equals("")) {
+                            new GeocoderTask().execute(location);
+                        } else {
+                            Toast.makeText(SelectLocation.this, "Add a location to search", Toast.LENGTH_SHORT).show();
+                        }
+
+                        View view = SelectLocation.this.getCurrentFocus();
+                        if (view != null) {
+                            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                        }
+
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+
         SL_saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Check = true;
-                sendData(activity, Check);
+                if (IS_CURRENT_LOCATION_SELECTED == true) {
+                    LayoutInflater inflater = LayoutInflater.from(context);
+                    View alertBox = inflater.inflate(R.layout.custom_alertbox1, null);
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+
+                    alertDialogBuilder.setView(alertBox);
+
+                    // set dialog message
+                    alertDialogBuilder
+                            .setCancelable(false)
+                            .setPositiveButton("YES",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            IS_CURRENT_LOCATION_SELECTED = true;
+                                            Check = true;
+                                            sendData(activity, Check);
+                                        }
+                                    })
+                            .setNegativeButton("NO",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            Toast.makeText(context, "Please select a location from map by clicking on the place!!", Toast.LENGTH_SHORT).show();
+                                            dialog.cancel();
+                                            IS_CURRENT_LOCATION_SELECTED = false;
+                                        }
+                                    });
+                    // create alert dialog
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+
+                    // show it
+                    alertDialog.show();
+                } else {
+                    Check = true;
+                    sendData(activity, Check);
+                }
             }
         });
 
@@ -98,21 +167,6 @@ public class SelectLocation extends FragmentActivity implements OnMapReadyCallba
             @Override
             public void onClick(View v) {
                 finish();
-            }
-        });
-
-        // SearchBar Functionality :
-        SL_searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Getting user input location
-                String location = SL_searchBar.getText().toString();
-
-                if (location != null && !location.equals("")) {
-                    new GeocoderTask().execute(location);
-                } else {
-                    Toast.makeText(SelectLocation.this, "Add a location to search", Toast.LENGTH_SHORT).show();
-                }
             }
         });
     }
@@ -157,23 +211,25 @@ public class SelectLocation extends FragmentActivity implements OnMapReadyCallba
 
         // Add a marker in the current and move the camera
         LatLng currentLocation = new LatLng(currentLatitude, currentLongitude);
-        currentLocationMarker = mMap.addMarker(new MarkerOptions().position(currentLocation).title("You are presently Here"));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(zoomLevel));
+        currentLocationMarker = mMap.addMarker(new MarkerOptions().position(currentLocation).title("You are presently Here").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
     }
 
     @Override
     public void onMapClick(LatLng latLng) {
         zoomLevel = 12;
+        IS_CURRENT_LOCATION_SELECTED = false;
         // Add a marker in the current and move the camera
         if (selectedLocationMarker == null) {
-            selectedLocationMarker = mMap.addMarker(new MarkerOptions().position(latLng).title("Do you want to Select this place as a Mandi"));
+            selectedLocationMarker = mMap.addMarker(new MarkerOptions().position(latLng).title("Do you want to Select this place ?").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
         } else {
             selectedLocationMarker.remove();
-            selectedLocationMarker = mMap.addMarker(new MarkerOptions().position(latLng).title("Do you want to Select this place as a Mandi"));
+            selectedLocationMarker = mMap.addMarker(new MarkerOptions().position(latLng).title("Do you want to Select this place ?").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
         }
-        currentLatitude = latLng.latitude;
-        currentLongitude = latLng.longitude;
+
+        selectLocation = latLng;
 
         mMap.animateCamera(CameraUpdateFactory.zoomTo(zoomLevel + 5));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
