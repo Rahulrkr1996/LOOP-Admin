@@ -3,6 +3,7 @@ package org.digitalgreen.www.loopadmin.Models;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Select;
 import com.google.gson.annotations.Expose;
 
 import java.util.List;
@@ -37,7 +38,11 @@ public class LoopUser extends Model {
     @Column(name = "assigned_villages")
     public List<Village> assigned_villages;
 
-    public LoopUser(String image_path, String user, String name, List<Village> assigned_villages, List<Mandi> assigned_mandi) {
+    public LoopUser() {
+        super();
+    }
+
+    public LoopUser(String image_path, String user, String name, List<Mandi> assigned_mandi, List<Village> assigned_villages) {
         this.image_path = image_path;
         this.user = user;
         this.role = "Aggregator";
@@ -55,4 +60,7 @@ public class LoopUser extends Model {
         this.assigned_villages = assigned_villages;
     }
 
+    public List<LoopUser> getAllAggregators(){
+        return new Select().all().from(Village.class).where("role = ?","Aggregator").execute();
+    }
 }

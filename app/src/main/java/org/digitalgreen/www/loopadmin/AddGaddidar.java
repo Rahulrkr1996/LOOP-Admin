@@ -65,7 +65,7 @@ public class AddGaddidar extends AppCompatActivity {
 
         /* Initializing the drop down to Mandi List*/
         Mandi mandi = new Mandi();
-        mandisList = mandi.getMandis();
+        mandisList = mandi.getAllMandis();
 
         /* Drop down functionality*/
         gaddidarSelectMandi.setOnClickListener(new View.OnClickListener() {

@@ -29,7 +29,12 @@ public class Village extends Model {
     @Column(name = "block_name")
     public String block_name;
 
+    public Village() {
+        super();
+    }
+
     public Village(String name, String block_name) {
+        super();
         this.Lat=0;
         this.Long=0;
         this.name = name;
@@ -37,6 +42,7 @@ public class Village extends Model {
     }
 
     public Village(String name) {
+        super();
         this.Lat=0;
         this.Long=0;
         this.name = name;
@@ -51,7 +57,7 @@ public class Village extends Model {
         this.block_name = block_name;
     }
 
-    public ArrayList<Village> getVillages() {
+    public ArrayList<Village> getAllVillages() {
         return new Select().all().from(Village.class).execute();
     }
 }

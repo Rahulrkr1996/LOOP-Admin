@@ -6,11 +6,22 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.activeandroid.query.Delete;
+
+import org.digitalgreen.www.loopadmin.Models.LoopUser;
+import org.digitalgreen.www.loopadmin.Models.Mandi;
+import org.digitalgreen.www.loopadmin.Models.Village;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class LoginActivity extends AppCompatActivity {
 
     private Button Login_addMandiButton,Login_addGaddidar,Login_addVehicle;
     private Button Login_addVillage;
-
+    private List<Village> ass_vill = new ArrayList<Village>();
+    private List<Mandi> ass_mandi = new ArrayList<Mandi>();
+    private LoopUser aggre ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
         Login_addVehicle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(LoginActivity.this,AddVehicle.class);
+                Intent i = new Intent(LoginActivity.this, AddVehicle.class);
                 startActivity(i);
             }
         });

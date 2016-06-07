@@ -100,7 +100,7 @@ public class Mandi extends Model {
     }
 */
 
-    public ArrayList<Mandi> getMandis() {
+    public ArrayList<Mandi> getAllMandis() {
         return new Select().all().from(Mandi.class).execute();
     }
 
