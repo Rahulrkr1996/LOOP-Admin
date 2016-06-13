@@ -161,14 +161,11 @@ public class AddGaddidar extends AppCompatActivity {
                     if (currentGaddidar == null) {
                         saveGaddidar(gaddidar_name, gaddidar_commission, gaddidar_phone, gaddidar_mandi, image);
                     } else {
-                        currentGaddidar.gaddidar_name = gaddidar_name;
+                        currentGaddidar.name = gaddidar_name;
                         currentGaddidar.commission = gaddidar_commission;
-                        currentGaddidar.gaddidar_phone = gaddidar_phone;
+                        currentGaddidar.contact = gaddidar_phone;
                         currentGaddidar.mandi = gaddidar_mandi;
                         currentGaddidar.saveImage(image);
-
-                        if (currentGaddidar.online_id != GeneralConstants.NO_CHANGE)
-                            currentGaddidar.action = GeneralConstants.EDIT;
 
                         currentGaddidar.save();
                         Toast.makeText(AddGaddidar.this, "Gaddidar is saved", Toast.LENGTH_SHORT).show();
@@ -209,7 +206,7 @@ public class AddGaddidar extends AppCompatActivity {
         if (!gaddidarImageCaptured)
             image = null;
 
-        Gaddidar gaddidar = new Gaddidar(gaddidarName, commision, phone, mandi, image);
+        Gaddidar gaddidar = new Gaddidar(gaddidarName,phone,commision, image, mandi);
         List<Gaddidar> list = new ArrayList<Gaddidar>();
         list = gaddidar.getAllGaddidars();
 

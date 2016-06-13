@@ -46,21 +46,21 @@ public class VillageBlockAdapter extends BaseAdapter{
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
         if(convertView==null){
-            convertView = inflater.inflate(R.layout.addvillage_blocklist_row,parent,false);
+            convertView = inflater.inflate(R.layout.basic_name_row,parent,false);
             holder = new ViewHolder();
-            holder.blockName = (TextView) convertView.findViewById(R.id.blockName);
+            holder.Name = (TextView) convertView.findViewById(R.id.name);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.blockName.setText(list.get(position).name);
+        holder.Name.setText(list.get(position).name);
 
         return convertView;
     }
 
     static class ViewHolder {
-        TextView blockName;
+        TextView Name;
     }
 
 }

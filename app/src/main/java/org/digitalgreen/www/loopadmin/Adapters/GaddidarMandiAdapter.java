@@ -45,21 +45,21 @@ public class GaddidarMandiAdapter extends BaseAdapter {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
         if(convertView==null){
-            convertView = inflater.inflate(R.layout.addgaddidar_mandilist_row,parent,false);
+            convertView = inflater.inflate(R.layout.basic_name_row,parent,false);
             holder = new ViewHolder();
-            holder.mandiName = (TextView) convertView.findViewById(R.id.mandiName);
+            holder.Name = (TextView) convertView.findViewById(R.id.name);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.mandiName.setText(list.get(position).mandi_name);
+        holder.Name.setText(list.get(position).mandi_name);
 
         return convertView;
     }
 
     static class ViewHolder {
-        TextView mandiName;
+        TextView Name;
     }
 
 }

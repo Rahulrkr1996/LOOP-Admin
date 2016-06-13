@@ -46,20 +46,20 @@ public class MandiDistrictAdapter extends BaseAdapter {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
         if(convertView==null){
-            convertView = inflater.inflate(R.layout.addmandi_districtlist_row,parent,false);
+            convertView = inflater.inflate(R.layout.basic_name_row,parent,false);
             holder = new ViewHolder();
-            holder.districtName = (TextView) convertView.findViewById(R.id.districtName);
+            holder.Name = (TextView) convertView.findViewById(R.id.name);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.districtName.setText(list.get(position).name);
+        holder.Name.setText(list.get(position).name);
 
         return convertView;
     }
 
     static class ViewHolder {
-        TextView districtName;
+        TextView Name;
     }
 }

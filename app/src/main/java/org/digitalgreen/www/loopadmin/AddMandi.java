@@ -3,53 +3,68 @@ package org.digitalgreen.www.loopadmin;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.digitalgreen.www.loopadmin.Adapters.MandiDistrictAdapter;
+import org.digitalgreen.www.loopadmin.Adapters.MandiGaddidarAdapter;
 import org.digitalgreen.www.loopadmin.Constants.GeneralConstants;
 import org.digitalgreen.www.loopadmin.Models.District;
+import org.digitalgreen.www.loopadmin.Models.Gaddidar;
 import org.digitalgreen.www.loopadmin.Models.Mandi;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddMandi extends FragmentActivity {
+public class AddMandi extends FragmentActivity implements MandiGaddidarAdapter.OnEditClickListener {
 
     private Context context = this;
-    private Mandi currentMandi;
+    private Mandi currentMandi=null;
+    private Gaddidar currentGaddidar = null;
     private District currentDistrict;
     private int textlength = 0;
     private boolean latLongCheck = false;
     private double mandiLatitude = 0.0, mandiLongitude = 0.0;
-    private EditText mandi_name, mandi_select_gaddidar_name, mandi_select_gaddidar_commission, mandi_select_gaddidar_contact;
-    private TextView mandi_select_district, mandi_select_aggregators;
-    private Button mandi_get_location;
     private ListView mandi_gaddidar_list;
     private ImageButton mandi_gaddidar_save_button;
+    private EditText mandi_name, mandi_select_gaddidar_name, mandi_select_gaddidar_commission, mandi_select_gaddidar_contact;
+    private ImageView mandi_select_gaddidar_photo;
+    private TextView mandi_select_district;
+    private ImageView mandi_get_location;
     private FloatingActionButton mandi_save_button, mandi_discard_button;
     private Dialog dialog;
     private List<District> filteredDistrictList = new ArrayList<District>();
     private List<District> districtList = new ArrayList<District>();
-    private MandiDistrictAdapter adapter;
+    private MandiDistrictAdapter mandiDistrictAdapter;
+    private MandiGaddidarAdapter mandiGaddidarAdapter;
     private District selectedDistrict;
     private TextView dialog1_titleText;
     private EditText dialog1_editText;
     private ListView dialog1_listView;
-
+    private List<Gaddidar> gaddidarList = new ArrayList<Gaddidar>();
+    private static final int REQUEST_IMAGE_CAPTURE = 14;
+    private boolean gaddidarImageCaptured = false;
+    private Bitmap gaddidarPhoto;
+    private static final int CAMERA_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,20 +75,80 @@ public class AddMandi extends FragmentActivity {
         mandi_select_gaddidar_name = (EditText) findViewById(R.id.mandi_select_gaddidar_name);
         mandi_select_gaddidar_contact = (EditText) findViewById(R.id.mandi_select_gaddidar_contact);
         mandi_select_gaddidar_commission = (EditText) findViewById(R.id.mandi_select_gaddidar_commision);
-        mandi_get_location = (Button) findViewById(R.id.mandi_get_location);
+        mandi_select_gaddidar_photo = (ImageView) findViewById(R.id.mandi_select_gaddidar_photo);
+        mandi_gaddidar_save_button = (ImageButton) findViewById(R.id.mandi_gaddidar_save_button);
+        mandi_get_location = (ImageView) findViewById(R.id.mandi_get_location);
         mandi_select_district = (TextView) findViewById(R.id.mandi_select_district);
-        mandi_select_aggregators = (TextView) findViewById(R.id.mandi_select_aggregators);
         mandi_save_button = (FloatingActionButton) findViewById(R.id.mandi_save_button);
         mandi_discard_button = (FloatingActionButton) findViewById(R.id.mandi_discard_button);
-
-        for (int i = 0; i < 10; i++) {
-            currentDistrict = new District("District_" + String.valueOf(i));
-            currentDistrict.save();
-        }
+        mandi_gaddidar_list = (ListView) findViewById(R.id.mandi_gaddidar_list);
 
         districtList = new District().getAllDistricts();
 
-        /* Drop down functionality*/
+        mandiGaddidarAdapter = new MandiGaddidarAdapter(gaddidarList, this, context);
+        mandi_gaddidar_list.setAdapter(mandiGaddidarAdapter);
+
+        mandi_select_gaddidar_photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                }
+            }
+        });
+
+        mandi_gaddidar_save_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                } catch (Exception e) {
+                    // TODO: handle exception
+                }
+
+                String gaddidar_name = mandi_select_gaddidar_name.getText().toString();
+                String gaddidar_contact = mandi_select_gaddidar_contact.getText().toString();
+                double gaddidar_commission;
+                try {
+                    gaddidar_commission = Double.parseDouble(mandi_select_gaddidar_commission.getText().toString());
+                } catch (final NumberFormatException e) {
+                    gaddidar_commission = 0.0;
+                }
+
+                if (gaddidar_name.equals("")) {
+                    mandi_select_gaddidar_name.setText("");
+                    Toast.makeText(AddMandi.this, "Please add a name for Gaddidar!!", Toast.LENGTH_SHORT).show();
+                } else if (gaddidar_contact.equals("") || gaddidar_contact.length() != 10) {
+                    mandi_select_gaddidar_contact.setText("");
+                    Toast.makeText(AddMandi.this, "Please add a proper Phone no. of the Gaddidar!!", Toast.LENGTH_SHORT).show();
+                } else if (gaddidar_commission == 0) {
+                    mandi_select_gaddidar_commission.setText("");
+                    Toast.makeText(AddMandi.this, "Please enter the commission of Gaddidar!", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (gaddidarImageCaptured==false) {
+                        gaddidarPhoto = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_my_profile);
+                    } else {
+                        gaddidarPhoto = ((BitmapDrawable)mandi_select_gaddidar_photo.getDrawable()).getBitmap();
+                    }
+
+                    gaddidarList.add(createNewGaddidar(gaddidar_name, gaddidar_contact, gaddidar_commission, gaddidarPhoto, null));
+                    //gaddidarList.size();
+                    mandiGaddidarAdapter.notifyDataSetChanged();
+
+                    Toast.makeText(AddMandi.this, "New Gaddidar Added to the list", Toast.LENGTH_SHORT).show();
+                    mandi_select_gaddidar_name.setText("");
+                    mandi_select_gaddidar_contact.setText("");
+                    mandi_select_gaddidar_commission.setText("");
+                    mandi_select_gaddidar_photo.setImageResource(R.drawable.ic_default_camera);
+                    gaddidarImageCaptured = false;
+                }
+            }
+        });
+
+
+        // Drop down District functionality
         mandi_select_district.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,14 +166,15 @@ public class AddMandi extends FragmentActivity {
                     filteredDistrictList.clear();
                     filteredDistrictList.addAll(districtList);
 
-                    adapter = new MandiDistrictAdapter(filteredDistrictList, context);
-                    dialog1_listView.setAdapter(adapter);
+
+                    mandiDistrictAdapter = new MandiDistrictAdapter(filteredDistrictList, context);
+                    dialog1_listView.setAdapter(mandiDistrictAdapter);
 
                     dialog1_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             dialog.dismiss();
-                            selectedDistrict = (District) adapter.getItem(position);
+                            selectedDistrict = (District) mandiDistrictAdapter.getItem(position);
                             mandi_select_district.setText(selectedDistrict.toString());
                         }
                     });
@@ -122,7 +198,7 @@ public class AddMandi extends FragmentActivity {
                                     }
                                 }
                             }
-                            adapter.notifyDataSetChanged();
+                            mandiDistrictAdapter.notifyDataSetChanged();
                         }
 
                         @Override
@@ -167,7 +243,6 @@ public class AddMandi extends FragmentActivity {
                     finish();
                 }
             }
-
         });
 
         mandi_discard_button.setOnClickListener(new View.OnClickListener() {
@@ -180,17 +255,34 @@ public class AddMandi extends FragmentActivity {
         mandi_get_location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if (mandi_select_district.equals("")) {
-//                    Toast.makeText(AddMandi.this, "Please select a district first!!", Toast.LENGTH_SHORT).show();
-//                } else {
-                Intent i = new Intent(AddMandi.this, SelectLocation.class);
-                i.putExtra("SearchBar", mandi_select_district.getText().toString());
-                i.putExtra("Activity", "AddMandi");
-                startActivityForResult(i, GeneralConstants.MAPCALL_FROM_ADDMANDI);
-//                }
+                if (mandi_select_district.equals("")) {
+                    Toast.makeText(AddMandi.this, "Please select a district first!!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent i = new Intent(AddMandi.this, SelectLocation.class);
+                    i.putExtra("SearchBar", mandi_select_district.getText().toString());
+                    i.putExtra("Activity", "AddMandi");
+                    startActivityForResult(i, GeneralConstants.MAPCALL_FROM_ADDMANDI);
+                }
             }
         });
+    }
 
+    private Gaddidar createNewGaddidar(String gaddidar_name, String gaddidar_contact, double gaddidar_commission, Bitmap gaddidarPhoto, Mandi mandi) {
+        Gaddidar gaddidar = new Gaddidar(gaddidar_name,gaddidar_contact,gaddidar_commission,gaddidarPhoto,mandi);
+        return gaddidar;
+    }
+
+    private void editGaddidar() {
+    }
+
+    public void saveGaddidar(String gaddidarName, double commision, String phone, Mandi mandi, Bitmap image) {
+
+        Gaddidar gaddidar = new Gaddidar(gaddidarName, phone, commision, image, mandi);
+        //   List<Gaddidar> list = new ArrayList<Gaddidar>();
+        //   list = gaddidar.getAllGaddidars();
+
+        gaddidar.save();
+        Toast.makeText(AddMandi.this, "Gaddidar is saved", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -206,10 +298,14 @@ public class AddMandi extends FragmentActivity {
 
                 if (latLongCheck == true) {
                     Toast.makeText(AddMandi.this, "Location Data Captured!!", Toast.LENGTH_SHORT).show();
-                    mandi_get_location.setTextColor(Color.GREEN);
-                    mandi_get_location.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.mipmap.ic_place_green), null);
+                    mandi_get_location.setImageResource(R.mipmap.get_location_green);
                 }
             }
+        } else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            mandi_select_gaddidar_photo.setImageBitmap(imageBitmap);
+            gaddidarImageCaptured=true;
         }
     }
 
@@ -220,5 +316,15 @@ public class AddMandi extends FragmentActivity {
 
         mandi.save();
         Toast.makeText(AddMandi.this, "New Mandi added", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onEditClick(Gaddidar f,int position) {
+        mandi_select_gaddidar_name.setText(f.name);
+        mandi_select_gaddidar_contact.setText(f.contact);
+        mandi_select_gaddidar_commission.setText(String.valueOf(f.commission));
+        mandi_select_gaddidar_photo.setImageBitmap(f.getImage());
+        gaddidarList.remove(position);
+        mandiGaddidarAdapter.notifyDataSetChanged();
     }
 }
