@@ -27,7 +27,7 @@ public class MandiGaddidarAdapter extends BaseAdapter {
     public MandiGaddidarAdapter(List<Gaddidar> list, OnEditClickListener elistener, Context context) {
         super();
         this.list = list;
-        this.listener=elistener;
+        this.listener = elistener;
         this.context = context;
     }
 
@@ -51,14 +51,14 @@ public class MandiGaddidarAdapter extends BaseAdapter {
         ViewHolder holder;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
-        if(convertView==null){
-            convertView = inflater.inflate(R.layout.addmandi_gaddidar_list,parent,false);
+        if (convertView == null) {
+            convertView = inflater.inflate(R.layout.addmandi_gaddidar_list, parent, false);
             holder = new ViewHolder();
             holder.name = (TextView) convertView.findViewById(R.id.gaddidarList_name);
-            holder.contact = (TextView)convertView.findViewById(R.id.gaddidarList_contact);
-            holder.commission = (TextView)convertView.findViewById(R.id.gaddidarList_commission);
-            holder.photo = (ImageView)convertView.findViewById(R.id.gaddidarList_photo);
-            holder.edit = (ImageView)convertView.findViewById(R.id.gaddidarList_edit);
+            holder.contact = (TextView) convertView.findViewById(R.id.gaddidarList_contact);
+            holder.commission = (TextView) convertView.findViewById(R.id.gaddidarList_commission);
+            holder.photo = (ImageView) convertView.findViewById(R.id.gaddidarList_photo);
+            holder.edit = (ImageView) convertView.findViewById(R.id.gaddidarList_edit);
 
             convertView.setTag(holder);
         } else {
@@ -67,7 +67,7 @@ public class MandiGaddidarAdapter extends BaseAdapter {
 
         holder.name.setText(list.get(position).name);
         holder.contact.setText(list.get(position).contact);
-        Glide.with(context).load(new File(list.get(position).image_path)).into(holder.photo);
+        holder.photo.setImageBitmap(list.get(position).getImage());
         holder.commission.setText(String.valueOf(list.get(position).commission));
 
         holder.edit.setTag(list.get(position));
@@ -75,7 +75,7 @@ public class MandiGaddidarAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Gaddidar g = (Gaddidar) v.getTag();
-                listener.onEditClick(g,position);
+                listener.onEditClick(g, position);
             }
         });
 
@@ -83,11 +83,11 @@ public class MandiGaddidarAdapter extends BaseAdapter {
     }
 
     public interface OnEditClickListener {
-        void onEditClick(Gaddidar f,int position);
+        void onEditClick(Gaddidar f, int position);
     }
 
-    static class ViewHolder{
-        TextView name,contact,commission;
-        ImageView photo,edit;
+    static class ViewHolder {
+        TextView name, contact, commission;
+        ImageView photo, edit;
     }
 }

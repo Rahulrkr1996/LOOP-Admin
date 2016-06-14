@@ -47,6 +47,16 @@ public class Mandi extends Model {
         this.district_name = null;
     }
 
+    public Mandi(String mandi_name) {
+        super();
+        this.online_id = -1;
+        this.mandi_name = mandi_name;
+        this.latitude = 0;
+        this.longitude = 0;
+        this.action = -1;
+        this.district_name = null;
+    }
+
     public Mandi(String mandi_name, double latitude, double longitude) {
         super();
         this.online_id = -1;

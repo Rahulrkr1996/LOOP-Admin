@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
@@ -63,10 +64,16 @@ public class AddGaddidar extends AppCompatActivity {
         gaddidarSaveButtton = (FloatingActionButton) findViewById(R.id.gaddidarSaveButton);
         gaddidarDiscardButton = (FloatingActionButton) findViewById(R.id.gaddidarDiscardButton);
 
+/*
+        for(int i=0;i<10;i++){
+            Mandi mandi=new Mandi("Mandi_"+String.valueOf(i+1));
+            mandi.save();
+        }
+*/
         /* Initializing the drop down to Mandi List*/
-        Mandi mandi = new Mandi();
-        mandisList = mandi.getAllMandis();
+        mandisList = new Mandi().getAllMandis();
 
+        fImage = BitmapFactory.decodeResource(getResources(),R.mipmap.ic_my_profile);
         /* Drop down functionality*/
         gaddidarSelectMandi.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -223,6 +230,4 @@ public class AddGaddidar extends AppCompatActivity {
             gaddidarImageCaptured = true;
         }
     }
-
-
 }

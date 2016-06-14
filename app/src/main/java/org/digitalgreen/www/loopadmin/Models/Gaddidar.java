@@ -10,10 +10,6 @@ import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
 import com.google.gson.annotations.Expose;
 
-import org.digitalgreen.www.loopadmin.Constants.GeneralConstants;
-import org.digitalgreen.www.loopadmin.Constants.ImageSavingConstants;
-
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -57,7 +53,7 @@ public class Gaddidar extends Model {
     }
 
     //Add New Gaddidar
-    public Gaddidar(String name, String contact,Double commission, Bitmap image, Mandi mandi) {
+    public Gaddidar(String name, String contact, Double commission, Bitmap image, Mandi mandi) {
         super();
         //this.image = image;
         this.name = name;
@@ -119,32 +115,30 @@ public class Gaddidar extends Model {
     }
 
     public void saveImage(Bitmap image) {
-        String root = Environment.getExternalStorageDirectory().toString();
-        File myDir = new File(root + "/DigitalGreen/"+ ImageSavingConstants.SAVE_GADDIDAR_IMG);
-        if (image != null) {
+        File myDir = new File(Environment
+                .getExternalStorageDirectory().getAbsolutePath() + "/DigitalGreen/Gaddidar/");
 
+        if (!myDir.exists())
             myDir.mkdirs();
-            String fname =  this.name + "_" + this.contact +".jpg";
-            File file = new File(myDir, fname);
 
-            //Setting the photo path in ext. hard disk to the current user details
-            this.image_path = myDir + fname;
-            /////////////////////////////////////
+        String fname = this.name + "_" + this.contact + ".jpg";
+        File file = new File(myDir, fname);
 
-            if (file.exists()) {
-                file.delete();
-            }
-            try {
-                FileOutputStream out = new FileOutputStream(file);
-                image.compress(Bitmap.CompressFormat.JPEG, 90, out);
-                out.flush();
-                out.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        //Setting the photo path in ext. hard disk to the current user details
+        this.image_path = myDir +"/"+ fname;
+        /////////////////////////////////////
+
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            image.compress(Bitmap.CompressFormat.PNG, 100, out);
+            out.flush();
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
+    ////////////////////////////////////////////////////////////////
     public Bitmap getImage() {
         Bitmap b = null;
         try {
@@ -152,8 +146,9 @@ public class Gaddidar extends Model {
             b = BitmapFactory.decodeStream(new FileInputStream(f));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             return b;
         }
     }
+    ///////////////////////////////////////////////////////////////
 }

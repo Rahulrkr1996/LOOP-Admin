@@ -38,7 +38,7 @@ import java.util.List;
 public class AddMandi extends FragmentActivity implements MandiGaddidarAdapter.OnEditClickListener {
 
     private Context context = this;
-    private Mandi currentMandi=null;
+    private Mandi currentMandi = null;
     private Gaddidar currentGaddidar = null;
     private District currentDistrict;
     private int textlength = 0;
@@ -83,6 +83,10 @@ public class AddMandi extends FragmentActivity implements MandiGaddidarAdapter.O
         mandi_discard_button = (FloatingActionButton) findViewById(R.id.mandi_discard_button);
         mandi_gaddidar_list = (ListView) findViewById(R.id.mandi_gaddidar_list);
 
+        for(int i=1;i<=10;i++){
+            District dis = new District("District_"+String.valueOf(i));
+            dis.save();
+        }
         districtList = new District().getAllDistricts();
 
         mandiGaddidarAdapter = new MandiGaddidarAdapter(gaddidarList, this, context);
@@ -108,41 +112,53 @@ public class AddMandi extends FragmentActivity implements MandiGaddidarAdapter.O
                     // TODO: handle exception
                 }
 
-                String gaddidar_name = mandi_select_gaddidar_name.getText().toString();
-                String gaddidar_contact = mandi_select_gaddidar_contact.getText().toString();
-                double gaddidar_commission;
-                try {
-                    gaddidar_commission = Double.parseDouble(mandi_select_gaddidar_commission.getText().toString());
-                } catch (final NumberFormatException e) {
-                    gaddidar_commission = 0.0;
-                }
-
-                if (gaddidar_name.equals("")) {
-                    mandi_select_gaddidar_name.setText("");
-                    Toast.makeText(AddMandi.this, "Please add a name for Gaddidar!!", Toast.LENGTH_SHORT).show();
-                } else if (gaddidar_contact.equals("") || gaddidar_contact.length() != 10) {
-                    mandi_select_gaddidar_contact.setText("");
-                    Toast.makeText(AddMandi.this, "Please add a proper Phone no. of the Gaddidar!!", Toast.LENGTH_SHORT).show();
-                } else if (gaddidar_commission == 0) {
-                    mandi_select_gaddidar_commission.setText("");
-                    Toast.makeText(AddMandi.this, "Please enter the commission of Gaddidar!", Toast.LENGTH_SHORT).show();
+                if (mandi_name.getText().toString().equals("")) {
+                    Toast.makeText(AddMandi.this, "Please add a mandi name!!", Toast.LENGTH_SHORT).show();
+                } else if (mandi_select_district.getText().toString().equals("")) {
+                    Toast.makeText(AddMandi.this, "Please select a district for mandi!!", Toast.LENGTH_SHORT).show();
+                } else if (latLongCheck == false) {
+                    Toast.makeText(AddMandi.this, "Please select a location for Mandi!!", Toast.LENGTH_SHORT).show();
                 } else {
-                    if (gaddidarImageCaptured==false) {
-                        gaddidarPhoto = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_my_profile);
+
+                    String gaddidar_name = mandi_select_gaddidar_name.getText().toString();
+                    String gaddidar_contact = mandi_select_gaddidar_contact.getText().toString();
+                    String gaddidar_commision_ = mandi_select_gaddidar_commission.getText().toString();
+
+                    double gaddidar_commission;
+
+                    if (gaddidar_name.equals("")) {
+                        mandi_select_gaddidar_name.setText("");
+                        Toast.makeText(AddMandi.this, "Please add a name for Gaddidar!!", Toast.LENGTH_SHORT).show();
+                    } else if (gaddidar_contact.equals("") || gaddidar_contact.length() != 10) {
+                        mandi_select_gaddidar_contact.setText("");
+                        Toast.makeText(AddMandi.this, "Please add a proper Phone no. of the Gaddidar!!", Toast.LENGTH_SHORT).show();
+                    } else if (gaddidar_commision_.equals("")) {
+                        mandi_select_gaddidar_commission.setText("");
+                        Toast.makeText(AddMandi.this, "Please enter the commission of Gaddidar!", Toast.LENGTH_SHORT).show();
                     } else {
-                        gaddidarPhoto = ((BitmapDrawable)mandi_select_gaddidar_photo.getDrawable()).getBitmap();
+                        try {
+                            gaddidar_commission = Double.parseDouble(mandi_select_gaddidar_commission.getText().toString());
+                        } catch (final NumberFormatException e) {
+                            gaddidar_commission = 0.0;
+                        }
+
+                        if (gaddidarImageCaptured == false) {
+                            gaddidarPhoto = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_my_profile);
+                        } else {
+                            gaddidarPhoto = ((BitmapDrawable) mandi_select_gaddidar_photo.getDrawable()).getBitmap();
+                        }
+
+                        gaddidarList.add(createNewGaddidar(gaddidar_name, gaddidar_contact, gaddidar_commission, gaddidarPhoto, null));
+                        gaddidarList.size();
+                        mandiGaddidarAdapter.notifyDataSetChanged();
+
+                        Toast.makeText(AddMandi.this, "New Gaddidar Added to the list", Toast.LENGTH_SHORT).show();
+                        mandi_select_gaddidar_name.setText("");
+                        mandi_select_gaddidar_contact.setText("");
+                        mandi_select_gaddidar_commission.setText("");
+                        mandi_select_gaddidar_photo.setImageResource(R.drawable.ic_default_camera);
+                        gaddidarImageCaptured = false;
                     }
-
-                    gaddidarList.add(createNewGaddidar(gaddidar_name, gaddidar_contact, gaddidar_commission, gaddidarPhoto, null));
-                    //gaddidarList.size();
-                    mandiGaddidarAdapter.notifyDataSetChanged();
-
-                    Toast.makeText(AddMandi.this, "New Gaddidar Added to the list", Toast.LENGTH_SHORT).show();
-                    mandi_select_gaddidar_name.setText("");
-                    mandi_select_gaddidar_contact.setText("");
-                    mandi_select_gaddidar_commission.setText("");
-                    mandi_select_gaddidar_photo.setImageResource(R.drawable.ic_default_camera);
-                    gaddidarImageCaptured = false;
                 }
             }
         });
@@ -240,6 +256,11 @@ public class AddMandi extends FragmentActivity implements MandiGaddidarAdapter.O
                         currentMandi.action = GeneralConstants.EDIT;
                         currentMandi.save();
                     }
+
+                    for(int i=0;i<gaddidarList.size();i++){
+                        currentGaddidar = createNewGaddidar(gaddidarList.get(i).name,gaddidarList.get(i).contact,gaddidarList.get(i).commission,gaddidarList.get(i).getImage(),currentMandi);
+                        currentGaddidar.save();
+                    }
                     finish();
                 }
             }
@@ -268,7 +289,7 @@ public class AddMandi extends FragmentActivity implements MandiGaddidarAdapter.O
     }
 
     private Gaddidar createNewGaddidar(String gaddidar_name, String gaddidar_contact, double gaddidar_commission, Bitmap gaddidarPhoto, Mandi mandi) {
-        Gaddidar gaddidar = new Gaddidar(gaddidar_name,gaddidar_contact,gaddidar_commission,gaddidarPhoto,mandi);
+        Gaddidar gaddidar = new Gaddidar(gaddidar_name, gaddidar_contact, gaddidar_commission, gaddidarPhoto, mandi);
         return gaddidar;
     }
 
@@ -305,7 +326,7 @@ public class AddMandi extends FragmentActivity implements MandiGaddidarAdapter.O
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             mandi_select_gaddidar_photo.setImageBitmap(imageBitmap);
-            gaddidarImageCaptured=true;
+            gaddidarImageCaptured = true;
         }
     }
 
@@ -319,7 +340,7 @@ public class AddMandi extends FragmentActivity implements MandiGaddidarAdapter.O
     }
 
     @Override
-    public void onEditClick(Gaddidar f,int position) {
+    public void onEditClick(Gaddidar f, int position) {
         mandi_select_gaddidar_name.setText(f.name);
         mandi_select_gaddidar_contact.setText(f.contact);
         mandi_select_gaddidar_commission.setText(String.valueOf(f.commission));
