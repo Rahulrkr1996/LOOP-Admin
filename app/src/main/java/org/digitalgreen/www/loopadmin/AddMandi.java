@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -17,7 +16,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -64,7 +62,6 @@ public class AddMandi extends FragmentActivity implements MandiGaddidarAdapter.O
     private static final int REQUEST_IMAGE_CAPTURE = 14;
     private boolean gaddidarImageCaptured = false;
     private Bitmap gaddidarPhoto;
-    private static final int CAMERA_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +93,12 @@ public class AddMandi extends FragmentActivity implements MandiGaddidarAdapter.O
             @Override
             public void onClick(View v) {
                 Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                takePictureIntent.putExtra("outputX", 400);
+                takePictureIntent.putExtra("outputY", 400);
+                takePictureIntent.putExtra("aspectX", 1);
+                takePictureIntent.putExtra("aspectY", 1);
+                takePictureIntent.putExtra("scale", true);
+                takePictureIntent.putExtra("return-data", true);
                 if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
                     startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
                 }
@@ -136,6 +139,8 @@ public class AddMandi extends FragmentActivity implements MandiGaddidarAdapter.O
                         mandi_select_gaddidar_commission.setText("");
                         Toast.makeText(AddMandi.this, "Please enter the commission of Gaddidar!", Toast.LENGTH_SHORT).show();
                     } else {
+                        currentMandi = new Mandi(mandi_name.getText().toString(),mandiLatitude,mandiLongitude,GeneralConstants.ADD,mandi_select_district.getText().toString());
+
                         try {
                             gaddidar_commission = Double.parseDouble(mandi_select_gaddidar_commission.getText().toString());
                         } catch (final NumberFormatException e) {
@@ -143,12 +148,12 @@ public class AddMandi extends FragmentActivity implements MandiGaddidarAdapter.O
                         }
 
                         if (gaddidarImageCaptured == false) {
-                            gaddidarPhoto = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_my_profile);
+                            gaddidarPhoto = null;
                         } else {
                             gaddidarPhoto = ((BitmapDrawable) mandi_select_gaddidar_photo.getDrawable()).getBitmap();
                         }
 
-                        gaddidarList.add(createNewGaddidar(gaddidar_name, gaddidar_contact, gaddidar_commission, gaddidarPhoto, null));
+                        gaddidarList.add(createNewGaddidar(gaddidar_name, gaddidar_contact, gaddidar_commission, gaddidarPhoto, currentMandi));
                         gaddidarList.size();
                         mandiGaddidarAdapter.notifyDataSetChanged();
 
@@ -293,9 +298,6 @@ public class AddMandi extends FragmentActivity implements MandiGaddidarAdapter.O
         return gaddidar;
     }
 
-    private void editGaddidar() {
-    }
-
     public void saveGaddidar(String gaddidarName, double commision, String phone, Mandi mandi, Bitmap image) {
 
         Gaddidar gaddidar = new Gaddidar(gaddidarName, phone, commision, image, mandi);
@@ -348,4 +350,5 @@ public class AddMandi extends FragmentActivity implements MandiGaddidarAdapter.O
         gaddidarList.remove(position);
         mandiGaddidarAdapter.notifyDataSetChanged();
     }
+
 }

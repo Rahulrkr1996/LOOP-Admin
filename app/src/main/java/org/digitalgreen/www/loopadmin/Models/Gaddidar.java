@@ -1,7 +1,10 @@
 package org.digitalgreen.www.loopadmin.Models;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Environment;
 
 import com.activeandroid.Model;
@@ -9,6 +12,8 @@ import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
 import com.google.gson.annotations.Expose;
+
+import org.digitalgreen.www.loopadmin.R;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -122,6 +127,12 @@ public class Gaddidar extends Model {
             myDir.mkdirs();
 
         String fname = this.name + "_" + this.contact + ".jpg";
+
+        if(image==null){
+            this.image_path = "default" ;
+            return ;
+        }
+
         File file = new File(myDir, fname);
 
         //Setting the photo path in ext. hard disk to the current user details
@@ -140,6 +151,12 @@ public class Gaddidar extends Model {
 
     ////////////////////////////////////////////////////////////////
     public Bitmap getImage() {
+        if(image_path.equals("default")){
+            Drawable temp = getContext().getResources().getDrawable(R.mipmap.ic_my_profile);
+            Bitmap bitmap =((BitmapDrawable)temp).getBitmap();
+            return bitmap;
+        }
+
         Bitmap b = null;
         try {
             File f = new File(this.image_path);

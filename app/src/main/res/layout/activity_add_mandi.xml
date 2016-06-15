@@ -14,9 +14,20 @@
         android:layout_alignParentRight="true"
         android:layout_marginBottom="20dp"
         android:layout_marginRight="40dp"
-        android:contextClickable="false"
         android:elevation="10dp"
         android:src="@mipmap/ic_tick"
+        app:backgroundTint="#000000"
+        app:elevation="10dp" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/mandi_add_aggregators"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:elevation="10dp"
+        android:src="@mipmap/ic_android_white_24dp"
         app:backgroundTint="#000000"
         app:elevation="10dp" />
 

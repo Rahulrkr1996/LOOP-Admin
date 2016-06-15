@@ -14,13 +14,16 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.digitalgreen.www.loopadmin.Adapters.VillageAggregatorAdapter;
 import org.digitalgreen.www.loopadmin.Adapters.VillageBlockAdapter;
 import org.digitalgreen.www.loopadmin.Constants.GeneralConstants;
 import org.digitalgreen.www.loopadmin.Models.Block;
+import org.digitalgreen.www.loopadmin.Models.LoopUser;
 import org.digitalgreen.www.loopadmin.Models.Village;
 
 import java.util.ArrayList;
@@ -31,7 +34,8 @@ public class AddVillage extends AppCompatActivity {
     private double villageLatitude = 0;
     private double villageLongitude = 0;
     private boolean latLongCheck = false;
-    private Button village_get_location;
+    private ImageView village_get_location;
+    private TextView village_select_aggregator;
     private TextView village_select_block;
     private Dialog dialog;
     private Context context;
@@ -39,15 +43,19 @@ public class AddVillage extends AppCompatActivity {
     private ListView dialog1_listView;
     private TextView dialog1_editText;
     private List<Block> filteredBlockList = new ArrayList<Block>();
-    private List<Block> blockList;
+    private List<Block> blockList= new ArrayList<Block>();
+    private List<LoopUser> filteredAggregatorList = new ArrayList<LoopUser>();
+    private List<LoopUser> aggregatorList = new ArrayList<LoopUser>();
     private Block currentBlock = null;
-    private VillageBlockAdapter adapter;
+    private VillageBlockAdapter blockAdapter;
+    private VillageAggregatorAdapter aggregatorAdapter;
     private Block selectedBlock;
     private int textlength = 0;
     private FloatingActionButton village_discard_button;
     private TextView village_name;
     private FloatingActionButton village_save_button;
     private Village currentVillage;
+    private LoopUser selectedAggregator;
 
 
     @Override
@@ -57,14 +65,22 @@ public class AddVillage extends AppCompatActivity {
 
         context = this;
 
+        for (int i = 1; i < 11; i++) {
+            Block block = new Block("Block_" + String.valueOf(i));
+            LoopUser loopUser = new LoopUser("Aggregator_" + String.valueOf(i));
+            block.save();
+            loopUser.save();
+        }
+
         village_save_button = (FloatingActionButton) findViewById(R.id.village_save_button);
         village_discard_button = (FloatingActionButton) findViewById(R.id.village_discard_button);
         village_name = (TextView) findViewById(R.id.village_name);
-        village_get_location = (Button) findViewById(R.id.village_get_location);
+        village_get_location = (ImageView) findViewById(R.id.village_get_location);
         village_select_block = (TextView) findViewById(R.id.village_select_block);
+        village_select_aggregator = (TextView) findViewById(R.id.village_select_aggregator);
 
         blockList = new Block().getAllBlocks();
-        //Toast.makeText(AddVillage.this, String.valueOf(blockList.size()), Toast.LENGTH_SHORT).show();
+        aggregatorList = new LoopUser().getAllAggregators();
 
                 /* Drop down functionality*/
         village_select_block.setOnClickListener(new View.OnClickListener() {
@@ -83,14 +99,14 @@ public class AddVillage extends AppCompatActivity {
                 filteredBlockList.clear();
                 filteredBlockList.addAll(blockList);
 
-                adapter = new VillageBlockAdapter(filteredBlockList, context);
-                dialog1_listView.setAdapter(adapter);
+                blockAdapter = new VillageBlockAdapter(filteredBlockList, context);
+                dialog1_listView.setAdapter(blockAdapter);
 
                 dialog1_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         dialog.dismiss();
-                        selectedBlock = (Block) adapter.getItem(position);
+                        selectedBlock = (Block) blockAdapter.getItem(position);
                         village_select_block.setText(selectedBlock.toString());
                     }
                 });
@@ -114,7 +130,7 @@ public class AddVillage extends AppCompatActivity {
                                 }
                             }
                         }
-                        adapter.notifyDataSetChanged();
+                        blockAdapter.notifyDataSetChanged();
                     }
 
                     @Override
@@ -126,6 +142,67 @@ public class AddVillage extends AppCompatActivity {
             }
         });
         /* End of drop down click listener*/
+
+        village_select_aggregator.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog = new Dialog(context);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.custom_dialog1);
+
+                dialog1_titleText = (TextView) dialog.findViewById(R.id.dialog1_titleText);
+                dialog1_editText = (EditText) dialog.findViewById(R.id.dialog1_editText);
+                dialog1_listView = (ListView) dialog.findViewById(R.id.dialog1_listView);
+
+                dialog1_titleText.setText("Select Aggregator Name");
+
+                filteredAggregatorList.clear();
+                filteredAggregatorList.addAll(aggregatorList);
+
+                aggregatorAdapter = new VillageAggregatorAdapter(filteredAggregatorList, context);
+                dialog1_listView.setAdapter(aggregatorAdapter);
+
+                dialog1_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        dialog.dismiss();
+                        selectedAggregator = (LoopUser) aggregatorAdapter.getItem(position);
+                        village_select_aggregator.setText(selectedAggregator.toString());
+                    }
+                });
+
+                dialog1_editText.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        dialog1_editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                        textlength = dialog1_editText.getText().length();
+                        filteredAggregatorList.clear();
+
+                        // SearchBar Functionality
+                        for (int i = 0; i < aggregatorList.size(); i++) {
+                            if (textlength <= aggregatorList.get(i).name.length()) {
+                                if (aggregatorList.get(i).name.toLowerCase().startsWith(dialog1_editText.getText().toString().toLowerCase().trim())) {
+                                    filteredAggregatorList.add(aggregatorList.get(i));
+                                }
+                            }
+                        }
+                        aggregatorAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                    }
+                });
+                dialog.setCancelable(true);
+                dialog.show();
+            }
+        });
+        /* End of drop down click listener*/
+
 
         // Setting Save Button
         village_save_button.setOnClickListener(new View.OnClickListener() {
@@ -190,10 +267,9 @@ public class AddVillage extends AppCompatActivity {
                 villageLatitude = data.getDoubleExtra("location_data_lat", 0);
                 villageLongitude = data.getDoubleExtra("location_data_long", 0);
                 latLongCheck = data.getBooleanExtra("addVillageCheck", false);
-  
+
                 if (latLongCheck == true) {
-                    village_get_location.setTextColor(Color.GREEN);
-                    village_get_location.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.mipmap.ic_place_green), null);
+                    village_get_location.setImageResource(R.mipmap.get_location_green);
                     Toast.makeText(AddVillage.this, "Location data Captured", Toast.LENGTH_SHORT).show();
                 }
             }

@@ -40,55 +40,70 @@
     <RelativeLayout
         android:id="@+id/village_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="0dp">
+        android:layout_height="wrap_content" >
 
         <EditText
             android:id="@+id/village_name"
             android:layout_width="match_parent"
             android:layout_height="@dimen/text_view_height"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="7dp"
-            android:layout_marginRight="7dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/round_corner"
-            android:hint="Village Name"
-            android:padding="5dp"
-            android:singleLine="true"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="#000000" />
+            android:hint="Village Name"
+            android:background="@drawable/round_corner"
+            android:gravity="center_vertical"
+            android:textSize="18sp"
+            android:padding="2dp"
+            android:elevation="10dp"
+            android:layout_marginRight="80dp" />
 
         <TextView
             android:id="@+id/village_select_block"
             android:layout_width="match_parent"
             android:layout_height="@dimen/text_view_height"
             android:layout_below="@id/village_name"
-            android:layout_marginLeft="7dp"
+            android:layout_alignEnd="@+id/village_name"
+            android:layout_alignRight="@+id/village_name"
+            android:layout_alignStart="@+id/village_name"
+            android:layout_alignLeft="@+id/village_name"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_marginTop="7dp"
-            android:hint="SElect a Block"
+            android:layout_marginTop="10dp"
+            android:hint="Select a Block"
             android:background="@drawable/round_corner"
             android:drawableRight="@drawable/dropdown_icon_small"
             android:gravity="center_vertical"
+            android:textSize="18sp"
             android:padding="2dp"
-            android:textSize="18sp" />
+            android:elevation="10dp" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:text="GET Location"
-            android:id="@+id/village_get_location"
-            android:layout_below="@+id/village_select_block"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:drawableRight="@mipmap/ic_place_red"
-            android:textColor="@color/red"
-            android:textSize="15dp"
+        <TextView
+            android:id="@+id/village_select_aggregator"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/text_view_height"
+            android:layout_below="@id/village_select_block"
+            android:layout_alignStart="@+id/village_name"
+            android:layout_alignLeft="@+id/village_name"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_marginTop="10dp"
+            android:hint="Select an Aggregator"
             android:background="@drawable/round_corner"
-            android:paddingRight="15dp"
+            android:drawableRight="@drawable/dropdown_icon_small"
+            android:gravity="center_vertical"
+            android:textSize="18sp"
+            android:padding="2dp"
+            android:elevation="10dp" />
+
+        <ImageView
+            android:id="@+id/village_get_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="20dp"
             android:paddingLeft="15dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="7dp" />
+            android:paddingRight="15dp"
+            android:src="@mipmap/get_location_red"
+            android:foregroundGravity="center_vertical|center_horizontal" />
 
     </RelativeLayout>
+
 </RelativeLayout>
