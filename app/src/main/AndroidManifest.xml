@@ -10,6 +10,7 @@
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
+
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -57,7 +58,8 @@
         <activity
             android:name=".SelectLocation"
             android:label="@string/title_activity_select_location" />
-        <activity android:name=".AddVillage"></activity>
+        <activity android:name=".AddVillage" />
+        <activity android:name=".AddCrop"></activity>
     </application>
 
 </manifest>

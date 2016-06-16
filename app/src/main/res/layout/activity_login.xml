@@ -33,9 +33,9 @@
         android:layout_height="wrap_content"
         android:text="ADD Vehicle"
         android:id="@+id/Login_addVehicle"
+        android:layout_marginTop="45dp"
         android:layout_below="@+id/Login_addGaddidar"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="55dp" />
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
@@ -45,4 +45,13 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="51dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ADD CROP"
+        android:id="@+id/Login_addCrop"
+        android:layout_below="@+id/Login_addVehicle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp" />
 </RelativeLayout>

@@ -18,10 +18,8 @@ import java.util.List;
 public class LoginActivity extends AppCompatActivity {
 
     private Button Login_addMandiButton,Login_addGaddidar,Login_addVehicle;
-    private Button Login_addVillage;
-    private List<Village> ass_vill = new ArrayList<Village>();
-    private List<Mandi> ass_mandi = new ArrayList<Mandi>();
-    private LoopUser aggre ;
+    private Button Login_addVillage,Login_addCrop;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +29,7 @@ public class LoginActivity extends AppCompatActivity {
         Login_addMandiButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(LoginActivity.this,AddMandi.class);
+                Intent i = new Intent(LoginActivity.this, AddMandi.class);
                 startActivity(i);
             }
         });
@@ -59,6 +57,15 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(LoginActivity.this,AddVillage.class);
+                startActivity(i);
+            }
+        });
+
+        Login_addCrop = (Button)findViewById(R.id.Login_addCrop);
+        Login_addCrop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(LoginActivity.this,AddCrop.class);
                 startActivity(i);
             }
         });

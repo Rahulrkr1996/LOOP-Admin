@@ -57,6 +57,24 @@ public class Crop extends Model {
         this.action = GeneralConstants.ADD;
     }
 
+    public Crop(String crop_name, Bitmap image) {
+        super();
+        this.online_id = -1;
+        this.crop_name = crop_name;
+        this.measuring_unit = "Kg";
+        this.saveImage(image);
+        this.action = GeneralConstants.ADD;
+    }
+
+    public Crop(String crop_name, int action, Bitmap image) {
+        super();
+        this.online_id = -1;
+        this.crop_name = crop_name;
+        this.measuring_unit = "Kg";
+        this.saveImage(image);
+        this.action = action;
+    }
+
     public Crop(int online_id, String crop_name, String measuring_unit, Bitmap image) {
         super();
         this.online_id = online_id;
@@ -77,6 +95,11 @@ public class Crop extends Model {
     }
 
     public void saveImage(Bitmap image) {
+        if(image==null){
+            this.image_path = "default" ;
+            return ;
+        }
+
         File myDir = new File(Environment
                 .getExternalStorageDirectory().getAbsolutePath() + "/DigitalGreen/Crops/");
 

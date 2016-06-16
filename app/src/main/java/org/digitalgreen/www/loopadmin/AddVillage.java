@@ -65,12 +65,12 @@ public class AddVillage extends AppCompatActivity {
 
         context = this;
 
-        for (int i = 1; i < 11; i++) {
-            Block block = new Block("Block_" + String.valueOf(i));
-            LoopUser loopUser = new LoopUser("Aggregator_" + String.valueOf(i));
-            block.save();
-            loopUser.save();
-        }
+//        for (int i = 1; i < 11; i++) {
+//            Block block = new Block("Block_" + String.valueOf(i));
+//            LoopUser loopUser = new LoopUser("Aggregator_" + String.valueOf(i));
+//            block.save();
+//            loopUser.save();
+//        }
 
         village_save_button = (FloatingActionButton) findViewById(R.id.village_save_button);
         village_discard_button = (FloatingActionButton) findViewById(R.id.village_discard_button);
@@ -284,6 +284,10 @@ public class AddVillage extends AppCompatActivity {
         village.save();
         Toast.makeText(AddVillage.this, "New Village added", Toast.LENGTH_SHORT).show();
 
+    }
+
+    public void onBackPressed() {
+        Toast.makeText(AddVillage.this, "Use the X button", Toast.LENGTH_SHORT).show();
     }
 
 

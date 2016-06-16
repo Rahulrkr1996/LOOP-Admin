@@ -342,6 +342,11 @@ public class AddMandi extends FragmentActivity implements MandiGaddidarAdapter.O
     }
 
     @Override
+    public void onBackPressed() {
+        Toast.makeText(AddMandi.this, "Use the X button", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void onEditClick(Gaddidar f, int position) {
         mandi_select_gaddidar_name.setText(f.name);
         mandi_select_gaddidar_contact.setText(f.contact);

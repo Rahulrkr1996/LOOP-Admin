@@ -120,6 +120,11 @@ public class Gaddidar extends Model {
     }
 
     public void saveImage(Bitmap image) {
+        if(image==null){
+            this.image_path = "default" ;
+            return ;
+        }
+
         File myDir = new File(Environment
                 .getExternalStorageDirectory().getAbsolutePath() + "/DigitalGreen/Gaddidar/");
 
@@ -127,11 +132,6 @@ public class Gaddidar extends Model {
             myDir.mkdirs();
 
         String fname = this.name + "_" + this.contact + ".jpg";
-
-        if(image==null){
-            this.image_path = "default" ;
-            return ;
-        }
 
         File file = new File(myDir, fname);
 
