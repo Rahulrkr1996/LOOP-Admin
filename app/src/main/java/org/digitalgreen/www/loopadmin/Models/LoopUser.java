@@ -96,4 +96,12 @@ public class LoopUser extends Model {
     public String toString() {
         return this.name;
     }
+
+    public List<LoopUser> getAggregatorsFromMandi(Long mandiId) {
+        Select select = new Select();
+        return select.from(LoopUser.class)
+                .where("mandi = ?", mandiId)
+                .where("role = ?","Aggregator")
+                .execute();
+    }
 }

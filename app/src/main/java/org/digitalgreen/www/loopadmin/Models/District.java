@@ -7,6 +7,7 @@ import com.activeandroid.query.Select;
 import com.google.gson.annotations.Expose;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Rahul Kumar on 6/2/2016.
@@ -70,6 +71,15 @@ public class District extends Model {
 //        Log.i("district id", district.getId()+"");
         allDistrict = select.all().from(District.class).execute();
         return allDistrict;
+    }
+
+    public District getFromName(String name){ //,String state_name){
+        List<District> temp = new Select().from(District.class)
+                .where("name = ?", name)
+               // .where("state_name = ?", state_name)
+                .execute();
+
+        return temp.get(0) ;
     }
 
     @Override

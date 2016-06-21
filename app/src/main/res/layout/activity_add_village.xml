@@ -8,7 +8,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="org.digitalgreen.www.loopadmin.AddVillage">
+    tools:context="org.digitalgreen.www.loopadmin.AddVillage"
+    android:elevation="10dp">
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/village_save_button"

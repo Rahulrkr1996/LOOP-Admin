@@ -32,7 +32,7 @@ public class Mandi extends Model {
     public double longitude;
     @Expose
     @Column(name = "district_name")
-    public String district_name;
+    public District district;
     @Expose
     @Column(name = "action")
     public int action;   // 0 = ADD , 1= EDIT ,  -1 = NO CHANGE
@@ -44,7 +44,7 @@ public class Mandi extends Model {
         this.latitude = 0;
         this.longitude = 0;
         this.action = -1;
-        this.district_name = null;
+        this.district = null;
     }
 
     public Mandi(String mandi_name) {
@@ -54,7 +54,14 @@ public class Mandi extends Model {
         this.latitude = 0;
         this.longitude = 0;
         this.action = -1;
-        this.district_name = null;
+        this.district = null;
+    }
+
+    public Mandi(String mandi_name, double latitude, double longitude, District district) {
+        this.mandi_name = mandi_name;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.district = district;
     }
 
     public Mandi(String mandi_name, double latitude, double longitude) {
@@ -64,26 +71,26 @@ public class Mandi extends Model {
         this.latitude = latitude;
         this.longitude = longitude;
         this.action = -1;
-        this.district_name=null;
+        this.district=null;
     }
 
-    public Mandi(String mandi_name, double latitude, double longitude,int action,String district_name) {
+    public Mandi(String mandi_name, double latitude, double longitude,int action,District district) {
         super();
         this.online_id = -1;
         this.mandi_name = mandi_name;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.district_name = district_name;
+        this.district = district;
         this.action = action;
     }
 
-    public Mandi(int online_id, String mandi_name, double latitude, double longitude,String district_name) {
+    public Mandi(int online_id, String mandi_name, double latitude, double longitude,District district) {
         super();
         this.online_id = online_id;
         this.mandi_name = mandi_name;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.district_name = district_name;
+        this.district = district;
         this.action = -1;
     }
 

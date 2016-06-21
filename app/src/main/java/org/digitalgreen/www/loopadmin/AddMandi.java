@@ -139,7 +139,7 @@ public class AddMandi extends FragmentActivity implements MandiGaddidarAdapter.O
                         mandi_select_gaddidar_commission.setText("");
                         Toast.makeText(AddMandi.this, "Please enter the commission of Gaddidar!", Toast.LENGTH_SHORT).show();
                     } else {
-                        currentMandi = new Mandi(mandi_name.getText().toString(),mandiLatitude,mandiLongitude,GeneralConstants.ADD,mandi_select_district.getText().toString());
+                        currentMandi = new Mandi(mandi_name.getText().toString(),mandiLatitude,mandiLongitude,GeneralConstants.ADD,new District().getFromName(mandi_select_district.getText().toString()));
 
                         try {
                             gaddidar_commission = Double.parseDouble(mandi_select_gaddidar_commission.getText().toString());
@@ -252,12 +252,12 @@ public class AddMandi extends FragmentActivity implements MandiGaddidarAdapter.O
                     Toast.makeText(AddMandi.this, "Please Select a district for the Mandi!!", Toast.LENGTH_SHORT).show();
                 } else {
                     if (currentMandi == null) {
-                        saveMandi(mandiName, mandiLati, mandiLong, GeneralConstants.ADD, districtName);
+                        saveMandi(mandiName, mandiLati, mandiLong, GeneralConstants.ADD, new District().getFromName(districtName));
                     } else {
                         currentMandi.mandi_name = mandiName;
                         currentMandi.latitude = mandiLati;
                         currentMandi.longitude = mandiLong;
-                        currentMandi.district_name = districtName;
+                        currentMandi.district = new District().getFromName(districtName);
                         currentMandi.action = GeneralConstants.EDIT;
                         currentMandi.save();
                     }
@@ -281,13 +281,23 @@ public class AddMandi extends FragmentActivity implements MandiGaddidarAdapter.O
         mandi_get_location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mandi_select_district.equals("")) {
-                    Toast.makeText(AddMandi.this, "Please select a district first!!", Toast.LENGTH_SHORT).show();
+                // GPS initialization starts here
+                GPSTracker gps = new GPSTracker(AddMandi.this);
+
+                if (!gps.canGetLocation()) {
+                    // Can't get location GPS or Network is not enabled. Ask user to enable GPS/network in settings
+                    Toast.makeText(getApplicationContext(), "Please enable GPS", Toast.LENGTH_LONG).show();
+                    gps.showSettingsAlert();
                 } else {
-                    Intent i = new Intent(AddMandi.this, SelectLocation.class);
-                    i.putExtra("SearchBar", mandi_select_district.getText().toString());
-                    i.putExtra("Activity", "AddMandi");
-                    startActivityForResult(i, GeneralConstants.MAPCALL_FROM_ADDMANDI);
+
+                    if (mandi_select_district.equals("")) {
+                        Toast.makeText(AddMandi.this, "Please select a district first!!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Intent i = new Intent(AddMandi.this, SelectLocation.class);
+                        i.putExtra("SearchBar", mandi_select_district.getText().toString());
+                        i.putExtra("Activity", "AddMandi");
+                        startActivityForResult(i, GeneralConstants.MAPCALL_FROM_ADDMANDI);
+                    }
                 }
             }
         });
@@ -332,8 +342,8 @@ public class AddMandi extends FragmentActivity implements MandiGaddidarAdapter.O
         }
     }
 
-    public void saveMandi(String mandiName, double mandiLati, double mandiLongi, int action, String districtName) {
-        Mandi mandi = new Mandi(mandiName, mandiLati, mandiLongi, action, districtName);
+    public void saveMandi(String mandiName, double mandiLati, double mandiLongi, int action, District district) {
+        Mandi mandi = new Mandi(mandiName, mandiLati, mandiLongi, action, district);
 //        ArrayList<Mandi> list = new ArrayList<Mandi>();
 //        list = mandi.getMandis();
 

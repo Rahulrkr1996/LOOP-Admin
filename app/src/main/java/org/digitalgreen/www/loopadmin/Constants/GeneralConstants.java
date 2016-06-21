@@ -7,6 +7,11 @@ public class GeneralConstants {
 
     public static final String DIRECT_SELL = "Direct Sell";
 
+    // View Calls
+    public static final int MANDI_EDIT_REQUEST = 0;
+    public static final int VILLAGE_EDIT_REQUEST = 1;
+
+
     // Map onActivityForResult Constants :
     public static final int MAPCALL_FROM_ADDMANDI = 0;
     public static final int MAPCALL_FROM_ADDVILLAGE = 1;

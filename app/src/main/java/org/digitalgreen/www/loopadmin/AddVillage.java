@@ -220,7 +220,7 @@ public class AddVillage extends AppCompatActivity {
                 } else if (latLongCheck == false) {
                     Toast.makeText(AddVillage.this, "Please Select the location of the Village!!", Toast.LENGTH_SHORT).show();
                 } else {
-                    if (currentBlock == null) {
+                    if (currentVillage == null) {
                         saveVillage(villageName, villageLat, villageLong, blockName);
                     } else {
                         currentVillage.name = villageName;

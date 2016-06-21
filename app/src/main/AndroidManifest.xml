@@ -31,7 +31,8 @@
             android:name="AA_DB_VERSION"
             android:value="1" />
 
-        <activity android:name=".LoginActivity">
+        <activity android:name=".LoginActivity"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -40,9 +41,13 @@
         </activity>
         <activity
             android:name=".AddMandi"
-            android:label="Add A Mandi" />
-        <activity android:name=".AddGaddidar" />
-        <activity android:name=".AddVehicle" />
+            android:label="Add A Mandi"
+            android:windowSoftInputMode="adjustPan" />
+
+        <activity android:name=".AddGaddidar"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".AddVehicle"
+            android:windowSoftInputMode="adjustPan"/>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -57,9 +62,16 @@
 
         <activity
             android:name=".SelectLocation"
-            android:label="@string/title_activity_select_location" />
-        <activity android:name=".AddVillage" />
-        <activity android:name=".AddCrop"></activity>
+            android:label="@string/title_activity_select_location"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".AddVillage"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".AddCrop"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name=".ViewDetails"
+            android:label="@string/title_activity_view_details"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

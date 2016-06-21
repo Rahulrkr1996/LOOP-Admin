@@ -90,7 +90,7 @@ public class Gaddidar extends Model {
         this.commission = commission;
     }
 
-    public List<Gaddidar> getGaddidars(Long mandiId) {
+    public List<Gaddidar> getGaddidarsFromMandi(Long mandiId) {
         Select select = new Select();
         return select.from(Gaddidar.class).where("mandi = ?", mandiId).execute();
     }

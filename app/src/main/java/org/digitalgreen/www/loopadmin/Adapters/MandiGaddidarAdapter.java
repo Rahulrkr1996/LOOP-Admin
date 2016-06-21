@@ -52,7 +52,7 @@ public class MandiGaddidarAdapter extends BaseAdapter {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.addmandi_gaddidar_list, parent, false);
+            convertView = inflater.inflate(R.layout.addmandi_gaddidarlist_row, parent, false);
             holder = new ViewHolder();
             holder.name = (TextView) convertView.findViewById(R.id.gaddidarList_name);
             holder.contact = (TextView) convertView.findViewById(R.id.gaddidarList_contact);

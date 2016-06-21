@@ -149,7 +149,9 @@
                 android:padding="2dp"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textSize="12sp"
-                android:layout_weight="7"/>
+                android:layout_weight="7"
+                android:maxLength="10"
+                android:singleLine="true" />
 
             <EditText
                 android:id="@+id/mandi_select_gaddidar_commision"
