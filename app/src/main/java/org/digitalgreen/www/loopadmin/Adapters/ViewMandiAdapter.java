@@ -26,12 +26,12 @@ import java.util.List;
 public class ViewMandiAdapter extends BaseExpandableListAdapter{
     private List<Mandi> list;
     private Context context;
-//    private OnViewMandiEditClickListener listener;
+    private OnViewMandiEditClickListener listener;
 
-    public ViewMandiAdapter(List<Mandi> list,Context context){// OnViewMandiEditClickListener editClickListener, Context context) {
+    public ViewMandiAdapter(List<Mandi> list,Context context, OnViewMandiEditClickListener editClickListener) {
         super();
         this.list = list;
-        //this.listener = editClickListener;
+        this.listener = editClickListener;
         this.context = context;
     }
 
@@ -93,14 +93,14 @@ public class ViewMandiAdapter extends BaseExpandableListAdapter{
         parentViewHolder.district_name.setText(list.get(groupPosition).district.name);
         parentViewHolder.gaddidars.setText(String.valueOf((new Gaddidar().getGaddidarsFromMandi(list.get(groupPosition).getId())).size()));
         parentViewHolder.aggregators.setText("NA");//String.valueOf(new LoopUser().getAggregatorsFromMandi( list.get(groupPosition).getId() ).size()));
-//        parentViewHolder.edit.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Mandi m = (Mandi) v.getTag();
-//                final int position = groupPosition;
-//                listener.onEditClick(m.getId());
-//            }
-//        });
+        parentViewHolder.edit.setTag(list.get(groupPosition));
+        parentViewHolder.edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Mandi m = (Mandi) v.getTag();
+                listener.onEditClick(m);
+            }
+        });
 
         return convertView;
     }
@@ -139,9 +139,9 @@ public class ViewMandiAdapter extends BaseExpandableListAdapter{
         return false;
     }
 
-//    public interface OnViewMandiEditClickListener {
-//        void onEditClick(long mandi_id);
-//    }
+    public interface OnViewMandiEditClickListener {
+        void onEditClick(Mandi mandi);
+    }
 
     static class ParentViewHolder {
         TextView name,district_name,aggregators,gaddidars;

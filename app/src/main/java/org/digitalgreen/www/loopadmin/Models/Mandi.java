@@ -116,6 +116,10 @@ public class Mandi extends Model {
         return mandi_name;
     }
 */
+    public Mandi getMandiFromID(long mandi_id){
+        ArrayList<Mandi> list = new Select().from(Mandi.class).where("Id = ?",mandi_id).execute();
+        return list.get(0);
+    }
 
     public ArrayList<Mandi> getAllMandis() {
         return new Select().all().from(Mandi.class).execute();

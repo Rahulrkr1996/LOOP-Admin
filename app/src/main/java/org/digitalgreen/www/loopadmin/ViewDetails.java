@@ -16,14 +16,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.digitalgreen.www.loopadmin.Adapters.ViewMandiAdapter;
 import org.digitalgreen.www.loopadmin.Constants.GeneralConstants;
 import org.digitalgreen.www.loopadmin.Models.Mandi;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ViewDetails extends AppCompatActivity{ // implements ViewMandiAdapter.OnViewMandiEditClickListener{
@@ -95,7 +93,11 @@ public class ViewDetails extends AppCompatActivity{ // implements ViewMandiAdapt
         if (requestCode == GeneralConstants.MANDI_EDIT_REQUEST) {
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
+
                 Toast.makeText(ViewDetails.this, "The mandi has been successfully Edited!! ", Toast.LENGTH_SHORT).show();
+                data = new Intent(ViewDetails.this,ViewDetails.class);
+                startActivity(data);
+                finish();
             }
         }
     }
@@ -135,11 +137,18 @@ public class ViewDetails extends AppCompatActivity{ // implements ViewMandiAdapt
             // -----------ToDo----------------(Here decide layout for every different row)--------------
             //if(getArguments().get(ARG_SECTION_NUMBER)=="1"){
                 ViewMandiAdapter viewMandiAdapter;
-                List<Mandi> mandiList = new ArrayList<Mandi>();
-                mandiList = new Mandi().getAllMandis();
+                List<Mandi> mandiList = new Mandi().getAllMandis();
 
                 view_list = (ExpandableListView)rootView.findViewById(R.id.view_list);
-                viewMandiAdapter = new ViewMandiAdapter(mandiList,getContext());
+                viewMandiAdapter = new ViewMandiAdapter(mandiList, getContext(), new ViewMandiAdapter.OnViewMandiEditClickListener() {
+                    @Override
+                    // -------------- ToDo ---------( Put startActivityForResult() )---------------------
+                    public void onEditClick(Mandi mandi) {
+                        Intent intent = new Intent(getActivity(), AddMandi.class);
+                        intent.putExtra("mandi_id", mandi.getId());
+                        startActivityForResult(intent, GeneralConstants.MANDI_EDIT_REQUEST);
+                    }
+                });
                 view_list.setAdapter(viewMandiAdapter);
             //}
 
@@ -182,7 +191,7 @@ public class ViewDetails extends AppCompatActivity{ // implements ViewMandiAdapt
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "SECTION 1";
+                    return "Mandi";
                 case 1:
                     return "SECTION 2";
                 case 2:

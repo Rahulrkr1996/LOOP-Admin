@@ -38,7 +38,6 @@ public class AddMandi extends FragmentActivity implements MandiGaddidarAdapter.O
     private Context context = this;
     private Mandi currentMandi = null;
     private Gaddidar currentGaddidar = null;
-    private District currentDistrict;
     private int textlength = 0;
     private boolean latLongCheck = false;
     private double mandiLatitude = 0.0, mandiLongitude = 0.0;
@@ -62,6 +61,7 @@ public class AddMandi extends FragmentActivity implements MandiGaddidarAdapter.O
     private static final int REQUEST_IMAGE_CAPTURE = 14;
     private boolean gaddidarImageCaptured = false;
     private Bitmap gaddidarPhoto;
+    private boolean activityOpenedForResult = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +85,19 @@ public class AddMandi extends FragmentActivity implements MandiGaddidarAdapter.O
             dis.save();
         }
         districtList = new District().getAllDistricts();
+
+        // Getting extra intent data
+        Bundle MandiData = getIntent().getExtras();
+        if (MandiData != null) {
+            long mandi_id = MandiData.getInt("mandi_id");
+            if(mandi_id!=0){
+            currentMandi = new Mandi().getMandiFromID(mandi_id);
+            gaddidarList = new Gaddidar().getGaddidarsFromMandi(mandi_id);
+            mandi_name.setText(currentMandi.mandi_name);
+            mandi_select_district.setText(currentMandi.district.name);
+            latLongCheck = true;
+            activityOpenedForResult = true;
+        }
 
         mandiGaddidarAdapter = new MandiGaddidarAdapter(gaddidarList, this, context);
         mandi_gaddidar_list.setAdapter(mandiGaddidarAdapter);
@@ -266,6 +279,11 @@ public class AddMandi extends FragmentActivity implements MandiGaddidarAdapter.O
                         currentGaddidar = createNewGaddidar(gaddidarList.get(i).name,gaddidarList.get(i).contact,gaddidarList.get(i).commission,gaddidarList.get(i).getImage(),currentMandi);
                         currentGaddidar.save();
                     }
+                    if(activityOpenedForResult==true){
+                        Toast.makeText(AddMandi.this, "Applying the changes ?" , Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent();
+                        setResult(RESULT_OK, intent);
+                    }
                     finish();
                 }
             }
@@ -274,6 +292,11 @@ public class AddMandi extends FragmentActivity implements MandiGaddidarAdapter.O
         mandi_discard_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(activityOpenedForResult==true){
+                    Toast.makeText(AddMandi.this, "Discarding the changes ?" , Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent();
+                    setResult(RESULT_OK, intent);
+                }
                 finish();
             }
         });
