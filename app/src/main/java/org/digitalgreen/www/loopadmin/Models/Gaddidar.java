@@ -90,12 +90,12 @@ public class Gaddidar extends Model {
         this.commission = commission;
     }
 
-    public List<Gaddidar> getGaddidarsFromMandi(Long mandiId) {
+    public ArrayList<Gaddidar> getGaddidarsFromMandi(Long mandiId) {
         Select select = new Select();
         return select.from(Gaddidar.class).where("mandi = ?", mandiId).execute();
     }
 
-    public List<Gaddidar> getAllGaddidars() {
+    public ArrayList<Gaddidar> getAllGaddidars() {
         Select select = new Select();
         ArrayList<Gaddidar> gaddidar_list;
 //        Log.i("district id", district.getId()+"");

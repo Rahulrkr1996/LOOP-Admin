@@ -18,6 +18,7 @@ import org.digitalgreen.www.loopadmin.Models.LoopUser;
 import org.digitalgreen.www.loopadmin.Models.Mandi;
 import org.digitalgreen.www.loopadmin.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -110,7 +111,6 @@ public class ViewMandiAdapter extends BaseExpandableListAdapter{
         ChildViewHolder childViewHolder;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
-        if(convertView==null){
             convertView = inflater.inflate(R.layout.view_mandi_child_row,parent,false);
             childViewHolder = new ChildViewHolder();
             childViewHolder.name = (TextView) convertView.findViewById(R.id.name);
@@ -118,11 +118,8 @@ public class ViewMandiAdapter extends BaseExpandableListAdapter{
             childViewHolder.commission = (TextView)convertView.findViewById(R.id.commission);
             childViewHolder.photo = (ImageView)convertView.findViewById(R.id.photo);
             convertView.setTag(childViewHolder);
-        } else {
-            childViewHolder = (ChildViewHolder) convertView.getTag();
-        }
 
-        List<Gaddidar> gList = new Gaddidar().getGaddidarsFromMandi(list.get(groupPosition).getId());
+        ArrayList<Gaddidar> gList = new Gaddidar().getGaddidarsFromMandi(list.get(groupPosition).getId());
 
         if(gList.size()!=0) {
             childViewHolder.name.setText(gList.get(groupPosition).name);

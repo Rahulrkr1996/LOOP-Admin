@@ -24,7 +24,7 @@ import org.digitalgreen.www.loopadmin.Models.Mandi;
 
 import java.util.List;
 
-public class ViewDetails extends AppCompatActivity{ // implements ViewMandiAdapter.OnViewMandiEditClickListener{
+public class ViewDetails extends AppCompatActivity { // implements ViewMandiAdapter.OnViewMandiEditClickListener{
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -40,14 +40,14 @@ public class ViewDetails extends AppCompatActivity{ // implements ViewMandiAdapt
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
-    private Context context=this;
+    private Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_details);
 
-        context=this;
+        context = this;
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.view_toolbar);
         setSupportActionBar(toolbar);
@@ -95,7 +95,7 @@ public class ViewDetails extends AppCompatActivity{ // implements ViewMandiAdapt
             if (resultCode == RESULT_OK) {
 
                 Toast.makeText(ViewDetails.this, "The mandi has been successfully Edited!! ", Toast.LENGTH_SHORT).show();
-                data = new Intent(ViewDetails.this,ViewDetails.class);
+                data = new Intent(ViewDetails.this, ViewDetails.class);
                 startActivity(data);
                 finish();
             }
@@ -136,20 +136,19 @@ public class ViewDetails extends AppCompatActivity{ // implements ViewMandiAdapt
             View rootView = inflater.inflate(R.layout.fragment_view_details, container, false);
             // -----------ToDo----------------(Here decide layout for every different row)--------------
             //if(getArguments().get(ARG_SECTION_NUMBER)=="1"){
-                ViewMandiAdapter viewMandiAdapter;
-                List<Mandi> mandiList = new Mandi().getAllMandis();
+            List<Mandi> mandiList = new Mandi().getAllMandis();
 
-                view_list = (ExpandableListView)rootView.findViewById(R.id.view_list);
-                viewMandiAdapter = new ViewMandiAdapter(mandiList, getContext(), new ViewMandiAdapter.OnViewMandiEditClickListener() {
-                    @Override
-                    // -------------- ToDo ---------( Put startActivityForResult() )---------------------
-                    public void onEditClick(Mandi mandi) {
-                        Intent intent = new Intent(getActivity(), AddMandi.class);
-                        intent.putExtra("mandi_id", mandi.getId());
-                        startActivityForResult(intent, GeneralConstants.MANDI_EDIT_REQUEST);
-                    }
-                });
-                view_list.setAdapter(viewMandiAdapter);
+            view_list = (ExpandableListView) rootView.findViewById(R.id.view_list);
+            ViewMandiAdapter viewMandiAdapter = new ViewMandiAdapter(mandiList, getContext(), new ViewMandiAdapter.OnViewMandiEditClickListener() {
+                @Override
+                // -------------- ToDo ---------( Put startActivityForResult() )---------------------
+                public void onEditClick(Mandi mandi) {
+                    Intent intent = new Intent(getActivity(), AddMandi.class);
+                    intent.putExtra("mandi_id", mandi.getId());
+                    startActivityForResult(intent, GeneralConstants.MANDI_EDIT_REQUEST);
+                }
+            });
+            view_list.setAdapter(viewMandiAdapter);
             //}
 
 //
@@ -157,7 +156,6 @@ public class ViewDetails extends AppCompatActivity{ // implements ViewMandiAdapt
 //            View rootView = inflater.inflate(R.layout.fragment_view_details,container,false);
 //            TextView view_Lable = (TextView)rootView.findViewById(R.id.view_Lable);
 //            view_Lable.setText("Section no. : "+getArguments().get(ARG_SECTION_NUMBER));
-
 
 
             return rootView;
@@ -183,8 +181,8 @@ public class ViewDetails extends AppCompatActivity{ // implements ViewMandiAdapt
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
-            return 3;
+            // Show 2 total pages.
+            return 2;
         }
 
         @Override
@@ -193,9 +191,7 @@ public class ViewDetails extends AppCompatActivity{ // implements ViewMandiAdapt
                 case 0:
                     return "Mandi";
                 case 1:
-                    return "SECTION 2";
-                case 2:
-                    return "SECTION 3";
+                    return "Village";
             }
             return null;
         }

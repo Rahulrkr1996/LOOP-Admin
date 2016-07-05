@@ -1,6 +1,7 @@
 package org.digitalgreen.www.loopadmin;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +12,7 @@ import com.activeandroid.query.Delete;
 import org.digitalgreen.www.loopadmin.Models.Block;
 import org.digitalgreen.www.loopadmin.Models.Crop;
 import org.digitalgreen.www.loopadmin.Models.District;
+import org.digitalgreen.www.loopadmin.Models.Gaddidar;
 import org.digitalgreen.www.loopadmin.Models.LoopUser;
 import org.digitalgreen.www.loopadmin.Models.Mandi;
 import org.digitalgreen.www.loopadmin.Models.Vehicle;
@@ -42,8 +44,12 @@ public class LoginActivity extends AppCompatActivity {
             village.save();
             Vehicle vehicle = new Vehicle("Vehicle_"+String.valueOf(i));
             vehicle.save();
-//            Mandi mandi = new Mandi("Mandi_" + String.valueOf(i),(double)(i*2.5/9),(double)i/6*1.2,district);
-//            mandi.save();
+            Mandi mandi = new Mandi("Mandi_" + String.valueOf(i),(double)(i*2.5/9),(double)i/6*1.2,district);
+            mandi.save();
+            for(int j=0;j<i;j++){
+                Gaddidar gaddidar = createNewGaddidar("Gaddidar_"+String.valueOf(i)+"_"+String.valueOf(j),"993399403"+String.valueOf(j),(double)((j+1)/10),null,mandi);
+                gaddidar.save();
+            }
         }
 */
 
@@ -101,5 +107,10 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-    
+
+    private Gaddidar createNewGaddidar(String gaddidar_name, String gaddidar_contact, double gaddidar_commission, Bitmap gaddidarPhoto, Mandi mandi) {
+        Gaddidar gaddidar = new Gaddidar(gaddidar_name, gaddidar_contact, gaddidar_commission, gaddidarPhoto, mandi);
+        return gaddidar;
+    }
+
 }
