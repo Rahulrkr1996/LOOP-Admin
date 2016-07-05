@@ -38,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
             crop.save();
             Block block = new Block("Block_"+String.valueOf(i));
             block.save();
-            Village village = new Village("Village_"+String.valueOf(i));
+            Village village = new Village("Village_"+String.valueOf(i),(double)(i*2.5/9),(double)i/6*1.2,block.name);
             village.save();
             Vehicle vehicle = new Vehicle("Vehicle_"+String.valueOf(i));
             vehicle.save();

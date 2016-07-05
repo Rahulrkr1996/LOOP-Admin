@@ -49,11 +49,11 @@ public class Village extends Model {
         this.block_name = "Morwa";
     }
 
-    public Village(String name, double lat, double aLong, String block_name) {
+    public Village(String name, double Lat, double Long, String block_name) {
         super();
         this.name = name;
-        Lat = lat;
-        Long = aLong;
+        this.Lat = Lat;
+        this.Long = Long;
         this.block_name = block_name;
     }
 
