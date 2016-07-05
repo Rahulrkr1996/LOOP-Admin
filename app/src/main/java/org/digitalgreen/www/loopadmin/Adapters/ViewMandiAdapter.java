@@ -24,12 +24,12 @@ import java.util.List;
 /**
  * Created by Rahul Kumar on 6/16/2016.
  */
-public class ViewMandiAdapter extends BaseExpandableListAdapter{
+public class ViewMandiAdapter extends BaseExpandableListAdapter {
     private List<Mandi> list;
     private Context context;
     private OnViewMandiEditClickListener listener;
 
-    public ViewMandiAdapter(List<Mandi> list,Context context, OnViewMandiEditClickListener editClickListener) {
+    public ViewMandiAdapter(List<Mandi> list, Context context, OnViewMandiEditClickListener editClickListener) {
         super();
         this.list = list;
         this.listener = editClickListener;
@@ -77,28 +77,24 @@ public class ViewMandiAdapter extends BaseExpandableListAdapter{
         ParentViewHolder parentViewHolder;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
-        if(convertView==null){
-            convertView = inflater.inflate(R.layout.view_mandi_row,parent,false);
-            parentViewHolder = new ParentViewHolder();
-            parentViewHolder.name = (TextView) convertView.findViewById(R.id.name);
-            parentViewHolder.district_name = (TextView)convertView.findViewById(R.id.district_name);
-            parentViewHolder.aggregators = (TextView)convertView.findViewById(R.id.aggregators);
-            parentViewHolder.gaddidars = (TextView)convertView.findViewById(R.id.gaddidars);
-            parentViewHolder.edit = (ImageView)convertView.findViewById(R.id.edit);
-            convertView.setTag(parentViewHolder);
-        } else {
-            parentViewHolder = (ParentViewHolder) convertView.getTag();
-        }
+        convertView = inflater.inflate(R.layout.view_mandi_row, parent, false);
+        parentViewHolder = new ParentViewHolder();
+        parentViewHolder.name = (TextView) convertView.findViewById(R.id.name);
+        parentViewHolder.district_name = (TextView) convertView.findViewById(R.id.district_name);
+        parentViewHolder.aggregators = (TextView) convertView.findViewById(R.id.aggregators);
+        parentViewHolder.gaddidars = (TextView) convertView.findViewById(R.id.gaddidars);
+        parentViewHolder.edit = (ImageView) convertView.findViewById(R.id.edit);
 
         parentViewHolder.name.setText(list.get(groupPosition).mandi_name);
         parentViewHolder.district_name.setText(list.get(groupPosition).district.name);
-        parentViewHolder.gaddidars.setText(String.valueOf((new Gaddidar().getGaddidarsFromMandi(list.get(groupPosition).getId())).size()));
+        parentViewHolder.gaddidars.setText(String.valueOf((new Gaddidar().getGaddidarsFromMandi(list.get(groupPosition).getId())).size()) + "G");
         parentViewHolder.aggregators.setText("NA");//String.valueOf(new LoopUser().getAggregatorsFromMandi( list.get(groupPosition).getId() ).size()));
         parentViewHolder.edit.setTag(list.get(groupPosition));
         parentViewHolder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Mandi m = (Mandi) v.getTag();
+                long temp = m.getId();
                 listener.onEditClick(m);
             }
         });
@@ -111,17 +107,17 @@ public class ViewMandiAdapter extends BaseExpandableListAdapter{
         ChildViewHolder childViewHolder;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
-            convertView = inflater.inflate(R.layout.view_mandi_child_row,parent,false);
-            childViewHolder = new ChildViewHolder();
-            childViewHolder.name = (TextView) convertView.findViewById(R.id.name);
-            childViewHolder.contact = (TextView)convertView.findViewById(R.id.contact);
-            childViewHolder.commission = (TextView)convertView.findViewById(R.id.commission);
-            childViewHolder.photo = (ImageView)convertView.findViewById(R.id.photo);
-            convertView.setTag(childViewHolder);
+        convertView = inflater.inflate(R.layout.view_mandi_child_row, parent, false);
+        childViewHolder = new ChildViewHolder();
+        childViewHolder.name = (TextView) convertView.findViewById(R.id.name);
+        childViewHolder.contact = (TextView) convertView.findViewById(R.id.contact);
+        childViewHolder.commission = (TextView) convertView.findViewById(R.id.commission);
+        childViewHolder.photo = (ImageView) convertView.findViewById(R.id.photo);
+        convertView.setTag(childViewHolder);
 
         ArrayList<Gaddidar> gList = new Gaddidar().getGaddidarsFromMandi(list.get(groupPosition).getId());
 
-        if(gList.size()!=0) {
+        if (gList.size() != 0) {
             childViewHolder.name.setText(gList.get(childPosition).name);
             childViewHolder.contact.setText(gList.get(childPosition).contact);
             childViewHolder.commission.setText(String.valueOf(gList.get(childPosition).commission));
@@ -140,7 +136,7 @@ public class ViewMandiAdapter extends BaseExpandableListAdapter{
     }
 
     static class ParentViewHolder {
-        TextView name,district_name,aggregators,gaddidars;
+        TextView name, district_name, aggregators, gaddidars;
         ImageView edit;
     }
 

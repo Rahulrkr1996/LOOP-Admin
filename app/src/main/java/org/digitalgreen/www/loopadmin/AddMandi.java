@@ -85,14 +85,15 @@ public class AddMandi extends FragmentActivity implements MandiGaddidarAdapter.O
         // Getting extra intent data
         Bundle MandiData = getIntent().getExtras();
         if (MandiData != null) {
-            long mandi_id = MandiData.getInt("mandi_id");
+            long mandi_id = MandiData.getLong("mandi_id");
             if (mandi_id != 0) {
-                currentMandi = new Mandi().getMandiFromID(mandi_id);
+                currentMandi = Mandi.load(Mandi.class,mandi_id);
                 gaddidarList = new Gaddidar().getGaddidarsFromMandi(mandi_id);
                 mandi_name.setText(currentMandi.mandi_name);
                 mandi_select_district.setText(currentMandi.district.name);
                 latLongCheck = true;
                 activityOpenedForResult = true;
+                mandi_get_location.setImageResource(R.mipmap.get_location_green);
             }
         }
         mandiGaddidarAdapter = new MandiGaddidarAdapter(gaddidarList, this, context);
@@ -276,7 +277,7 @@ public class AddMandi extends FragmentActivity implements MandiGaddidarAdapter.O
                         currentGaddidar.save();
                     }
                     if (activityOpenedForResult == true) {
-                        Toast.makeText(AddMandi.this, "Applying the changes ?", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddMandi.this, "Applied the changes ...", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent();
                         setResult(RESULT_OK, intent);
                     }

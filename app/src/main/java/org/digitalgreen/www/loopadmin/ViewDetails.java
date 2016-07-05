@@ -195,12 +195,4 @@ public class ViewDetails extends AppCompatActivity { // implements ViewMandiAdap
             return null;
         }
     }
-
-//    @Override
-//    public void onEditClick(long mandi_id) {
-//        Intent intent = new Intent(this,AddMandi.class);
-//        intent.putExtra("mandi_id",mandi_id);
-//        startActivityForResult(intent, GeneralConstants.MANDI_EDIT_REQUEST);
-//    }
-
 }
