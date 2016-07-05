@@ -130,7 +130,6 @@ public class ViewMandiAdapter extends BaseExpandableListAdapter{
             childViewHolder.commission.setText(String.valueOf(gList.get(groupPosition).commission));
             childViewHolder.photo.setImageBitmap(gList.get(childPosition).getImage());
         }
-
         return convertView;
     }
 

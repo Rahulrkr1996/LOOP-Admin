@@ -80,250 +80,247 @@ public class AddMandi extends FragmentActivity implements MandiGaddidarAdapter.O
         mandi_discard_button = (FloatingActionButton) findViewById(R.id.mandi_discard_button);
         mandi_gaddidar_list = (ListView) findViewById(R.id.mandi_gaddidar_list);
 
-        for(int i=1;i<=10;i++){
-            District dis = new District("District_"+String.valueOf(i));
-            dis.save();
-        }
         districtList = new District().getAllDistricts();
 
         // Getting extra intent data
         Bundle MandiData = getIntent().getExtras();
         if (MandiData != null) {
             long mandi_id = MandiData.getInt("mandi_id");
-            if(mandi_id!=0){
-            currentMandi = new Mandi().getMandiFromID(mandi_id);
-            gaddidarList = new Gaddidar().getGaddidarsFromMandi(mandi_id);
-            mandi_name.setText(currentMandi.mandi_name);
-            mandi_select_district.setText(currentMandi.district.name);
-            latLongCheck = true;
-            activityOpenedForResult = true;
-        }
-
-        mandiGaddidarAdapter = new MandiGaddidarAdapter(gaddidarList, this, context);
-        mandi_gaddidar_list.setAdapter(mandiGaddidarAdapter);
-
-        mandi_select_gaddidar_photo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                takePictureIntent.putExtra("outputX", 400);
-                takePictureIntent.putExtra("outputY", 400);
-                takePictureIntent.putExtra("aspectX", 1);
-                takePictureIntent.putExtra("aspectY", 1);
-                takePictureIntent.putExtra("scale", true);
-                takePictureIntent.putExtra("return-data", true);
-                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-                }
+            if (mandi_id != 0) {
+                currentMandi = new Mandi().getMandiFromID(mandi_id);
+                gaddidarList = new Gaddidar().getGaddidarsFromMandi(mandi_id);
+                mandi_name.setText(currentMandi.mandi_name);
+                mandi_select_district.setText(currentMandi.district.name);
+                latLongCheck = true;
+                activityOpenedForResult = true;
             }
-        });
 
-        mandi_gaddidar_save_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-                } catch (Exception e) {
-                    // TODO: handle exception
-                }
+            mandiGaddidarAdapter = new MandiGaddidarAdapter(gaddidarList, this, context);
+            mandi_gaddidar_list.setAdapter(mandiGaddidarAdapter);
 
-                if (mandi_name.getText().toString().equals("")) {
-                    Toast.makeText(AddMandi.this, "Please add a mandi name!!", Toast.LENGTH_SHORT).show();
-                } else if (mandi_select_district.getText().toString().equals("")) {
-                    Toast.makeText(AddMandi.this, "Please select a district for mandi!!", Toast.LENGTH_SHORT).show();
-                } else if (latLongCheck == false) {
-                    Toast.makeText(AddMandi.this, "Please select a location for Mandi!!", Toast.LENGTH_SHORT).show();
-                } else {
-
-                    String gaddidar_name = mandi_select_gaddidar_name.getText().toString();
-                    String gaddidar_contact = mandi_select_gaddidar_contact.getText().toString();
-                    String gaddidar_commision_ = mandi_select_gaddidar_commission.getText().toString();
-
-                    double gaddidar_commission;
-
-                    if (gaddidar_name.equals("")) {
-                        mandi_select_gaddidar_name.setText("");
-                        Toast.makeText(AddMandi.this, "Please add a name for Gaddidar!!", Toast.LENGTH_SHORT).show();
-                    } else if (gaddidar_contact.equals("") || gaddidar_contact.length() != 10) {
-                        mandi_select_gaddidar_contact.setText("");
-                        Toast.makeText(AddMandi.this, "Please add a proper Phone no. of the Gaddidar!!", Toast.LENGTH_SHORT).show();
-                    } else if (gaddidar_commision_.equals("")) {
-                        mandi_select_gaddidar_commission.setText("");
-                        Toast.makeText(AddMandi.this, "Please enter the commission of Gaddidar!", Toast.LENGTH_SHORT).show();
-                    } else {
-                        currentMandi = new Mandi(mandi_name.getText().toString(),mandiLatitude,mandiLongitude,GeneralConstants.ADD,new District().getFromName(mandi_select_district.getText().toString()));
-
-                        try {
-                            gaddidar_commission = Double.parseDouble(mandi_select_gaddidar_commission.getText().toString());
-                        } catch (final NumberFormatException e) {
-                            gaddidar_commission = 0.0;
-                        }
-
-                        if (gaddidarImageCaptured == false) {
-                            gaddidarPhoto = null;
-                        } else {
-                            gaddidarPhoto = ((BitmapDrawable) mandi_select_gaddidar_photo.getDrawable()).getBitmap();
-                        }
-
-                        gaddidarList.add(createNewGaddidar(gaddidar_name, gaddidar_contact, gaddidar_commission, gaddidarPhoto, currentMandi));
-                        gaddidarList.size();
-                        mandiGaddidarAdapter.notifyDataSetChanged();
-
-                        Toast.makeText(AddMandi.this, "New Gaddidar Added to the list", Toast.LENGTH_SHORT).show();
-                        mandi_select_gaddidar_name.setText("");
-                        mandi_select_gaddidar_contact.setText("");
-                        mandi_select_gaddidar_commission.setText("");
-                        mandi_select_gaddidar_photo.setImageResource(R.drawable.ic_default_camera);
-                        gaddidarImageCaptured = false;
+            mandi_select_gaddidar_photo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    takePictureIntent.putExtra("outputX", 400);
+                    takePictureIntent.putExtra("outputY", 400);
+                    takePictureIntent.putExtra("aspectX", 1);
+                    takePictureIntent.putExtra("aspectY", 1);
+                    takePictureIntent.putExtra("scale", true);
+                    takePictureIntent.putExtra("return-data", true);
+                    if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                        startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
                     }
                 }
-            }
-        });
+            });
 
+            mandi_gaddidar_save_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                    } catch (Exception e) {
+                        // TODO: handle exception
+                    }
 
-        // Drop down District functionality
-        mandi_select_district.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (GeneralConstants.FLAG_IS_MANDI_CHANGE_ALLOWED) {
-                    dialog = new Dialog(context);
-                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                    dialog.setContentView(R.layout.custom_dialog1);
+                    if (mandi_name.getText().toString().equals("")) {
+                        Toast.makeText(AddMandi.this, "Please add a mandi name!!", Toast.LENGTH_SHORT).show();
+                    } else if (mandi_select_district.getText().toString().equals("")) {
+                        Toast.makeText(AddMandi.this, "Please select a district for mandi!!", Toast.LENGTH_SHORT).show();
+                    } else if (latLongCheck == false) {
+                        Toast.makeText(AddMandi.this, "Please select a location for Mandi!!", Toast.LENGTH_SHORT).show();
+                    } else {
 
-                    dialog1_titleText = (TextView) dialog.findViewById(R.id.dialog1_titleText);
-                    dialog1_editText = (EditText) dialog.findViewById(R.id.dialog1_editText);
-                    dialog1_listView = (ListView) dialog.findViewById(R.id.dialog1_listView);
+                        String gaddidar_name = mandi_select_gaddidar_name.getText().toString();
+                        String gaddidar_contact = mandi_select_gaddidar_contact.getText().toString();
+                        String gaddidar_commision_ = mandi_select_gaddidar_commission.getText().toString();
 
-                    dialog1_titleText.setText("Select District Name");
+                        double gaddidar_commission;
 
-                    filteredDistrictList.clear();
-                    filteredDistrictList.addAll(districtList);
+                        if (gaddidar_name.equals("")) {
+                            mandi_select_gaddidar_name.setText("");
+                            Toast.makeText(AddMandi.this, "Please add a name for Gaddidar!!", Toast.LENGTH_SHORT).show();
+                        } else if (gaddidar_contact.equals("") || gaddidar_contact.length() != 10) {
+                            mandi_select_gaddidar_contact.setText("");
+                            Toast.makeText(AddMandi.this, "Please add a proper Phone no. of the Gaddidar!!", Toast.LENGTH_SHORT).show();
+                        } else if (gaddidar_commision_.equals("")) {
+                            mandi_select_gaddidar_commission.setText("");
+                            Toast.makeText(AddMandi.this, "Please enter the commission of Gaddidar!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            currentMandi = new Mandi(mandi_name.getText().toString(), mandiLatitude, mandiLongitude, GeneralConstants.ADD, new District().getFromName(mandi_select_district.getText().toString()));
 
+                            try {
+                                gaddidar_commission = Double.parseDouble(mandi_select_gaddidar_commission.getText().toString());
+                            } catch (final NumberFormatException e) {
+                                gaddidar_commission = 0.0;
+                            }
 
-                    mandiDistrictAdapter = new MandiDistrictAdapter(filteredDistrictList, context);
-                    dialog1_listView.setAdapter(mandiDistrictAdapter);
+                            if (gaddidarImageCaptured == false) {
+                                gaddidarPhoto = null;
+                            } else {
+                                gaddidarPhoto = ((BitmapDrawable) mandi_select_gaddidar_photo.getDrawable()).getBitmap();
+                            }
 
-                    dialog1_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            dialog.dismiss();
-                            selectedDistrict = (District) mandiDistrictAdapter.getItem(position);
-                            mandi_select_district.setText(selectedDistrict.toString());
+                            gaddidarList.add(createNewGaddidar(gaddidar_name, gaddidar_contact, gaddidar_commission, gaddidarPhoto, currentMandi));
+                            gaddidarList.size();
+                            mandiGaddidarAdapter.notifyDataSetChanged();
+
+                            Toast.makeText(AddMandi.this, "New Gaddidar Added to the list", Toast.LENGTH_SHORT).show();
+                            mandi_select_gaddidar_name.setText("");
+                            mandi_select_gaddidar_contact.setText("");
+                            mandi_select_gaddidar_commission.setText("");
+                            mandi_select_gaddidar_photo.setImageResource(R.drawable.ic_default_camera);
+                            gaddidarImageCaptured = false;
                         }
-                    });
+                    }
+                }
+            });
 
-                    dialog1_editText.addTextChangedListener(new TextWatcher() {
-                        @Override
-                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                        }
 
-                        @Override
-                        public void onTextChanged(CharSequence s, int start, int before, int count) {
-                            dialog1_editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-                            textlength = dialog1_editText.getText().length();
-                            filteredDistrictList.clear();
+            // Drop down District functionality
+            mandi_select_district.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (GeneralConstants.FLAG_IS_MANDI_CHANGE_ALLOWED) {
+                        dialog = new Dialog(context);
+                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                        dialog.setContentView(R.layout.custom_dialog1);
 
-                            // SearchBar Functionality
-                            for (int i = 0; i < districtList.size(); i++) {
-                                if (textlength <= districtList.get(i).name.length()) {
-                                    if (districtList.get(i).name.toLowerCase().startsWith(dialog1_editText.getText().toString().toLowerCase().trim())) {
-                                        filteredDistrictList.add(districtList.get(i));
+                        dialog1_titleText = (TextView) dialog.findViewById(R.id.dialog1_titleText);
+                        dialog1_editText = (EditText) dialog.findViewById(R.id.dialog1_editText);
+                        dialog1_listView = (ListView) dialog.findViewById(R.id.dialog1_listView);
+
+                        dialog1_titleText.setText("Select District Name");
+
+                        filteredDistrictList.clear();
+                        filteredDistrictList.addAll(districtList);
+
+
+                        mandiDistrictAdapter = new MandiDistrictAdapter(filteredDistrictList, context);
+                        dialog1_listView.setAdapter(mandiDistrictAdapter);
+
+                        dialog1_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                dialog.dismiss();
+                                selectedDistrict = (District) mandiDistrictAdapter.getItem(position);
+                                mandi_select_district.setText(selectedDistrict.toString());
+                            }
+                        });
+
+                        dialog1_editText.addTextChangedListener(new TextWatcher() {
+                            @Override
+                            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                            }
+
+                            @Override
+                            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                                dialog1_editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                                textlength = dialog1_editText.getText().length();
+                                filteredDistrictList.clear();
+
+                                // SearchBar Functionality
+                                for (int i = 0; i < districtList.size(); i++) {
+                                    if (textlength <= districtList.get(i).name.length()) {
+                                        if (districtList.get(i).name.toLowerCase().startsWith(dialog1_editText.getText().toString().toLowerCase().trim())) {
+                                            filteredDistrictList.add(districtList.get(i));
+                                        }
                                     }
                                 }
+                                mandiDistrictAdapter.notifyDataSetChanged();
                             }
-                            mandiDistrictAdapter.notifyDataSetChanged();
-                        }
 
-                        @Override
-                        public void afterTextChanged(Editable s) {
-                        }
-                    });
-                    dialog.setCancelable(true);
-                    dialog.show();
+                            @Override
+                            public void afterTextChanged(Editable s) {
+                            }
+                        });
+                        dialog.setCancelable(true);
+                        dialog.show();
+                    }
                 }
-            }
-        });
+            });
         /* End of drop down click listener*/
 
-        // Setting Save Button
-        mandi_save_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final String mandiName = mandi_name.getText().toString();
-                final double mandiLati = mandiLatitude;
-                final double mandiLong = mandiLongitude;
-                final String districtName = mandi_select_district.getText().toString();
+            // Setting Save Button
+            mandi_save_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final String mandiName = mandi_name.getText().toString();
+                    final double mandiLati = mandiLatitude;
+                    final double mandiLong = mandiLongitude;
+                    final String districtName = mandi_select_district.getText().toString();
 
-                if (mandi_name.equals("")) {
-                    Toast.makeText(AddMandi.this, "Please add a name for Mandi!!", Toast.LENGTH_SHORT).show();
-                } else if (mandi_select_district.equals("")) {
-                    Toast.makeText(AddMandi.this, "Please add the district of the Mandi!!", Toast.LENGTH_SHORT).show();
-                } else if (latLongCheck == false) {
-                    Toast.makeText(AddMandi.this, "Please Select the location of the Mandi!!", Toast.LENGTH_SHORT).show();
-                } else if (mandi_select_district.equals("")) {
-                    Toast.makeText(AddMandi.this, "Please Select a district for the Mandi!!", Toast.LENGTH_SHORT).show();
-                } else {
-                    if (currentMandi == null) {
-                        saveMandi(mandiName, mandiLati, mandiLong, GeneralConstants.ADD, new District().getFromName(districtName));
+                    if (mandi_name.equals("")) {
+                        Toast.makeText(AddMandi.this, "Please add a name for Mandi!!", Toast.LENGTH_SHORT).show();
+                    } else if (mandi_select_district.equals("")) {
+                        Toast.makeText(AddMandi.this, "Please add the district of the Mandi!!", Toast.LENGTH_SHORT).show();
+                    } else if (latLongCheck == false) {
+                        Toast.makeText(AddMandi.this, "Please Select the location of the Mandi!!", Toast.LENGTH_SHORT).show();
+                    } else if (mandi_select_district.equals("")) {
+                        Toast.makeText(AddMandi.this, "Please Select a district for the Mandi!!", Toast.LENGTH_SHORT).show();
                     } else {
-                        currentMandi.mandi_name = mandiName;
-                        currentMandi.latitude = mandiLati;
-                        currentMandi.longitude = mandiLong;
-                        currentMandi.district = new District().getFromName(districtName);
-                        currentMandi.action = GeneralConstants.EDIT;
-                        currentMandi.save();
-                    }
+                        if (currentMandi == null) {
+                            saveMandi(mandiName, mandiLati, mandiLong, GeneralConstants.ADD, new District().getFromName(districtName));
+                        } else {
+                            currentMandi.mandi_name = mandiName;
+                            currentMandi.latitude = mandiLati;
+                            currentMandi.longitude = mandiLong;
+                            currentMandi.district = new District().getFromName(districtName);
+                            currentMandi.action = GeneralConstants.EDIT;
+                            currentMandi.save();
+                        }
 
-                    for(int i=0;i<gaddidarList.size();i++){
-                        currentGaddidar = createNewGaddidar(gaddidarList.get(i).name,gaddidarList.get(i).contact,gaddidarList.get(i).commission,gaddidarList.get(i).getImage(),currentMandi);
-                        currentGaddidar.save();
+                        for (int i = 0; i < gaddidarList.size(); i++) {
+                            currentGaddidar = createNewGaddidar(gaddidarList.get(i).name, gaddidarList.get(i).contact, gaddidarList.get(i).commission, gaddidarList.get(i).getImage(), currentMandi);
+                            currentGaddidar.save();
+                        }
+                        if (activityOpenedForResult == true) {
+                            Toast.makeText(AddMandi.this, "Applying the changes ?", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent();
+                            setResult(RESULT_OK, intent);
+                        }
+                        finish();
                     }
-                    if(activityOpenedForResult==true){
-                        Toast.makeText(AddMandi.this, "Applying the changes ?" , Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            mandi_discard_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (activityOpenedForResult == true) {
+                        Toast.makeText(AddMandi.this, "Discarding the changes ?", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent();
                         setResult(RESULT_OK, intent);
                     }
                     finish();
                 }
-            }
-        });
+            });
 
-        mandi_discard_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(activityOpenedForResult==true){
-                    Toast.makeText(AddMandi.this, "Discarding the changes ?" , Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent();
-                    setResult(RESULT_OK, intent);
-                }
-                finish();
-            }
-        });
+            mandi_get_location.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // GPS initialization starts here
+                    GPSTracker gps = new GPSTracker(AddMandi.this);
 
-        mandi_get_location.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // GPS initialization starts here
-                GPSTracker gps = new GPSTracker(AddMandi.this);
-
-                if (!gps.canGetLocation()) {
-                    // Can't get location GPS or Network is not enabled. Ask user to enable GPS/network in settings
-                    Toast.makeText(getApplicationContext(), "Please enable GPS", Toast.LENGTH_LONG).show();
-                    gps.showSettingsAlert();
-                } else {
-
-                    if (mandi_select_district.equals("")) {
-                        Toast.makeText(AddMandi.this, "Please select a district first!!", Toast.LENGTH_SHORT).show();
+                    if (!gps.canGetLocation()) {
+                        // Can't get location GPS or Network is not enabled. Ask user to enable GPS/network in settings
+                        Toast.makeText(getApplicationContext(), "Please enable GPS", Toast.LENGTH_LONG).show();
+                        gps.showSettingsAlert();
                     } else {
-                        Intent i = new Intent(AddMandi.this, SelectLocation.class);
-                        i.putExtra("SearchBar", mandi_select_district.getText().toString());
-                        i.putExtra("Activity", "AddMandi");
-                        startActivityForResult(i, GeneralConstants.MAPCALL_FROM_ADDMANDI);
+
+                        if (mandi_select_district.equals("")) {
+                            Toast.makeText(AddMandi.this, "Please select a district first!!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Intent i = new Intent(AddMandi.this, SelectLocation.class);
+                            i.putExtra("SearchBar", mandi_select_district.getText().toString());
+                            i.putExtra("Activity", "AddMandi");
+                            startActivityForResult(i, GeneralConstants.MAPCALL_FROM_ADDMANDI);
+                        }
                     }
                 }
-            }
-        });
+            });
+        }
     }
 
     private Gaddidar createNewGaddidar(String gaddidar_name, String gaddidar_contact, double gaddidar_commission, Bitmap gaddidarPhoto, Mandi mandi) {

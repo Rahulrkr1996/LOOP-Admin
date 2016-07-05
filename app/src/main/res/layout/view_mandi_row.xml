@@ -10,7 +10,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:weightSum="12"
-        android:id="@+id/upper_layout">
+        android:id="@+id/upper_layout"
+        android:paddingBottom="5dp">
 
         <TextView
             android:id="@+id/name"

@@ -30,8 +30,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-
-/*        for(int i=1;i<11;i++){
+/*
+        for(int i=1;i<11;i++){
             District district = new District("District_"+String.valueOf(i));
             district.save();
             Crop crop = new Crop("Crop_"+String.valueOf(i),null);
