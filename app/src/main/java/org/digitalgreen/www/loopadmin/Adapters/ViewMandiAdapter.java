@@ -122,9 +122,9 @@ public class ViewMandiAdapter extends BaseExpandableListAdapter{
         ArrayList<Gaddidar> gList = new Gaddidar().getGaddidarsFromMandi(list.get(groupPosition).getId());
 
         if(gList.size()!=0) {
-            childViewHolder.name.setText(gList.get(groupPosition).name);
-            childViewHolder.contact.setText(gList.get(groupPosition).contact);
-            childViewHolder.commission.setText(String.valueOf(gList.get(groupPosition).commission));
+            childViewHolder.name.setText(gList.get(childPosition).name);
+            childViewHolder.contact.setText(gList.get(childPosition).contact);
+            childViewHolder.commission.setText(String.valueOf(gList.get(childPosition).commission));
             childViewHolder.photo.setImageBitmap(gList.get(childPosition).getImage());
         }
         return convertView;
