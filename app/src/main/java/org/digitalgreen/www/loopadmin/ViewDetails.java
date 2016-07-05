@@ -141,7 +141,6 @@ public class ViewDetails extends AppCompatActivity { // implements ViewMandiAdap
             view_list = (ExpandableListView) rootView.findViewById(R.id.view_list);
             ViewMandiAdapter viewMandiAdapter = new ViewMandiAdapter(mandiList, getContext(), new ViewMandiAdapter.OnViewMandiEditClickListener() {
                 @Override
-                // -------------- ToDo ---------( Put startActivityForResult() )---------------------
                 public void onEditClick(Mandi mandi) {
                     Intent intent = new Intent(getActivity(), AddMandi.class);
                     intent.putExtra("mandi_id", mandi.getId());
