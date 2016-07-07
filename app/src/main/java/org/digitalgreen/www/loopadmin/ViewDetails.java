@@ -3,6 +3,7 @@ package org.digitalgreen.www.loopadmin;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -18,9 +19,15 @@ import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
+import org.digitalgreen.www.loopadmin.Adapters.ViewAggregatorAdapter;
 import org.digitalgreen.www.loopadmin.Adapters.ViewMandiAdapter;
+import org.digitalgreen.www.loopadmin.Adapters.ViewVillageAdapter;
 import org.digitalgreen.www.loopadmin.Constants.GeneralConstants;
+import org.digitalgreen.www.loopadmin.Models.Block;
+import org.digitalgreen.www.loopadmin.Models.District;
+import org.digitalgreen.www.loopadmin.Models.LoopUser;
 import org.digitalgreen.www.loopadmin.Models.Mandi;
+import org.digitalgreen.www.loopadmin.Models.Village;
 
 import java.util.List;
 
@@ -133,29 +140,79 @@ public class ViewDetails extends AppCompatActivity { // implements ViewMandiAdap
                                  Bundle savedInstanceState) {
 
             ExpandableListView view_list;
+            FloatingActionButton view_add;
             View rootView = inflater.inflate(R.layout.fragment_view_details, container, false);
-            // -----------ToDo----------------(Here decide layout for every different row)--------------
-            //if(getArguments().get(ARG_SECTION_NUMBER)=="1"){
-            List<Mandi> mandiList = new Mandi().getAllMandis();
 
-            view_list = (ExpandableListView) rootView.findViewById(R.id.view_list);
-            ViewMandiAdapter viewMandiAdapter = new ViewMandiAdapter(mandiList, getContext(), new ViewMandiAdapter.OnViewMandiEditClickListener() {
-                @Override
-                public void onEditClick(Mandi mandi) {
-                    Intent intent = new Intent(getActivity(), AddMandi.class);
-                    intent.putExtra("mandi_id", mandi.getId());
-                    startActivityForResult(intent, GeneralConstants.MANDI_EDIT_REQUEST);
-                }
-            });
-            view_list.setAdapter(viewMandiAdapter);
-            //}
+            int temp = getArguments().getInt(ARG_SECTION_NUMBER);
 
-//
-//
-//            View rootView = inflater.inflate(R.layout.fragment_view_details,container,false);
-//            TextView view_Lable = (TextView)rootView.findViewById(R.id.view_Lable);
-//            view_Lable.setText("Section no. : "+getArguments().get(ARG_SECTION_NUMBER));
+            if (temp == 1) {
+                List<Mandi> mandiList = new Mandi().getAllMandis();
+                view_list = (ExpandableListView) rootView.findViewById(R.id.view_list);
 
+                ViewMandiAdapter viewMandiAdapter = new ViewMandiAdapter(mandiList, getContext(), new ViewMandiAdapter.OnViewMandiEditClickListener() {
+                    @Override
+                    public void onEditClick(Mandi mandi) {
+                        Intent intent = new Intent(getActivity(), AddMandi.class);
+                        intent.putExtra("mandi_id", mandi.getId());
+                        startActivityForResult(intent, GeneralConstants.MANDI_EDIT_REQUEST);
+                    }
+                });
+                view_list.setAdapter(viewMandiAdapter);
+
+                view_add = (FloatingActionButton) rootView.findViewById(R.id.view_add);
+                view_add.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(getActivity(), AddMandi.class);
+                        startActivity(i);
+                    }
+                });
+            } else if (temp == 2) {
+                List<Block> blockList = new Block().getAllBlocks();
+                view_list = (ExpandableListView) rootView.findViewById(R.id.view_list);
+
+                ViewVillageAdapter viewVillageAdapter = new ViewVillageAdapter(blockList, getContext(), new ViewVillageAdapter.OnViewVillageEditClickListener() {
+                    @Override
+                    public void onEditClick(Village village) {
+                        Intent intent = new Intent(getActivity(), AddVillage.class);
+                        intent.putExtra("village_id", village.getId());
+                        startActivityForResult(intent, GeneralConstants.VILLAGE_EDIT_REQUEST);
+                    }
+                });
+                view_list.setAdapter(viewVillageAdapter);
+
+                view_add = (FloatingActionButton) rootView.findViewById(R.id.view_add);
+                view_add.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(getActivity(), AddVillage.class);
+                        startActivity(i);
+                    }
+                });
+            } else if(temp==3){
+                List<LoopUser> aggregatorList = new LoopUser().getAllAggregators();
+                view_list = (ExpandableListView) rootView.findViewById(R.id.view_list);
+
+                ViewAggregatorAdapter viewAggregatorAdapter = new ViewAggregatorAdapter(aggregatorList, getContext(), new ViewAggregatorAdapter.OnViewAggregatorEditClickListener() {
+                    @Override
+
+                    public void onEditClick(LoopUser loopUser) {
+                        Intent intent = new Intent(getActivity(), AddAggregator.class);
+                        intent.putExtra("aggregator_id", loopUser.getId());
+                        startActivityForResult(intent, GeneralConstants.AGGREGATOR_EDIT_REQUEST);
+                    }
+                });
+                view_list.setAdapter(viewAggregatorAdapter);
+
+                view_add = (FloatingActionButton) rootView.findViewById(R.id.view_add);
+                view_add.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(getActivity(), AddAggregator.class);
+                        startActivity(i);
+                    }
+                });
+            }
 
             return rootView;
         }
@@ -180,8 +237,8 @@ public class ViewDetails extends AppCompatActivity { // implements ViewMandiAdap
 
         @Override
         public int getCount() {
-            // Show 2 total pages.
-            return 2;
+            // Show 3 total pages.
+            return 3;
         }
 
         @Override
@@ -191,6 +248,8 @@ public class ViewDetails extends AppCompatActivity { // implements ViewMandiAdap
                     return "Mandi";
                 case 1:
                     return "Village";
+                case 2:
+                    return "Aggregator";
             }
             return null;
         }

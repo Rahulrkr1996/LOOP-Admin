@@ -11,18 +11,18 @@ import java.util.ArrayList;
 /**
  * Created by Rahul Kumar on 6/6/2016.
  */
-@Table(name="LoopUser")
+@Table(name="Village")
 public class Village extends Model {
     @Expose
     @Column(name = "name")
     public String name;
 
     @Expose
-    @Column(name = "block_name")
+    @Column(name = "Lat")
     public double Lat;
 
     @Expose
-    @Column(name = "block_name")
+    @Column(name = "Long")
     public double Long;
 
     @Expose
@@ -57,7 +57,24 @@ public class Village extends Model {
         this.block_name = block_name;
     }
 
+    public ArrayList<Village> getVillageFromBlock(String block_name){
+        Select select = new Select();
+        return select.from(Village.class).where("block_name = ?", block_name).execute();
+    }
+
     public ArrayList<Village> getAllVillages() {
         return new Select().all().from(Village.class).execute();
     }
+
+    @Override
+    public String toString() {
+        return name ;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        Village v = (Village) o;
+        return this.getId() == v.getId();
+    }
+
 }

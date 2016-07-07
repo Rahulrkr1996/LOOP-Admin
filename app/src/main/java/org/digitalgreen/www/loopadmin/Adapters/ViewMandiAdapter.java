@@ -94,7 +94,7 @@ public class ViewMandiAdapter extends BaseExpandableListAdapter {
             @Override
             public void onClick(View v) {
                 Mandi m = (Mandi) v.getTag();
-                long temp = m.getId();
+             //   long temp = m.getId();
                 listener.onEditClick(m);
             }
         });

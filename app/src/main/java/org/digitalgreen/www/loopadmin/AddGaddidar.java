@@ -55,21 +55,15 @@ public class AddGaddidar extends AppCompatActivity {
 
         final Context context = this;
 
-        gaddidarName = (EditText) findViewById(R.id.gaddidarName);
-        gaddidarPhoneNo = (EditText) findViewById(R.id.gaddidarPhoneNo);
+        gaddidarName = (EditText) findViewById(R.id.aggregatorUserName);
+        gaddidarPhoneNo = (EditText) findViewById(R.id.aggregatorName);
         gaddidarCommission = (EditText) findViewById(R.id.gaddidarCommission);
-        gaddidarPic = (ImageView) findViewById(R.id.gaddidarPic);
+        gaddidarPic = (ImageView) findViewById(R.id.aggregatorPic);
         gaddidarPhotoText = (TextView) findViewById(R.id.gaddidarPhotoText);
         gaddidarSelectMandi = (TextView) findViewById(R.id.gaddidarSelectMandi);
         gaddidarSaveButtton = (FloatingActionButton) findViewById(R.id.gaddidarSaveButton);
         gaddidarDiscardButton = (FloatingActionButton) findViewById(R.id.gaddidarDiscardButton);
 
-/*
-        for(int i=0;i<10;i++){
-            Mandi mandi=new Mandi("Mandi_"+String.valueOf(i+1));
-            mandi.save();
-        }
-*/
         /* Initializing the drop down to Mandi List*/
         mandisList = new Mandi().getAllMandis();
 

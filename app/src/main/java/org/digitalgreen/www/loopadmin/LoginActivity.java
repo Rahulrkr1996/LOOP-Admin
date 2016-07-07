@@ -9,9 +9,11 @@ import android.widget.Button;
 
 import com.activeandroid.query.Delete;
 
+import org.digitalgreen.www.loopadmin.Constants.GeneralConstants;
 import org.digitalgreen.www.loopadmin.Models.Block;
 import org.digitalgreen.www.loopadmin.Models.Crop;
 import org.digitalgreen.www.loopadmin.Models.District;
+import org.digitalgreen.www.loopadmin.Models.Farmer;
 import org.digitalgreen.www.loopadmin.Models.Gaddidar;
 import org.digitalgreen.www.loopadmin.Models.LoopUser;
 import org.digitalgreen.www.loopadmin.Models.Mandi;
@@ -25,13 +27,12 @@ public class LoginActivity extends AppCompatActivity {
 
     private Button Login_addMandiButton,Login_addGaddidar,Login_addVehicle;
     private Button Login_addVillage,Login_addCrop;
-    private Button Login_view;
+    private Button Login_view,Login_addAggregator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
 /*
         for(int i=1;i<11;i++){
             District district = new District("District_"+String.valueOf(i));
@@ -50,6 +51,8 @@ public class LoginActivity extends AppCompatActivity {
                 Gaddidar gaddidar = createNewGaddidar("Gaddidar_"+String.valueOf(i)+"_"+String.valueOf(j),"993399403"+String.valueOf(j),(double)((j+1)/10),null,mandi);
                 gaddidar.save();
             }
+            Farmer farmer = new Farmer("Farmer_"+String.valueOf(i), GeneralConstants.MALE,"993393881"+String.valueOf(i-1),village,null);
+            farmer.save();
         }
 */
 
@@ -104,6 +107,15 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i = new Intent(LoginActivity.this, AddCrop.class);
                 startActivity(i);
+            }
+        });
+
+        Login_addAggregator = (Button)findViewById(R.id.Login_addAggregator);
+        Login_addAggregator.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this,AddAggregator.class);
+                startActivity(intent);
             }
         });
     }

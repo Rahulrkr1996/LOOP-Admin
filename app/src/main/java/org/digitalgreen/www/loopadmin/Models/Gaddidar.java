@@ -98,7 +98,6 @@ public class Gaddidar extends Model {
     public ArrayList<Gaddidar> getAllGaddidars() {
         Select select = new Select();
         ArrayList<Gaddidar> gaddidar_list;
-//        Log.i("district id", district.getId()+"");
         gaddidar_list = select.from(Gaddidar.class).execute();
         return gaddidar_list;
     }

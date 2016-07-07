@@ -48,12 +48,12 @@ public class AddMandi extends FragmentActivity implements MandiGaddidarAdapter.O
     private TextView mandi_select_district;
     private ImageView mandi_get_location;
     private FloatingActionButton mandi_save_button, mandi_discard_button;
-    private Dialog dialog;
     private List<District> filteredDistrictList = new ArrayList<District>();
     private List<District> districtList = new ArrayList<District>();
     private MandiDistrictAdapter mandiDistrictAdapter;
     private MandiGaddidarAdapter mandiGaddidarAdapter;
     private District selectedDistrict;
+    private Dialog dialog;
     private TextView dialog1_titleText;
     private EditText dialog1_editText;
     private ListView dialog1_listView;

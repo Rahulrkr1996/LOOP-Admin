@@ -83,6 +83,12 @@ public class District extends Model {
     }
 
     @Override
+    public boolean equals(Object o) {
+        District d = (District) o;
+        return this.getId() == d.getId();
+    }
+
+    @Override
     public String toString(){
         return name;
     }

@@ -10,7 +10,11 @@ public class GeneralConstants {
     // View Calls
     public static final int MANDI_EDIT_REQUEST = 0;
     public static final int VILLAGE_EDIT_REQUEST = 1;
+    public static final int AGGREGATOR_EDIT_REQUEST = 2;
 
+    // Gender Constants :
+    public static final Character MALE = 'M';
+    public static final Character FEMALE = 'F';
 
     // Map onActivityForResult Constants :
     public static final int MAPCALL_FROM_ADDMANDI = 0;
