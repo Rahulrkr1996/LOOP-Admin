@@ -17,6 +17,7 @@ import org.digitalgreen.www.loopadmin.Models.Farmer;
 import org.digitalgreen.www.loopadmin.Models.Gaddidar;
 import org.digitalgreen.www.loopadmin.Models.LoopUser;
 import org.digitalgreen.www.loopadmin.Models.Mandi;
+import org.digitalgreen.www.loopadmin.Models.User;
 import org.digitalgreen.www.loopadmin.Models.Vehicle;
 import org.digitalgreen.www.loopadmin.Models.Village;
 
@@ -35,6 +36,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 /*
         for(int i=1;i<11;i++){
+            User user = new User("Username_"+String.valueOf(i),"Password_"+String.valueOf(i));
+            user.save();
             District district = new District("District_"+String.valueOf(i));
             district.save();
             Crop crop = new Crop("Crop_"+String.valueOf(i),null);

@@ -31,7 +31,7 @@ public class AggregatorAssignMandiAdapter extends BaseAdapter {
     }
 
     @Override
-    public Mandi getItem(int position) {
+    public Object getItem(int position) {
         return list.get(position);
     }
 
@@ -55,12 +55,12 @@ public class AggregatorAssignMandiAdapter extends BaseAdapter {
         }
 
         holder.name.setText(list.get(position).mandi_name);
-        holder.name.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                holder.name.toggle();
-            }
-        });
+//        holder.name.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                holder.name.toggle();
+//            }
+//        });
         return convertView;
     }
 

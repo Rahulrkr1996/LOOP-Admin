@@ -41,14 +41,14 @@ public class AddAggregator extends AppCompatActivity {
     private TextView aggregatorUserName, aggregatorVillage, aggregatorAssignVillages, aggregatorAssignMandis;
     private EditText aggregatorName, aggregatorContact;
     private ImageView aggregatorPic;
-    private ArrayList<Mandi> mandiList, assignedMandis;
-    private ArrayList<Mandi> selectedAssignedMandis;
-    private ArrayList<Mandi> filteredMandiList;
-    private ArrayList<Village> selectedAssignedVillages = null;
-    private ArrayList<Village> villageList, assignedVillages;
-    private ArrayList<Village> filteredVillageList;
-    private ArrayList<User> userList;
-    private ArrayList<User> filteredUserNameList;
+    private ArrayList<Mandi> mandiList=new ArrayList<Mandi>();
+    private ArrayList<Mandi> selectedAssignedMandis=new ArrayList<Mandi>();
+    private ArrayList<Mandi> filteredMandiList=new ArrayList<Mandi>();
+    private ArrayList<Village> selectedAssignedVillages = new ArrayList<Village>();
+    private ArrayList<Village> villageList=new ArrayList<Village>();
+    private ArrayList<Village> filteredVillageList=new ArrayList<Village>();
+    private ArrayList<User> userList=new ArrayList<User>();
+    private ArrayList<User> filteredUserNameList=new ArrayList<User>();
     private FloatingActionButton aggregatorDiscardButton, aggregatorSaveButton;
     private boolean activityOpenedForResult = false;
     private int textlength = 0;
@@ -92,7 +92,6 @@ public class AddAggregator extends AppCompatActivity {
         mandiList = new Mandi().getAllMandis();
         villageList = new Village().getAllVillages();
         userList = new User().getAllUsers();
-        assignedVillages = new ArrayList<Village>();
 
         // Drop down UserName functionality
         aggregatorUserName.setOnClickListener(new View.OnClickListener() {
@@ -248,11 +247,11 @@ public class AddAggregator extends AppCompatActivity {
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         boolean selected = false;
                         //dialog.dismiss();
-                        selectedVillage = aggregatorAssignVillageAdapter.getItem(position);
+                        selectedVillage = (Village)aggregatorAssignVillageAdapter.getItem(position);
                         for (int i = 0; i < selectedAssignedVillages.size(); i++) {
                             if (selectedVillage.getId() == selectedAssignedVillages.get(i).getId()) {
                                 selected = true;
-                                selectedAssignedVillages.remove(i);
+//                                selectedAssignedVillages.remove(i);
                                 break;
                             }
                         }
@@ -338,11 +337,11 @@ public class AddAggregator extends AppCompatActivity {
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         boolean selected = false;
                         //dialog.dismiss();
-                        selectedMandi = aggregatorAssignMandiAdapter.getItem(position);
+                        selectedMandi = (Mandi)aggregatorAssignMandiAdapter.getItem(position);
                         for (int i = 0; i < selectedAssignedMandis.size(); i++) {
                             if (selectedMandi.getId() == selectedAssignedMandis.get(i).getId()) {
                                 selected = true;
-                                selectedAssignedMandis.remove(i);
+//                                selectedAssignedMandis.remove(i);
                                 break;
                             }
                         }
@@ -456,8 +455,8 @@ public class AddAggregator extends AppCompatActivity {
                     }
 
                     Toast.makeText(AddAggregator.this, "New Aggregator is saved", Toast.LENGTH_SHORT).show();
+                    finish();
                 }
-                finish();
             }
         });
 

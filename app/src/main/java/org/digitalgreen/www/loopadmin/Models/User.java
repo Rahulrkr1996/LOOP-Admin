@@ -40,7 +40,7 @@ public class User extends Model{
     }
 
     public ArrayList<User> getAllUsers() {
-        return new Select().all().from(User.class).execute();
+        return new Select().from(User.class).execute();
     }
 
     @Override

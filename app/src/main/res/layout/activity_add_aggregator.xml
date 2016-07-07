@@ -27,7 +27,7 @@
             android:drawableRight="@drawable/dropdown_icon_small"
             android:gravity="center_vertical"
             android:text="Assign Villages"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:layout_weight="1"
             android:paddingLeft="8dp"
             android:elevation="10dp" />
@@ -39,7 +39,7 @@
             android:drawableRight="@drawable/dropdown_icon_small"
             android:gravity="center_vertical"
             android:text="Assign Mandis"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:layout_weight="1"
             android:paddingLeft="8dp"
             android:layout_marginLeft="10dp"
