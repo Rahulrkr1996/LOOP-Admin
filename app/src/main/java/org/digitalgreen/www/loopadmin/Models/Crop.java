@@ -13,6 +13,7 @@ import android.os.Environment;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Select;
 import com.google.gson.annotations.Expose;
 
 import org.digitalgreen.www.loopadmin.Constants.GeneralConstants;
@@ -22,6 +23,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 
 @Table(name = "Crop")
 public class Crop extends Model {
@@ -151,6 +153,10 @@ public class Crop extends Model {
         if (another.getClass().equals(this.getClass())) {
             return this.getId() == ((Crop) another).getId();
         } else return false;
+    }
+
+    public ArrayList<Crop> getAllCrop() {
+        return new Select().from(Crop.class).execute();
     }
 }
 

@@ -21,6 +21,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import org.digitalgreen.www.loopadmin.Constants.GeneralConstants;
 import org.digitalgreen.www.loopadmin.Models.Crop;
+import org.digitalgreen.www.loopadmin.Models.Gaddidar;
+import org.digitalgreen.www.loopadmin.Models.Mandi;
 import org.digitalgreen.www.loopadmin.Models.Vehicle;
 
 import java.io.File;
@@ -32,6 +34,8 @@ public class AddCrop extends AppCompatActivity {
     private FloatingActionButton cropSaveButton, cropDiscardButton;
     private boolean cropImageCaptured = false;
     private Crop currentCrop;
+    private EditText crop_name;
+    private boolean openedForEdit = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +44,23 @@ public class AddCrop extends AppCompatActivity {
 
         Context context = this;
 
-        final EditText cropNameEditText = (EditText) findViewById(R.id.crop_name);
-
+        crop_name = (EditText) findViewById(R.id.crop_name);
         crop_image = (ImageView) findViewById(R.id.crop_image);
         cropSaveButton = (FloatingActionButton) findViewById(R.id.cropSaveButton);
         cropDiscardButton = (FloatingActionButton) findViewById(R.id.cropDiscardButton);
+
+        // Getting extra intent data
+        Bundle CropData = getIntent().getExtras();
+        if (CropData != null) {
+            long crop_id = CropData.getLong("crop_id");
+            if (crop_id >= 0) {
+                openedForEdit = true;
+                currentCrop = Crop.load(Crop.class, crop_id);
+
+                crop_name.setText(currentCrop.crop_name);
+                crop_image.setImageBitmap(currentCrop.getImage());
+            }
+        }
 
         crop_image.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,7 +81,7 @@ public class AddCrop extends AppCompatActivity {
         cropSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String cropName = cropNameEditText.getText().toString();
+                String cropName = crop_name.getText().toString();
 
                 if (cropName.equals("")) {
                     Toast.makeText(AddCrop.this, "Add a name for Crop", Toast.LENGTH_SHORT).show();
@@ -77,7 +93,7 @@ public class AddCrop extends AppCompatActivity {
                     }
 
                     if (currentCrop == null) {
-                        Crop crop = new Crop(cropName,image);
+                        Crop crop = new Crop(cropName, image);
                         crop.save();
                     } else {
                         currentCrop.crop_name = cropName;
@@ -85,8 +101,14 @@ public class AddCrop extends AppCompatActivity {
                         currentCrop.save();
                     }
 
-                    Toast.makeText(AddCrop.this, "New Crop is saved", Toast.LENGTH_SHORT).show();
+                    if (openedForEdit == false)
+                        Toast.makeText(AddCrop.this, "New Crop is saved", Toast.LENGTH_SHORT).show();
+                    else
+                        Toast.makeText(AddCrop.this, "Crop edited", Toast.LENGTH_SHORT).show();
                 }
+                Intent i = new Intent(AddCrop.this,ViewCrop.class);
+                startActivity(i);
+
                 finish();
             }
         });

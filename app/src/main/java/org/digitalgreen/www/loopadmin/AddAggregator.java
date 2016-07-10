@@ -38,7 +38,7 @@ import java.util.List;
 
 public class AddAggregator extends AppCompatActivity {
 
-    private TextView aggregatorUserName, aggregatorVillage, aggregatorAssignVillages, aggregatorAssignMandis;
+    private TextView aggregatorUserName, aggregatorVillage, aggregatorAssignVillages, aggregatorAssignMandis,aggregatorPhotoText;
     private EditText aggregatorName, aggregatorContact;
     private ImageView aggregatorPic;
     private ArrayList<Mandi> mandiList=new ArrayList<Mandi>();
@@ -88,6 +88,7 @@ public class AddAggregator extends AppCompatActivity {
         aggregatorPic = (ImageView) findViewById(R.id.aggregatorPic);
         aggregatorSaveButton = (FloatingActionButton) findViewById(R.id.aggregatorSaveButton);
         aggregatorDiscardButton = (FloatingActionButton) findViewById(R.id.aggregatorDiscardButton);
+        aggregatorPhotoText = (TextView)findViewById(R.id.aggregatorPhotoText);
 
         mandiList = new Mandi().getAllMandis();
         villageList = new Village().getAllVillages();
@@ -245,19 +246,21 @@ public class AddAggregator extends AppCompatActivity {
                 dialog2_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        boolean selected = false;
-                        //dialog.dismiss();
-                        selectedVillage = (Village)aggregatorAssignVillageAdapter.getItem(position);
-                        for (int i = 0; i < selectedAssignedVillages.size(); i++) {
-                            if (selectedVillage.getId() == selectedAssignedVillages.get(i).getId()) {
-                                selected = true;
-//                                selectedAssignedVillages.remove(i);
-                                break;
-                            }
-                        }
-                        if (selected == false) {
-                            selectedAssignedVillages.add(selectedVillage);
-                        }
+                        boolean exists = false;
+                        Toast.makeText(AddAggregator.this, String.valueOf(position), Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                        aggregatorAssignVillages.setText(String.valueOf(position));
+//                        selectedVillage = (Village)aggregatorAssignVillageAdapter.getItem(position);
+//                        for (int i = 0; i < selectedAssignedVillages.size(); i++) {
+//                            if (selectedVillage.getId() == selectedAssignedVillages.get(i).getId()) {
+//                                exists = true;
+////                                selectedAssignedVillages.remove(i);
+//                                break;
+//                            }
+//                        }
+//                        if (exists == false) {
+//                            selectedAssignedVillages.add(selectedVillage);
+//                        }
                     }
                 });
 
@@ -479,6 +482,7 @@ public class AddAggregator extends AppCompatActivity {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             fImage = (Bitmap) extras.get("data");
+            aggregatorPhotoText.setVisibility(View.GONE);
             aggregatorPic.setImageBitmap(fImage);
             aggregatorImageCaptured = true;
         }

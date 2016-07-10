@@ -211,7 +211,7 @@ public class SelectLocation extends FragmentActivity implements OnMapReadyCallba
 
         // Add a marker in the current and move the camera
         LatLng currentLocation = new LatLng(currentLatitude, currentLongitude);
-        currentLocationMarker = mMap.addMarker(new MarkerOptions().position(currentLocation).title("You are presently Here").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+        currentLocationMarker = mMap.addMarker(new MarkerOptions().position(currentLocation).title("You are presently Here").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15));

@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="match_parent"
-    android:layout_width="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/upper_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:weightSum="2"
-        android:id="@+id/upper_layout"
-        android:paddingBottom="5dp">
+        android:paddingBottom="5dp"
+        android:weightSum="2">
 
         <TextView
             android:id="@+id/name"
@@ -20,9 +19,9 @@
             android:layout_marginLeft="7dp"
             android:layout_marginTop="7dp"
             android:layout_weight="1"
-            android:gravity="center_vertical|left"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Name" />
+            android:gravity="center_vertical|center_horizontal"
+            android:text="Name"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
             android:id="@+id/villages"
@@ -32,15 +31,15 @@
             android:layout_marginTop="7dp"
             android:layout_weight="1"
             android:gravity="center_vertical|center_horizontal"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Villages" />
+            android:text="Villages"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
     </LinearLayout>
 
     <ListView
+        android:id="@+id/inner_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/inner_list"
         android:layout_below="@+id/upper_layout" />
 
 

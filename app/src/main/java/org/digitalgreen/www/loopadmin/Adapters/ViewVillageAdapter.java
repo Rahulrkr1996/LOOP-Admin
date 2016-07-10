@@ -84,7 +84,7 @@ public class ViewVillageAdapter extends BaseExpandableListAdapter {
         parentViewHolder.villages = (TextView) convertView.findViewById(R.id.villages);
 
         parentViewHolder.name.setText(list.get(groupPosition).name);
-        parentViewHolder.villages.setText(String.valueOf((new Village().getVillageFromBlock(list.get(groupPosition).name)).size()) + " Villages");
+        parentViewHolder.villages.setText(String.valueOf((new Village().getVillageFromBlock(list.get(groupPosition).name)).size()) + " Village");
 
         return convertView;
     }

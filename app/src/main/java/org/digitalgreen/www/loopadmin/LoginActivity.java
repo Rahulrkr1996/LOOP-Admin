@@ -27,8 +27,8 @@ import java.util.List;
 public class LoginActivity extends AppCompatActivity {
 
     private Button Login_addMandiButton,Login_addGaddidar,Login_addVehicle;
-    private Button Login_addVillage,Login_addCrop;
-    private Button Login_view,Login_addAggregator;
+    private Button Login_addVillage,Login_addCrop,Login_addAggregator;
+    private Button Login_view,Login_view_crop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +58,15 @@ public class LoginActivity extends AppCompatActivity {
             farmer.save();
         }
 */
+
+        Login_view_crop = (Button)findViewById(R.id.Login_view_crop);
+        Login_view_crop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(LoginActivity.this,ViewCrop.class);
+                startActivity(i);
+            }
+        });
 
         Login_view = (Button)findViewById(R.id.Login_view);
         Login_view.setOnClickListener(new View.OnClickListener() {

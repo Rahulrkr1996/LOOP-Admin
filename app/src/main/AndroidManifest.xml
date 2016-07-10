@@ -76,7 +76,8 @@
             android:name=".ViewDetails"
             android:label="@string/title_activity_view_details"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".AddAggregator"></activity>
+        <activity android:name=".AddAggregator" />
+        <activity android:name=".ViewCrop"></activity>
     </application>
 
 </manifest>

@@ -23,7 +23,9 @@ import org.digitalgreen.www.loopadmin.Adapters.VillageAggregatorAdapter;
 import org.digitalgreen.www.loopadmin.Adapters.VillageBlockAdapter;
 import org.digitalgreen.www.loopadmin.Constants.GeneralConstants;
 import org.digitalgreen.www.loopadmin.Models.Block;
+import org.digitalgreen.www.loopadmin.Models.Gaddidar;
 import org.digitalgreen.www.loopadmin.Models.LoopUser;
+import org.digitalgreen.www.loopadmin.Models.Mandi;
 import org.digitalgreen.www.loopadmin.Models.Village;
 
 import java.util.ArrayList;
@@ -56,6 +58,7 @@ public class AddVillage extends AppCompatActivity {
     private FloatingActionButton village_save_button;
     private Village currentVillage;
     private LoopUser selectedAggregator;
+    private boolean activityOpenedForResult=false;
 
 
     @Override
@@ -65,19 +68,26 @@ public class AddVillage extends AppCompatActivity {
 
         context = this;
 
-//        for (int i = 1; i < 11; i++) {
-//            Block block = new Block("Block_" + String.valueOf(i));
-//            LoopUser loopUser = new LoopUser("Aggregator_" + String.valueOf(i));
-//            block.save();
-//            loopUser.save();
-//        }
-
         village_save_button = (FloatingActionButton) findViewById(R.id.village_save_button);
         village_discard_button = (FloatingActionButton) findViewById(R.id.village_discard_button);
         village_name = (TextView) findViewById(R.id.village_name);
         village_get_location = (ImageView) findViewById(R.id.village_get_location);
         village_select_block = (TextView) findViewById(R.id.village_select_block);
         village_select_aggregator = (TextView) findViewById(R.id.village_select_aggregator);
+
+        // Getting extra intent data
+        Bundle VillageData = getIntent().getExtras();
+        if (VillageData != null) {
+            long village_id = VillageData.getLong("village_id");
+            if (village_id != 0) {
+                currentVillage = Village.load(Village.class, village_id);
+                village_name.setText(currentVillage.name);
+                village_select_block.setText(currentVillage.block_name);
+                latLongCheck = true;
+                activityOpenedForResult = true;
+                village_get_location.setImageResource(R.mipmap.get_location_green);
+            }
+        }
 
         blockList = new Block().getAllBlocks();
         aggregatorList = new LoopUser().getAllAggregators();
@@ -229,8 +239,15 @@ public class AddVillage extends AppCompatActivity {
                         currentVillage.block_name = blockName;
                         currentVillage.save();
                     }
+
+                    if (activityOpenedForResult == true) {
+                        Toast.makeText(AddVillage.this, "Applied the changes ...", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent();
+                        setResult(RESULT_OK, intent);
+                    }
+                    Toast.makeText(AddVillage.this, "New Village Added!!", Toast.LENGTH_SHORT).show();
+                    finish();
                 }
-                finish();
             }
 
         });
@@ -238,6 +255,11 @@ public class AddVillage extends AppCompatActivity {
         village_discard_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (activityOpenedForResult == true) {
+                    Toast.makeText(AddVillage.this, "Discarding the changes...", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent();
+                    setResult(RESULT_OK, intent);
+                }
                 finish();
             }
         });

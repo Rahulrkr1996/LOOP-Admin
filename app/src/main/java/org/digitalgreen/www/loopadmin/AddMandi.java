@@ -291,7 +291,7 @@ public class AddMandi extends FragmentActivity implements MandiGaddidarAdapter.O
             @Override
             public void onClick(View v) {
                 if (activityOpenedForResult == true) {
-                    Toast.makeText(AddMandi.this, "Discarding the changes ?", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddMandi.this, "Discarding the changes...", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent();
                     setResult(RESULT_OK, intent);
                 }

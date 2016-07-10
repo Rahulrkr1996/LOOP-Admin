@@ -100,11 +100,12 @@ public class ViewDetails extends AppCompatActivity { // implements ViewMandiAdap
         if (requestCode == GeneralConstants.MANDI_EDIT_REQUEST) {
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
-
                 Toast.makeText(ViewDetails.this, "The mandi has been successfully Edited!! ", Toast.LENGTH_SHORT).show();
-                data = new Intent(ViewDetails.this, ViewDetails.class);
-                startActivity(data);
-                finish();
+            }
+        }else if (requestCode == GeneralConstants.VILLAGE_EDIT_REQUEST) {
+            // Make sure the request was successful
+            if (resultCode == RESULT_OK) {
+                Toast.makeText(ViewDetails.this, "The Village has been successfully Edited!! ", Toast.LENGTH_SHORT).show();
             }
         }
     }

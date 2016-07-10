@@ -72,4 +72,13 @@
         android:layout_above="@+id/Login_addGaddidar"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="View Crop"
+        android:id="@+id/Login_view_crop"
+        android:layout_below="@+id/Login_addVehicle"
+        android:layout_toRightOf="@+id/Login_addCrop"
+        android:layout_toEndOf="@+id/Login_addCrop" />
 </RelativeLayout>
