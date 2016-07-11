@@ -12,64 +12,38 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ADD Mandi"
-        android:id="@+id/Login_addMandiButton"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="125dp"
-        android:textSize="18dp" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="ADD GADDIDAR"
         android:id="@+id/Login_addGaddidar"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:textSize="18dp" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ADD Vehicle"
-        android:id="@+id/Login_addVehicle"
-        android:layout_marginTop="45dp"
-        android:layout_below="@+id/Login_addGaddidar"
-        android:layout_centerHorizontal="true" />
+        android:textSize="18dp"
+        android:layout_marginTop="74dp"
+        android:layout_below="@+id/Login_view_vehicle"
+        android:layout_alignRight="@+id/Login_view"
+        android:layout_alignEnd="@+id/Login_view" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="ADD Village"
         android:id="@+id/Login_addVillage"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="51dp" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ADD CROP"
-        android:id="@+id/Login_addCrop"
-        android:layout_below="@+id/Login_addVehicle"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp" />
+        android:layout_alignTop="@+id/Login_view_vehicle"
+        android:layout_toLeftOf="@+id/Login_view_crop"
+        android:layout_toStartOf="@+id/Login_view_crop" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="View Details"
         android:id="@+id/Login_view"
-        android:layout_below="@+id/Login_addMandiButton"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_below="@+id/Login_addGaddidar"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Add aggregator"
         android:id="@+id/Login_addAggregator"
-        android:layout_above="@+id/Login_addGaddidar"
+        android:layout_alignBaseline="@+id/Login_view_crop"
+        android:layout_alignBottom="@+id/Login_view_crop"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -78,7 +52,17 @@
         android:layout_height="wrap_content"
         android:text="View Crop"
         android:id="@+id/Login_view_crop"
-        android:layout_below="@+id/Login_addVehicle"
-        android:layout_toRightOf="@+id/Login_addCrop"
-        android:layout_toEndOf="@+id/Login_addCrop" />
+        android:layout_above="@+id/Login_view_vehicle"
+        android:layout_toRightOf="@+id/Login_addAggregator"
+        android:layout_toEndOf="@+id/Login_addAggregator"
+        android:layout_marginBottom="77dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="View Vehicle"
+        android:id="@+id/Login_view_vehicle"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/Login_view_crop"
+        android:layout_toEndOf="@+id/Login_view_crop" />
 </RelativeLayout>

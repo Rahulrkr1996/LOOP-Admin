@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 
 import org.digitalgreen.www.loopadmin.Models.Mandi;
 import org.digitalgreen.www.loopadmin.Models.Village;
@@ -19,10 +20,12 @@ import java.util.List;
 public class AggregatorAssignMandiAdapter extends BaseAdapter {
     private List<Mandi> list;
     private Context context;
+    private boolean[] checkState;
 
     public AggregatorAssignMandiAdapter(List<Mandi> list, Context context) {
         this.list = list;
         this.context = context;
+        checkState = new boolean[list.size()];
     }
 
     @Override
@@ -41,12 +44,12 @@ public class AggregatorAssignMandiAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         final ViewHolder holder;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
-        if(convertView==null){
-            convertView = inflater.inflate(R.layout.basic_checkbox_row,parent,false);
+        if (convertView == null) {
+            convertView = inflater.inflate(R.layout.basic_checkbox_row, parent, false);
             holder = new ViewHolder();
             holder.name = (CheckBox) convertView.findViewById(R.id.name);
             convertView.setTag(holder);
@@ -55,18 +58,24 @@ public class AggregatorAssignMandiAdapter extends BaseAdapter {
         }
 
         holder.name.setText(list.get(position).mandi_name);
-//        holder.name.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                holder.name.toggle();
-//            }
-//        });
+        holder.name.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                checkState[position] = isChecked;
+            }
+        });
+
         return convertView;
+    }
+
+    public boolean[] getCheckState() {
+        return checkState;
     }
 
     static class ViewHolder {
         CheckBox name;
     }
+
 }
 
 

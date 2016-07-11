@@ -26,9 +26,11 @@ import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private Button Login_addMandiButton,Login_addGaddidar,Login_addVehicle;
-    private Button Login_addVillage,Login_addCrop,Login_addAggregator;
+    private Button Login_addGaddidar;
+    private Button Login_addVillage;
+    private Button Login_addAggregator;
     private Button Login_view,Login_view_crop;
+    private Button Login_view_vehicle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +61,15 @@ public class LoginActivity extends AppCompatActivity {
         }
 */
 
+        Login_view_vehicle = (Button)findViewById(R.id.Login_view_vehicle);
+        Login_view_vehicle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(LoginActivity.this,ViewVehicle.class);
+                startActivity(i);
+            }
+        });
+
         Login_view_crop = (Button)findViewById(R.id.Login_view_crop);
         Login_view_crop.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,14 +88,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        Login_addMandiButton = (Button) findViewById(R.id.Login_addMandiButton);
-        Login_addMandiButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(LoginActivity.this, AddMandi.class);
-                startActivity(i);
-            }
-        });
 
         Login_addGaddidar = (Button) findViewById(R.id.Login_addGaddidar);
         Login_addGaddidar.setOnClickListener(new View.OnClickListener() {
@@ -95,29 +98,11 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        Login_addVehicle = (Button)findViewById(R.id.Login_addVehicle);
-        Login_addVehicle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(LoginActivity.this, AddVehicle.class);
-                startActivity(i);
-            }
-        });
-
         Login_addVillage = (Button)findViewById(R.id.Login_addVillage);
         Login_addVillage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(LoginActivity.this,AddVillage.class);
-                startActivity(i);
-            }
-        });
-
-        Login_addCrop = (Button)findViewById(R.id.Login_addCrop);
-        Login_addCrop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(LoginActivity.this, AddCrop.class);
                 startActivity(i);
             }
         });

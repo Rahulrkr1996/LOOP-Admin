@@ -56,7 +56,7 @@ public class AddCrop extends AppCompatActivity {
             if (crop_id >= 0) {
                 openedForEdit = true;
                 currentCrop = Crop.load(Crop.class, crop_id);
-
+                cropImageCaptured = true;
                 crop_name.setText(currentCrop.crop_name);
                 crop_image.setImageBitmap(currentCrop.getImage());
             }
@@ -97,6 +97,7 @@ public class AddCrop extends AppCompatActivity {
                         crop.save();
                     } else {
                         currentCrop.crop_name = cropName;
+                        currentCrop.saveImage(image);
                         currentCrop.action = GeneralConstants.EDIT;
                         currentCrop.save();
                     }
@@ -116,6 +117,9 @@ public class AddCrop extends AppCompatActivity {
         cropDiscardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent i = new Intent(AddCrop.this,ViewCrop.class);
+                startActivity(i);
+
                 finish();
             }
         });

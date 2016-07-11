@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.digitalgreen.www.loopadmin.Models.Crop;
+import org.digitalgreen.www.loopadmin.Models.Vehicle;
 import org.digitalgreen.www.loopadmin.R;
 
 import java.util.ArrayList;
@@ -16,14 +17,14 @@ import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
- * Created by Rahul Kumar on 7/10/2016.
+ * Created by Rahul Kumar on 7/11/2016.
  */
-public class ViewCropAdapter extends BaseAdapter {
-    private ArrayList<Crop> list;
+public class ViewVehicleAdapter  extends BaseAdapter {
+    private ArrayList<Vehicle> list;
     private Context context;
     private OnEditClickListener listener;
 
-    public ViewCropAdapter(ArrayList<Crop> list, Context context, OnEditClickListener listener) {
+    public ViewVehicleAdapter(ArrayList<Vehicle> list, Context context, OnEditClickListener listener) {
         this.list = list;
         this.context = context;
         this.listener = listener;
@@ -50,26 +51,24 @@ public class ViewCropAdapter extends BaseAdapter {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.view_crop_row, parent, false);
+            convertView = inflater.inflate(R.layout.view_vehicle_row, parent, false);
             holder = new ViewHolder();
-            holder.crop_name = (TextView) convertView.findViewById(R.id.crop_name);
-            holder.crop_image = (CircleImageView) convertView.findViewById(R.id.crop_image);
-            holder.crop_edit = (ImageView) convertView.findViewById(R.id.crop_edit);
+            holder.vehicle_name = (TextView) convertView.findViewById(R.id.vehicle_name);
+            holder.vehicle_edit = (ImageView) convertView.findViewById(R.id.vehicle_edit);
 
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.crop_name.setText(list.get(position).crop_name);
-        holder.crop_image.setImageBitmap(list.get(position).getImage());
+        holder.vehicle_name.setText(list.get(position).vehicle_name);
 
-        holder.crop_edit.setTag(list.get(position));
-        holder.crop_edit.setOnClickListener(new View.OnClickListener() {
+        holder.vehicle_edit.setTag(list.get(position));
+        holder.vehicle_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Crop c = (Crop) v.getTag();
-                listener.onEditClick(c, position);
+                Vehicle vehicle = (Vehicle) v.getTag();
+                listener.onEditClick(vehicle, position);
             }
         });
 
@@ -77,13 +76,12 @@ public class ViewCropAdapter extends BaseAdapter {
     }
 
     static class ViewHolder {
-        TextView crop_name;
-        ImageView crop_edit;
-        CircleImageView crop_image;
+        TextView vehicle_name;
+        ImageView vehicle_edit;
     }
 
     public interface OnEditClickListener {
-        void onEditClick(Crop f, int position);
+        void onEditClick(Vehicle f, int position);
     }
-
 }
+

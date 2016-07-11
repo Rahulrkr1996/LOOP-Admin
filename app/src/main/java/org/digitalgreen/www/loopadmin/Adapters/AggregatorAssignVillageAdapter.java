@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import org.digitalgreen.www.loopadmin.Models.Village;
@@ -19,10 +20,13 @@ import java.util.List;
 public class AggregatorAssignVillageAdapter extends BaseAdapter {
     private List<Village> list;
     private Context context;
+    private boolean[] checkState;
+
 
     public AggregatorAssignVillageAdapter(List<Village> list, Context context) {
         this.list = list;
         this.context = context;
+        checkState = new boolean[list.size()];
     }
 
     @Override
@@ -41,7 +45,7 @@ public class AggregatorAssignVillageAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         final ViewHolder holder;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
@@ -55,13 +59,17 @@ public class AggregatorAssignVillageAdapter extends BaseAdapter {
         }
 
         holder.name.setText(list.get(position).name);
-//        holder.name.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                holder.name.toggle();
-//            }
-//        });
+        holder.name.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                checkState[position] = isChecked;
+            }
+        });
         return convertView;
+    }
+
+    public boolean[] getCheckState() {
+        return checkState;
     }
 
     static class ViewHolder {

@@ -30,6 +30,10 @@ public class Vehicle extends Model {
     @Column(name = "action")
     public int action;   // 0 = ADD , 1= EDIT ,  -1 = NO CHANGE
 
+    public Vehicle() {
+        super();
+    }
+
     public Vehicle(int online_id,String vehicle_name) {
         super();
         this.online_id = online_id;
@@ -45,10 +49,10 @@ public class Vehicle extends Model {
     }
 
 
-    public List<Vehicle> getAllVehicles() {
+    public ArrayList<Vehicle> getAllVehicles() {
         Select select = new Select();
         ArrayList<Vehicle> vehicle_list;
-        vehicle_list = select.from(Gaddidar.class).execute();
+        vehicle_list = select.from(Vehicle.class).execute();
         return vehicle_list;
     }
 
