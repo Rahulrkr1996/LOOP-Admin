@@ -61,7 +61,7 @@ public class AddMandi extends FragmentActivity implements MandiGaddidarAdapter.O
     private static final int REQUEST_IMAGE_CAPTURE = 14;
     private boolean gaddidarImageCaptured = false;
     private Bitmap gaddidarPhoto;
-    private boolean activityOpenedForResult = false;
+    private boolean activityOpenedForEdit = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,12 +87,12 @@ public class AddMandi extends FragmentActivity implements MandiGaddidarAdapter.O
         if (MandiData != null) {
             long mandi_id = MandiData.getLong("mandi_id");
             if (mandi_id != 0) {
-                currentMandi = Mandi.load(Mandi.class,mandi_id);
+                currentMandi = Mandi.load(Mandi.class, mandi_id);
                 gaddidarList = new Gaddidar().getGaddidarsFromMandi(mandi_id);
                 mandi_name.setText(currentMandi.mandi_name);
                 mandi_select_district.setText(currentMandi.district.name);
                 latLongCheck = true;
-                activityOpenedForResult = true;
+                activityOpenedForEdit = true;
                 mandi_get_location.setImageResource(R.mipmap.get_location_green);
             }
         }
@@ -276,25 +276,25 @@ public class AddMandi extends FragmentActivity implements MandiGaddidarAdapter.O
                         currentGaddidar = createNewGaddidar(gaddidarList.get(i).name, gaddidarList.get(i).contact, gaddidarList.get(i).commission, gaddidarList.get(i).getImage(), currentMandi);
                         currentGaddidar.save();
                     }
-                    if (activityOpenedForResult == true) {
-                        Toast.makeText(AddMandi.this, "Applied the changes ...", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent();
-                        setResult(RESULT_OK, intent);
-                    }
-                    Toast.makeText(AddMandi.this, "New Mandi Added!!", Toast.LENGTH_SHORT).show();
-                    finish();
+
+                    if (activityOpenedForEdit == false)
+                        Toast.makeText(AddMandi.this, "New Mandi is saved", Toast.LENGTH_SHORT).show();
+                    else
+                        Toast.makeText(AddMandi.this, "Mandi edited", Toast.LENGTH_SHORT).show();
                 }
+                Intent i = new Intent(AddMandi.this, ViewDetails.class);
+                startActivity(i);
+
+                finish();
             }
         });
 
         mandi_discard_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (activityOpenedForResult == true) {
-                    Toast.makeText(AddMandi.this, "Discarding the changes...", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent();
-                    setResult(RESULT_OK, intent);
-                }
+                Intent i = new Intent(AddMandi.this,ViewDetails.class);
+                startActivity(i);
+
                 finish();
             }
         });

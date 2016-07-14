@@ -98,7 +98,7 @@ public class AddCrop extends AppCompatActivity {
                     } else {
                         currentCrop.crop_name = cropName;
                         currentCrop.saveImage(image);
-                        currentCrop.action = GeneralConstants.EDIT;
+                        //currentCrop.action = GeneralConstants.EDIT;
                         currentCrop.save();
                     }
 

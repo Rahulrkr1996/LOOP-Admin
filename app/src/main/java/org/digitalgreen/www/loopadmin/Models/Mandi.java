@@ -36,6 +36,9 @@ public class Mandi extends Model {
     @Expose
     @Column(name = "action")
     public int action;   // 0 = ADD , 1= EDIT ,  -1 = NO CHANGE
+    @Expose
+    @Column(name = "is_visible")
+    public Boolean is_visible;
 
     public Mandi() {
         super();
@@ -94,14 +97,23 @@ public class Mandi extends Model {
         this.action = -1;
     }
 
-    /*protected Mandi(Parcel in) {
-        this.online_id = in.readInt();
-        this.mandi_name = in.readString();
-        this.latitude = in.readDouble();
-        this.longitude = in.readDouble();
-//        this.district = in.readParcelable(District.class.getClassLoader());
+    public Mandi(int online_id, String mandi_name, double latitude, double longitude, District district, Boolean is_visible) {
+        this.online_id = online_id;
+        this.mandi_name = mandi_name;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.district = district;
+        this.is_visible = is_visible;
     }
-*/
+
+    /*protected Mandi(Parcel in) {
+            this.online_id = in.readInt();
+            this.mandi_name = in.readString();
+            this.latitude = in.readDouble();
+            this.longitude = in.readDouble();
+    //        this.district = in.readParcelable(District.class.getClassLoader());
+        }
+    */
 /*
     public List<MandiTransaction> MandiTransaction() {
         return getMany(MandiTransaction.class, "Mandi");

@@ -8,10 +8,14 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
+import org.digitalgreen.www.loopadmin.AddAggregator;
+import org.digitalgreen.www.loopadmin.MandiCheck;
+import org.digitalgreen.www.loopadmin.Models.LoopUser;
 import org.digitalgreen.www.loopadmin.Models.Mandi;
 import org.digitalgreen.www.loopadmin.Models.Village;
 import org.digitalgreen.www.loopadmin.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,12 +24,13 @@ import java.util.List;
 public class AggregatorAssignMandiAdapter extends BaseAdapter {
     private List<Mandi> list;
     private Context context;
-    private boolean[] checkState;
+    private LoopUser loopUser;
+    private long aggregatorID;
 
-    public AggregatorAssignMandiAdapter(List<Mandi> list, Context context) {
+    public AggregatorAssignMandiAdapter(List<Mandi> list, Context context, long aggregatorID) {
         this.list = list;
         this.context = context;
-        checkState = new boolean[list.size()];
+        this.aggregatorID = aggregatorID;
     }
 
     @Override
@@ -58,24 +63,36 @@ public class AggregatorAssignMandiAdapter extends BaseAdapter {
         }
 
         holder.name.setText(list.get(position).mandi_name);
+        loopUser = LoopUser.load(LoopUser.class, aggregatorID);
+
+        for (int i = 0; i < loopUser.assigned_mandi.size(); i++) {
+            if (holder.name.getText().toString().equals(loopUser.assigned_mandi.get(i).toString())) {
+                holder.name.setChecked(true);
+                break;
+            }
+        }
+
         holder.name.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                checkState[position] = isChecked;
+                if (isChecked == true) {
+                    loopUser = LoopUser.load(LoopUser.class, aggregatorID);
+                    loopUser.assigned_mandi.add(list.get(position));
+                    loopUser.save();
+                }else{
+                    loopUser = LoopUser.load(LoopUser.class, aggregatorID);
+                    loopUser.assigned_mandi.remove(list.get(position));
+                    loopUser.save();
+                }
             }
         });
 
         return convertView;
     }
 
-    public boolean[] getCheckState() {
-        return checkState;
-    }
-
     static class ViewHolder {
         CheckBox name;
     }
-
 }
 
 

@@ -53,13 +53,16 @@ public class Gaddidar extends Model {
             .ForeignKeyAction.CASCADE)
     public Mandi mandi;
 
+    @Expose
+    @Column(name = "is_visible")
+    public Boolean is_visible;
+
     public Gaddidar() {
         super();
     }
 
     //Add New Gaddidar
     public Gaddidar(String name, String contact, Double commission, Bitmap image, Mandi mandi) {
-        super();
         //this.image = image;
         this.name = name;
         this.contact = contact;
@@ -70,8 +73,6 @@ public class Gaddidar extends Model {
     }
 
     public Gaddidar(int online_id, String name, Double commission, String contact, Mandi mandi, Bitmap image) {
-        super();
-        //this.image = image;
         this.online_id = online_id;
         this.name = name;
         this.contact = contact;
@@ -81,13 +82,22 @@ public class Gaddidar extends Model {
     }
 
     public Gaddidar(int online_id, Double commission, String name, String contact, Mandi mandi, String image_path) {
-        super();
         this.image_path = image_path;
         this.online_id = online_id;
         this.name = name;
         this.contact = contact;
         this.mandi = mandi;
         this.commission = commission;
+    }
+
+    public Gaddidar(int online_id,String image_path, String name, String contact, double commission, Mandi mandi, Boolean is_visible) {
+        this.image_path = image_path;
+        this.online_id = online_id;
+        this.name = name;
+        this.contact = contact;
+        this.commission = commission;
+        this.mandi = mandi;
+        this.is_visible = is_visible;
     }
 
     public ArrayList<Gaddidar> getGaddidarsFromMandi(Long mandiId) {

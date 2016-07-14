@@ -34,6 +34,10 @@ public class District extends Model {
     @Column(name = "state_name")
     public String state_name;
 
+    @Expose
+    @Column(name = "is_visible")
+    public Boolean is_visible;
+
     public District(int online_id, String name, double latitude, double longitude, String state_name) {
         super();
         this.online_id = online_id;
@@ -63,6 +67,15 @@ public class District extends Model {
         this.latitude = 0;
         this.longitude = 0;
         this.state_name = "Bihar";
+    }
+
+    public District(int online_id, String name, double latitude, double longitude, String state_name, Boolean is_visible) {
+        this.online_id = online_id;
+        this.name = name;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.state_name = state_name;
+        this.is_visible = is_visible;
     }
 
     public ArrayList<District> getAllDistricts() {

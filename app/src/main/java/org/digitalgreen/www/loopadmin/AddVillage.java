@@ -240,14 +240,15 @@ public class AddVillage extends AppCompatActivity {
                         currentVillage.save();
                     }
 
-                    if (activityOpenedForResult == true) {
-                        Toast.makeText(AddVillage.this, "Applied the changes ...", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent();
-                        setResult(RESULT_OK, intent);
-                    }
-                    Toast.makeText(AddVillage.this, "New Village Added!!", Toast.LENGTH_SHORT).show();
-                    finish();
+                    if (activityOpenedForResult == false)
+                        Toast.makeText(AddVillage.this, "New Village is saved", Toast.LENGTH_SHORT).show();
+                    else
+                        Toast.makeText(AddVillage.this, "Village edited", Toast.LENGTH_SHORT).show();
                 }
+                Intent i = new Intent(AddVillage.this,ViewDetails.class);
+                startActivity(i);
+
+                finish();
             }
 
         });
@@ -255,11 +256,9 @@ public class AddVillage extends AppCompatActivity {
         village_discard_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (activityOpenedForResult == true) {
-                    Toast.makeText(AddVillage.this, "Discarding the changes...", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent();
-                    setResult(RESULT_OK, intent);
-                }
+                Intent i = new Intent(AddVillage.this,ViewCrop.class);
+                startActivity(i);
+
                 finish();
             }
         });

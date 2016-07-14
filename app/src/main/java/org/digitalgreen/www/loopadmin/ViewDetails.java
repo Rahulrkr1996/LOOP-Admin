@@ -94,23 +94,6 @@ public class ViewDetails extends AppCompatActivity { // implements ViewMandiAdap
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // Check which request we're responding to
-        if (requestCode == GeneralConstants.MANDI_EDIT_REQUEST) {
-            // Make sure the request was successful
-            if (resultCode == RESULT_OK) {
-                Toast.makeText(ViewDetails.this, "The mandi has been successfully Edited!! ", Toast.LENGTH_SHORT).show();
-            }
-        }else if (requestCode == GeneralConstants.VILLAGE_EDIT_REQUEST) {
-            // Make sure the request was successful
-            if (resultCode == RESULT_OK) {
-                Toast.makeText(ViewDetails.this, "The Village has been successfully Edited!! ", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-
     /**
      * A placeholder fragment containing a simple view.
      */
@@ -155,7 +138,8 @@ public class ViewDetails extends AppCompatActivity { // implements ViewMandiAdap
                     public void onEditClick(Mandi mandi) {
                         Intent intent = new Intent(getActivity(), AddMandi.class);
                         intent.putExtra("mandi_id", mandi.getId());
-                        startActivityForResult(intent, GeneralConstants.MANDI_EDIT_REQUEST);
+                        startActivity(intent);//, GeneralConstants.MANDI_EDIT_REQUEST);
+                        getActivity().finish();
                     }
                 });
                 view_list.setAdapter(viewMandiAdapter);
@@ -166,6 +150,7 @@ public class ViewDetails extends AppCompatActivity { // implements ViewMandiAdap
                     public void onClick(View v) {
                         Intent i = new Intent(getActivity(), AddMandi.class);
                         startActivity(i);
+                        getActivity().finish();
                     }
                 });
             } else if (temp == 2) {
@@ -177,7 +162,8 @@ public class ViewDetails extends AppCompatActivity { // implements ViewMandiAdap
                     public void onEditClick(Village village) {
                         Intent intent = new Intent(getActivity(), AddVillage.class);
                         intent.putExtra("village_id", village.getId());
-                        startActivityForResult(intent, GeneralConstants.VILLAGE_EDIT_REQUEST);
+                        startActivity(intent);//, GeneralConstants.VILLAGE_EDIT_REQUEST);
+                        getActivity().finish();
                     }
                 });
                 view_list.setAdapter(viewVillageAdapter);
@@ -187,7 +173,7 @@ public class ViewDetails extends AppCompatActivity { // implements ViewMandiAdap
                     @Override
                     public void onClick(View v) {
                         Intent i = new Intent(getActivity(), AddVillage.class);
-                        startActivity(i);
+                        getActivity().startActivity(i);
                     }
                 });
             } else if(temp==3){
@@ -200,7 +186,8 @@ public class ViewDetails extends AppCompatActivity { // implements ViewMandiAdap
                     public void onEditClick(LoopUser loopUser) {
                         Intent intent = new Intent(getActivity(), AddAggregator.class);
                         intent.putExtra("aggregator_id", loopUser.getId());
-                        startActivityForResult(intent, GeneralConstants.AGGREGATOR_EDIT_REQUEST);
+                        startActivity(intent);//, GeneralConstants.AGGREGATOR_EDIT_REQUEST);
+                        getActivity().finish();
                     }
                 });
                 view_list.setAdapter(viewAggregatorAdapter);
@@ -211,6 +198,7 @@ public class ViewDetails extends AppCompatActivity { // implements ViewMandiAdap
                     public void onClick(View v) {
                         Intent i = new Intent(getActivity(), AddAggregator.class);
                         startActivity(i);
+                        getActivity().finish();
                     }
                 });
             }

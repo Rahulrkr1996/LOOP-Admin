@@ -2,6 +2,8 @@ package org.digitalgreen.www.loopadmin.Models;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Environment;
 
 import com.activeandroid.Model;
@@ -56,6 +58,10 @@ public class Farmer extends Model {
             .ForeignKeyAction.CASCADE)
     public Village village;
 
+    @Expose
+    @Column(name = "is_visible")
+    public Boolean is_visible;
+
     public Farmer() {
         super();
     }
@@ -73,7 +79,7 @@ public class Farmer extends Model {
         this.saveImage(image);
     }
 
-    public Farmer(int online_id, String name, Character gender, String phone, Village village, Bitmap image) {
+    public Farmer(int online_id, String name, Character gender, String phone, Village village, Bitmap image,boolean is_visible) {
         super();
         //this.image = image;
         this.online_id = online_id;
@@ -83,9 +89,10 @@ public class Farmer extends Model {
         this.village = village;
         this.action = GeneralConstants.NO_CHANGE;
         this.saveImage(image);
+        this.is_visible = is_visible;
     }
 
-    public Farmer(int online_id, String name, Character gender, String phone, Village village, String image_path) {
+    public Farmer(int online_id, String name, Character gender, String phone, Village village, String image_path,boolean is_visible) {
         super();
         //this.image = image;
         //this.saveImage(image);
@@ -96,6 +103,7 @@ public class Farmer extends Model {
         this.phone = phone;
         this.village = village;
         this.action = GeneralConstants.NO_CHANGE;
+        this.is_visible = is_visible;
     }
 
     public int getAction() {
@@ -112,7 +120,7 @@ public class Farmer extends Model {
         return select.from(Farmer.class).where("village = ?", villageId).execute();
     }
 
-    public ArrayList<Farmer> getFarmerFromVillage(long villageId){
+    public ArrayList<Farmer> getFarmerFromVillage(long villageId) {
         Select select = new Select();
         return select.from(Farmer.class).where("village = ?", villageId).execute();
     }
@@ -131,49 +139,31 @@ public class Farmer extends Model {
     }
 
     public void saveImage(Bitmap image) {
-//        ContextWrapper cw = new ContextWrapper(getContext().getApplicationContext());
-        // path to /data/data/yourapp/app_data/imageDir
-//        File directory = cw.getDir("images", Context.MODE_PRIVATE);
-        // Create imageDir
-
-        File theDir = new File(Environment.getExternalStorageDirectory().getPath() + "/Farmers/");
-        if (!theDir.exists()) {
-            theDir.mkdir();
-            Bitmap bm = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.default_farmer);
-            File defaultImage = new File(Environment.getExternalStorageDirectory().getPath() + "/Farmers/default.png");
-            FileOutputStream fos;
-            try {
-                fos = new FileOutputStream(defaultImage);
-                bm.compress(Bitmap.CompressFormat.PNG, 100, fos);
-                fos.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        if (image == null) {
+            this.image_path = "default";
+            return;
         }
 
-        if (image != null) {
-            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-            image.compress(Bitmap.CompressFormat.PNG, 100, bytes);
+        File myDir = new File(Environment
+                .getExternalStorageDirectory().getAbsolutePath() + "/DigitalGreen/Farmers/");
 
-            File mypath = new File(Environment.getExternalStorageDirectory().getPath() + "/Farmers/" + this.getFarmerName() + this.getPhone() + ".png");
+        if (!myDir.exists())
+            myDir.mkdirs();
 
-            try {
-                mypath.createNewFile();
-                FileOutputStream fos;
-                fos = new FileOutputStream(mypath);
+        String fname = this.name + "_" + this.phone + ".jpg";
+        File file = new File(myDir, fname);
 
-                // Use the compress method on the BitMap object to write image to the OutputStream
-//            image.compress(Bitmap.CompressFormat.PNG, 100, fos);
-                fos.write(bytes.toByteArray());
-                fos.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            this.image_path = mypath.getAbsolutePath();
-        } else {
-            File mypath = new File(Environment.getExternalStorageDirectory().getPath() + "/Farmers/default.png");
-            this.image_path = mypath.getAbsolutePath();
+        //Setting the photo path in ext. hard disk to the current user details
+        this.image_path = myDir + "/" + fname;
+        /////////////////////////////////////
 
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            image.compress(Bitmap.CompressFormat.PNG, 100, out);
+            out.flush();
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -184,16 +174,20 @@ public class Farmer extends Model {
     }
 
     public Bitmap getImage() {
+        if(image_path.equals("default")){
+            Drawable temp = getContext().getResources().getDrawable(R.mipmap.ic_farmer_icon);
+            Bitmap bitmap =((BitmapDrawable)temp).getBitmap();
+            return bitmap;
+        }
+
         Bitmap b = null;
         try {
             File f = new File(this.image_path);
             b = BitmapFactory.decodeStream(new FileInputStream(f));
-            return b;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } finally {
             return b;
         }
     }
-
 }

@@ -78,7 +78,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".AddAggregator" />
         <activity android:name=".ViewCrop" />
-        <activity android:name=".ViewVehicle"></activity>
+        <activity android:name=".ViewVehicle" />
+        <activity android:name=".Home"></activity>
     </application>
 
 </manifest>

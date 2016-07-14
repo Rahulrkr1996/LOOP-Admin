@@ -86,6 +86,8 @@ public class ViewMandiAdapter extends BaseExpandableListAdapter {
         parentViewHolder.edit = (ImageView) convertView.findViewById(R.id.edit);
 
         parentViewHolder.name.setText(list.get(groupPosition).mandi_name);
+        District d = new District();
+        d = list.get(groupPosition).district;
         parentViewHolder.district_name.setText(list.get(groupPosition).district.name);
         parentViewHolder.gaddidars.setText(String.valueOf((new Gaddidar().getGaddidarsFromMandi(list.get(groupPosition).getId())).size()) + "G");
         parentViewHolder.aggregators.setText("NA");//String.valueOf(new LoopUser().getAggregatorsFromMandi( list.get(groupPosition).getId() ).size()));

@@ -20,6 +20,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.activeandroid.query.Select;
+
 import org.digitalgreen.www.loopadmin.Adapters.AggregatorAssignMandiAdapter;
 import org.digitalgreen.www.loopadmin.Adapters.AggregatorAssignVillageAdapter;
 import org.digitalgreen.www.loopadmin.Adapters.AggregatorUserNameAdapter;
@@ -37,16 +39,18 @@ public class AddAggregator extends AppCompatActivity {
     private EditText aggregatorName, aggregatorContact;
     private ImageView aggregatorPic;
     private ArrayList<Mandi> mandiList = new ArrayList<Mandi>();
-    private ArrayList<Mandi> selectedAssignedMandis = new ArrayList<Mandi>();
     private ArrayList<Mandi> filteredMandiList = new ArrayList<Mandi>();
+    private ArrayList<Mandi> selectedAssignedMandis = new ArrayList<Mandi>();
+    private ArrayList<Mandi> filteredAssignMandiList = new ArrayList<Mandi>();
     private ArrayList<Village> selectedAssignedVillages = new ArrayList<Village>();
     private ArrayList<Village> villageList = new ArrayList<Village>();
     private ArrayList<Village> filteredVillageList = new ArrayList<Village>();
     private ArrayList<User> userList = new ArrayList<User>();
     private ArrayList<User> filteredUserNameList = new ArrayList<User>();
     private FloatingActionButton aggregatorDiscardButton, aggregatorSaveButton;
-    private boolean activityOpenedForResult = false;
+    private boolean activityOpenedForEdit = false;
     private int textlength = 0;
+    Bitmap fImage;
     private Dialog dialog;
     private TextView dialog1_titleText;
     private EditText dialog1_editText;
@@ -66,6 +70,8 @@ public class AddAggregator extends AppCompatActivity {
     private AggregatorAssignMandiAdapter aggregatorAssignMandiAdapter;
     private Mandi selectedMandi = null;
     private LoopUser currentAggregator = null;
+    private boolean isSaved = false;
+    private long savedAggregatorID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -219,83 +225,97 @@ public class AddAggregator extends AppCompatActivity {
         aggregatorAssignVillages.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                textlength = 0;
-                dialog = new Dialog(context);
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setContentView(R.layout.custom_dialog2);
+                if (aggregatorUserName.getText().toString().equals("")) {
+                    Toast.makeText(AddAggregator.this, "Please add username first!!", Toast.LENGTH_SHORT).show();
+                } else if (aggregatorName.getText().toString().equals("")) {
+                    Toast.makeText(AddAggregator.this, "Please add name first!!", Toast.LENGTH_SHORT).show();
+                } else if (aggregatorContact.getText().toString().equals("")) {
+                    Toast.makeText(AddAggregator.this, "Please add contact first!!", Toast.LENGTH_SHORT).show();
+                } else if (aggregatorVillage.getText().toString().equals("")) {
+                    Toast.makeText(AddAggregator.this, "Please select Village first!!", Toast.LENGTH_SHORT).show();
+                } else {
+                    final String username = aggregatorUserName.getText().toString();
+                    final String name = aggregatorName.getText().toString();
+                    final String contact = aggregatorContact.getText().toString();
+                    Bitmap pic;
 
-                dialog2_titleText = (TextView) dialog.findViewById(R.id.dialog2_titleText);
-                dialog2_editText = (EditText) dialog.findViewById(R.id.dialog2_editText);
-                dialog2_listView = (ListView) dialog.findViewById(R.id.dialog2_listView);
-                dialog2_save = (FloatingActionButton) dialog.findViewById(R.id.dialog2_save);
-                dialog2_discard = (FloatingActionButton) dialog.findViewById(R.id.dialog2_discard);
+                    if (aggregatorImageCaptured == true) {
+                        pic = fImage;
+                    } else {
+                        pic = null;
+                    }
 
-                dialog2_titleText.setText("Select Village");
+                    if (isSaved == false) {
+                        LoopUser loopUser = new LoopUser(pic, username, name, "Aggregator", null, null, contact, aggregatorsVillage);
+                        loopUser.save();
+                        isSaved = true;
+                        savedAggregatorID = loopUser.getId();
+                    }
 
-                filteredVillageList.clear();
-                filteredVillageList.addAll(villageList);
+                    textlength = 0;
+                    dialog = new Dialog(context);
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dialog.setContentView(R.layout.custom_dialog2);
 
-                aggregatorAssignVillageAdapter = new AggregatorAssignVillageAdapter(filteredVillageList, context);
-                dialog2_listView.setAdapter(aggregatorAssignVillageAdapter);
+                    dialog2_titleText = (TextView) dialog.findViewById(R.id.dialog2_titleText);
+                    dialog2_editText = (EditText) dialog.findViewById(R.id.dialog2_editText);
+                    dialog2_listView = (ListView) dialog.findViewById(R.id.dialog2_listView);
+                    dialog2_save = (FloatingActionButton) dialog.findViewById(R.id.dialog2_save);
+                    dialog2_discard = (FloatingActionButton) dialog.findViewById(R.id.dialog2_discard);
 
-                dialog2_save.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        boolean[] checkState = aggregatorAssignVillageAdapter.getCheckState();
-                        for (int i = 0; i < filteredVillageList.size(); i++) {
-                            if (checkState[i] == true) {
-                                boolean present = false;
-                                for (int j = 0; j < selectedAssignedMandis.size(); j++) {
-                                    if (selectedAssignedVillages.get(j).getId() == filteredVillageList.get(i).getId()) {
-                                        present = true;
-                                        break;
+                    dialog2_titleText.setText("Select Villages to be assigned");
+
+                    filteredVillageList.clear();
+                    filteredVillageList.addAll(villageList);
+
+                    aggregatorAssignVillageAdapter = new AggregatorAssignVillageAdapter(filteredVillageList, context, savedAggregatorID);
+                    dialog2_listView.setAdapter(aggregatorAssignVillageAdapter);
+
+                    dialog2_save.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            LoopUser loopUser = new Select().from(LoopUser.class).where("Id = ?", savedAggregatorID).executeSingle();
+                            aggregatorAssignVillages.setText(String.valueOf(loopUser.assigned_villages.size()) + " Village selected");
+                            dialog.dismiss();
+                        }
+                    });
+
+                    dialog2_discard.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+
+                    dialog2_editText.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence s, int start, int before, int count) {
+                            dialog2_editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                            textlength = dialog2_editText.getText().length();
+                            filteredVillageList.clear();
+
+                            // SearchBar Functionality
+                            for (int i = 0; i < villageList.size(); i++) {
+                                if (textlength <= villageList.get(i).name.length()) {
+                                    if (villageList.get(i).name.toLowerCase().contains(dialog2_editText.getText().toString().toLowerCase().trim())) {
+                                        filteredVillageList.add(villageList.get(i));
                                     }
                                 }
-                                if (present == false)
-                                    selectedAssignedVillages.add(filteredVillageList.get(i));
                             }
+                            aggregatorAssignVillageAdapter.notifyDataSetChanged();
                         }
-                        aggregatorAssignVillages.setText(String.valueOf(selectedAssignedMandis.size()) + " Village selected");
-                        dialog.dismiss();
-                    }
-                });
 
-                dialog2_discard.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        selectedAssignedVillages.clear();
-                        dialog.dismiss();
-                    }
-                });
-
-                dialog2_editText.addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        dialog2_editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-                        textlength = dialog2_editText.getText().length();
-                        filteredVillageList.clear();
-
-                        // SearchBar Functionality
-                        for (int i = 0; i < villageList.size(); i++) {
-                            if (textlength <= villageList.get(i).name.length()) {
-                                if (villageList.get(i).name.toLowerCase().startsWith(dialog2_editText.getText().toString().toLowerCase().trim())) {
-                                    filteredVillageList.add(villageList.get(i));
-                                }
-                            }
+                        @Override
+                        public void afterTextChanged(Editable s) {
                         }
-                        aggregatorAssignVillageAdapter.notifyDataSetChanged();
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable s) {
-                    }
-                });
-                dialog.setCancelable(true);
-                dialog.show();
+                    });
+                    dialog.setCancelable(true);
+                    dialog.show();
+                }
             }
         });
         /* End of drop down click listener*/
@@ -304,83 +324,96 @@ public class AddAggregator extends AppCompatActivity {
         aggregatorAssignMandis.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                textlength = 0;
-                dialog = new Dialog(context);
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setContentView(R.layout.custom_dialog2);
+                if (aggregatorUserName.getText().toString().equals("")) {
+                    Toast.makeText(AddAggregator.this, "Please add username first!!", Toast.LENGTH_SHORT).show();
+                } else if (aggregatorName.getText().toString().equals("")) {
+                    Toast.makeText(AddAggregator.this, "Please add name first!!", Toast.LENGTH_SHORT).show();
+                } else if (aggregatorContact.getText().toString().equals("")) {
+                    Toast.makeText(AddAggregator.this, "Please add contact first!!", Toast.LENGTH_SHORT).show();
+                } else if (aggregatorVillage.getText().toString().equals("")) {
+                    Toast.makeText(AddAggregator.this, "Please select Village first!!", Toast.LENGTH_SHORT).show();
+                } else {
+                    final String username = aggregatorUserName.getText().toString();
+                    final String name = aggregatorName.getText().toString();
+                    final String contact = aggregatorContact.getText().toString();
+                    Bitmap pic;
 
-                dialog2_titleText = (TextView) dialog.findViewById(R.id.dialog2_titleText);
-                dialog2_editText = (EditText) dialog.findViewById(R.id.dialog2_editText);
-                dialog2_listView = (ListView) dialog.findViewById(R.id.dialog2_listView);
-                dialog2_save = (FloatingActionButton) dialog.findViewById(R.id.dialog2_save);
-                dialog2_discard = (FloatingActionButton) dialog.findViewById(R.id.dialog2_discard);
+                    if (aggregatorImageCaptured == true) {
+                        pic = fImage;
+                    } else {
+                        pic = null;
+                    }
 
-                dialog2_titleText.setText("Select Mandis");
+                    if (isSaved == false) {
+                        LoopUser loopUser = new LoopUser(pic, username, name, "Aggregator", null, null, contact, aggregatorsVillage);
+                        loopUser.save();
+                        isSaved = true;
+                        savedAggregatorID = loopUser.getId();
+                    }
+                    textlength = 0;
+                    dialog = new Dialog(context);
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dialog.setContentView(R.layout.custom_dialog2);
 
-                filteredMandiList.clear();
-                filteredMandiList.addAll(mandiList);
+                    dialog2_titleText = (TextView) dialog.findViewById(R.id.dialog2_titleText);
+                    dialog2_editText = (EditText) dialog.findViewById(R.id.dialog2_editText);
+                    dialog2_listView = (ListView) dialog.findViewById(R.id.dialog2_listView);
+                    dialog2_save = (FloatingActionButton) dialog.findViewById(R.id.dialog2_save);
+                    dialog2_discard = (FloatingActionButton) dialog.findViewById(R.id.dialog2_discard);
 
-                aggregatorAssignMandiAdapter = new AggregatorAssignMandiAdapter(filteredMandiList, context);
-                dialog2_listView.setAdapter(aggregatorAssignMandiAdapter);
+                    dialog2_titleText.setText("Select Mandis to be assigned");
 
-                dialog2_save.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        boolean[] checkState = aggregatorAssignMandiAdapter.getCheckState();
-                        for (int i = 0; i < filteredMandiList.size(); i++) {
-                            if (checkState[i] == true) {
-                                boolean present = false;
-                                for (int j = 0; j < selectedAssignedVillages.size(); j++) {
-                                    if (selectedAssignedMandis.get(j).getId() == filteredMandiList.get(i).getId()) {
-                                        present = true;
-                                        break;
+                    filteredVillageList.clear();
+                    filteredVillageList.addAll(villageList);
+
+                    aggregatorAssignMandiAdapter = new AggregatorAssignMandiAdapter(filteredMandiList, context, savedAggregatorID);
+                    dialog2_listView.setAdapter(aggregatorAssignMandiAdapter);
+
+                    dialog2_save.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            LoopUser loopUser = new Select().from(LoopUser.class).where("Id = ?", savedAggregatorID).executeSingle();
+                            aggregatorAssignMandis.setText(String.valueOf(loopUser.assigned_mandi.size()) + " Mandi selected");
+                            dialog.dismiss();
+                        }
+                    });
+
+                    dialog2_discard.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+
+                    dialog2_editText.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence s, int start, int before, int count) {
+                            dialog2_editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                            textlength = dialog2_editText.getText().length();
+                            filteredMandiList.clear();
+
+                            // SearchBar Functionality
+                            for (int i = 0; i < mandiList.size(); i++) {
+                                if (textlength <= mandiList.get(i).mandi_name.length()) {
+                                    if (mandiList.get(i).mandi_name.toLowerCase().contains(dialog2_editText.getText().toString().toLowerCase().trim())) {
+                                        filteredMandiList.add(mandiList.get(i));
                                     }
                                 }
-                                if (present == false)
-                                    selectedAssignedMandis.add(filteredMandiList.get(i));
                             }
+                            aggregatorAssignMandiAdapter.notifyDataSetChanged();
                         }
-                        aggregatorAssignMandis.setText(String.valueOf(selectedAssignedMandis.size()) + " Mandi selected");
-                        dialog.dismiss();
-                    }
-                });
 
-                dialog2_discard.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        selectedAssignedMandis.clear();
-                        dialog.dismiss();
-                    }
-                });
-
-                dialog2_editText.addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        dialog2_editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-                        textlength = dialog2_editText.getText().length();
-                        filteredMandiList.clear();
-
-                        // SearchBar Functionality
-                        for (int i = 0; i < mandiList.size(); i++) {
-                            if (textlength <= mandiList.get(i).mandi_name.length()) {
-                                if (mandiList.get(i).mandi_name.toLowerCase().startsWith(dialog2_editText.getText().toString().toLowerCase().trim())) {
-                                    filteredMandiList.add(mandiList.get(i));
-                                }
-                            }
+                        @Override
+                        public void afterTextChanged(Editable s) {
                         }
-                        aggregatorAssignMandiAdapter.notifyDataSetChanged();
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable s) {
-                    }
-                });
-                dialog.setCancelable(true);
-                dialog.show();
+                    });
+                    dialog.setCancelable(true);
+                    dialog.show();
+                }
             }
         });
         /* End of drop down click listener*/
@@ -419,41 +452,28 @@ public class AddAggregator extends AppCompatActivity {
                     Toast.makeText(AddAggregator.this, "Select Username for Aggregator", Toast.LENGTH_SHORT).show();
                 } else if (village.equals("")) {
                     Toast.makeText(AddAggregator.this, "Select Village of Aggregator", Toast.LENGTH_SHORT).show();
+                } else if (isSaved == false) {
+                    Toast.makeText(AddAggregator.this, "Assign Villages and Mandis", Toast.LENGTH_SHORT).show();
                 } else {
-                    if (aggregatorImageCaptured == false) {
-                        image = null;
-                    } else {
-                        image = ((BitmapDrawable) aggregatorPic.getDrawable()).getBitmap();
-                    }
 
-                    if (currentAggregator == null) {
-                        LoopUser loopUser = new LoopUser(image, userName, name, "Aggregator", selectedAssignedMandis, selectedAssignedVillages, contact, aggregatorsVillage);
-                        loopUser.save();
-                    } else {
-                        currentAggregator.name = name;
-                        currentAggregator.user = userName;
-                        currentAggregator.village = aggregatorsVillage;
-                        currentAggregator.assigned_villages = selectedAssignedVillages;
-                        currentAggregator.assigned_mandi = selectedAssignedMandis;
-                        currentAggregator.saveImage(image);
-                        currentAggregator.contact = contact;
-                        currentAggregator.save();
-                    }
-
-                    Toast.makeText(AddAggregator.this, "New Aggregator is saved", Toast.LENGTH_SHORT).show();
-                    finish();
+                    if (activityOpenedForEdit == false)
+                        Toast.makeText(AddAggregator.this, "New Aggregator is saved", Toast.LENGTH_SHORT).show();
+                    else
+                        Toast.makeText(AddAggregator.this, "Aggregator edited", Toast.LENGTH_SHORT).show();
                 }
+                Intent i = new Intent(AddAggregator.this, ViewCrop.class);
+                startActivity(i);
+
+                finish();
             }
         });
 
         aggregatorDiscardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (activityOpenedForResult == true) {
-                    Toast.makeText(AddAggregator.this, "Discarding the changes !!", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent();
-                    setResult(RESULT_OK, intent);
-                }
+                Intent i = new Intent(AddAggregator.this, ViewCrop.class);
+                startActivity(i);
+
                 finish();
             }
         });
@@ -461,7 +481,7 @@ public class AddAggregator extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Bitmap fImage = null;
+        fImage = null;
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             fImage = (Bitmap) extras.get("data");

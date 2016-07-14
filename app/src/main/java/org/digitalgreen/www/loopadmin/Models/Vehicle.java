@@ -30,8 +30,18 @@ public class Vehicle extends Model {
     @Column(name = "action")
     public int action;   // 0 = ADD , 1= EDIT ,  -1 = NO CHANGE
 
+    @Expose
+    @Column(name = "is_visible")
+    public Boolean is_visible;
+
     public Vehicle() {
         super();
+    }
+
+    public Vehicle(String vehicle_name, int online_id, Boolean is_visible) {
+        this.vehicle_name = vehicle_name;
+        this.online_id = online_id;
+        this.is_visible = is_visible;
     }
 
     public Vehicle(int online_id,String vehicle_name) {

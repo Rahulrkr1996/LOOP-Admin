@@ -14,6 +14,10 @@ import java.util.ArrayList;
 @Table(name="Village")
 public class Village extends Model {
     @Expose
+    @Column(name = "online_id")
+    public int online_id;
+
+    @Expose
     @Column(name = "name")
     public String name;
 
@@ -28,6 +32,10 @@ public class Village extends Model {
     @Expose
     @Column(name = "block_name")
     public String block_name;
+
+    @Expose
+    @Column(name = "is_visible")
+    public Boolean is_visible;
 
     public Village() {
         super();
@@ -55,6 +63,24 @@ public class Village extends Model {
         this.Lat = Lat;
         this.Long = Long;
         this.block_name = block_name;
+    }
+
+    public Village(int online_id, String name, double lat, double aLong, String block_name, Boolean is_visible) {
+        this.online_id = online_id;
+        this.name = name;
+        Lat = lat;
+        Long = aLong;
+        this.block_name = block_name;
+        this.is_visible = is_visible;
+    }
+
+    public Village(int online_id, String name, double lat, double aLong, Boolean is_visible) {
+        this.online_id = online_id;
+        this.name = name;
+        Lat = lat;
+        Long = aLong;
+        this.block_name = null;
+        this.is_visible = is_visible;
     }
 
     public ArrayList<Village> getVillageFromBlock(String block_name){

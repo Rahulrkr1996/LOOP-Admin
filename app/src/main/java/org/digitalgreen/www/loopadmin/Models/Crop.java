@@ -43,8 +43,9 @@ public class Crop extends Model {
     @Column(name = "measuring_unit")
     public String measuring_unit;
 
-    @Column(name = "action")
-    public int action;   // 0 = ADD , 1= EDIT ,  -1 = NO CHANGE
+    @Expose
+    @Column(name = "is_visible")
+    public Boolean is_visible;
 
     public Crop() {
         super();
@@ -56,7 +57,6 @@ public class Crop extends Model {
         this.crop_name = crop_name;
         this.measuring_unit = measuring_unit;
         this.saveImage(image);
-        this.action = GeneralConstants.ADD;
     }
 
     public Crop(String crop_name, Bitmap image) {
@@ -65,7 +65,6 @@ public class Crop extends Model {
         this.crop_name = crop_name;
         this.measuring_unit = "Kg";
         this.saveImage(image);
-        this.action = GeneralConstants.ADD;
     }
 
     public Crop(String crop_name, int action, Bitmap image) {
@@ -74,26 +73,24 @@ public class Crop extends Model {
         this.crop_name = crop_name;
         this.measuring_unit = "Kg";
         this.saveImage(image);
-        this.action = action;
     }
 
-    public Crop(int online_id, String crop_name, String measuring_unit, Bitmap image) {
+    public Crop(int online_id, String crop_name, String measuring_unit, Bitmap image,boolean is_visible) {
         super();
         this.online_id = online_id;
         this.crop_name = crop_name;
         this.measuring_unit = measuring_unit;
         this.saveImage(image);
-        this.action = GeneralConstants.NO_CHANGE;
+        this.is_visible = is_visible;
     }
 
-    public Crop(int online_id, String crop_name, String measuring_unit, String image_path) {
+    public Crop(int online_id, String crop_name, String measuring_unit, String image_path,boolean is_visible) {
         super();
         this.online_id = online_id;
         this.crop_name = crop_name;
         this.measuring_unit = measuring_unit;
-//        this.saveImage(image);
         this.image_path = image_path;
-        this.action = GeneralConstants.NO_CHANGE;
+        this.is_visible = is_visible;
     }
 
     public void saveImage(Bitmap image) {

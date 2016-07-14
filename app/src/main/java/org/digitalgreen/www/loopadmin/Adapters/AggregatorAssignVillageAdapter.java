@@ -9,6 +9,9 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import com.activeandroid.query.Select;
+
+import org.digitalgreen.www.loopadmin.Models.LoopUser;
 import org.digitalgreen.www.loopadmin.Models.Village;
 import org.digitalgreen.www.loopadmin.R;
 
@@ -20,13 +23,13 @@ import java.util.List;
 public class AggregatorAssignVillageAdapter extends BaseAdapter {
     private List<Village> list;
     private Context context;
-    private boolean[] checkState;
+    private LoopUser loopUser;
+    private long aggregatorID;
 
-
-    public AggregatorAssignVillageAdapter(List<Village> list, Context context) {
+    public AggregatorAssignVillageAdapter(List<Village> list, Context context, long aggregatorID) {
         this.list = list;
         this.context = context;
-        checkState = new boolean[list.size()];
+        this.aggregatorID = aggregatorID;
     }
 
     @Override
@@ -49,8 +52,8 @@ public class AggregatorAssignVillageAdapter extends BaseAdapter {
         final ViewHolder holder;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
-        if(convertView==null){
-            convertView = inflater.inflate(R.layout.basic_checkbox_row,parent,false);
+        if (convertView == null) {
+            convertView = inflater.inflate(R.layout.basic_checkbox_row, parent, false);
             holder = new ViewHolder();
             holder.name = (CheckBox) convertView.findViewById(R.id.name);
             convertView.setTag(holder);
@@ -59,17 +62,31 @@ public class AggregatorAssignVillageAdapter extends BaseAdapter {
         }
 
         holder.name.setText(list.get(position).name);
+
+        loopUser = LoopUser.load(LoopUser.class, aggregatorID);
+
+        for(int i=0;i<loopUser.assigned_villages.size();i++){
+            if(holder.name.getText().toString().equals(loopUser.assigned_villages.get(i).toString())){
+                holder.name.setChecked(true);
+                break;
+            }
+        }
+
         holder.name.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                checkState[position] = isChecked;
+                if (isChecked == true) {
+                    loopUser = LoopUser.load(LoopUser.class, aggregatorID);
+                    loopUser.assigned_villages.add(list.get(position));
+                    loopUser.save();
+                }else{
+                    loopUser = LoopUser.load(LoopUser.class, aggregatorID);
+                    loopUser.assigned_villages.remove(list.get(position));
+                    loopUser.save();
+                }
             }
         });
         return convertView;
-    }
-
-    public boolean[] getCheckState() {
-        return checkState;
     }
 
     static class ViewHolder {
