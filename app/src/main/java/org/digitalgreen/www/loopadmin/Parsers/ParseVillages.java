@@ -25,15 +25,15 @@ public class ParseVillages {
                 int village_id = obj.optInt(ResponseConstants.ID, -1);
                 double latitude = obj.optDouble(ResponseConstants.LATITUDE);
                 double longitude = obj.optDouble(ResponseConstants.LONGITUDE);
+
                 JSONObject block = obj.getJSONObject(ResponseConstants.BLOCK);
                 int block_id = block.optInt(ResponseConstants.ID, -1);
-                Boolean is_visible = obj.optBoolean(ResponseConstants.IS_VISIBLE, true);
+                Block bloc = new Select().from(Block.class).where("online_id = ? ", block_id).executeSingle();
 
-                District bloc = new Select().from(Block.class).where("online_id = ? ", block_id).executeSingle();
+                Boolean is_visible = obj.optBoolean(ResponseConstants.IS_VISIBLE, true);
 
                 Village village = new Village(village_id, village_name, latitude, longitude, bloc.name,is_visible);
                 village.save();
-
             } catch (Exception e) {
                 e.printStackTrace();
             }

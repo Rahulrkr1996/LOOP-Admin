@@ -78,6 +78,17 @@ public class LoopUser extends Model {
         this.village = village;
     }
 
+    public LoopUser(Bitmap image, String user, String name, String role, Village village, String contact) {
+        this.saveImage(image);
+        this.user = user;
+        this.name = name;
+        this.role = role;
+        this.assigned_mandi = new ArrayList<Mandi>();
+        this.assigned_villages = new ArrayList<Village>();
+        this.village = village;
+        this.contact = contact;
+    }
+
     public LoopUser(String name) {
         super();
 

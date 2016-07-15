@@ -80,7 +80,7 @@ public class AddAggregator extends AppCompatActivity {
 
         final Context context = this;
 
-        aggregatorUserName = (TextView) findViewById(R.id.aggregatorUserName);
+        aggregatorUserName = (EditText) findViewById(R.id.aggregatorUserName);
         aggregatorName = (EditText) findViewById(R.id.aggregatorName);
         aggregatorVillage = (TextView) findViewById(R.id.aggregatorVillage);
         aggregatorContact = (EditText) findViewById(R.id.aggregatorContact);
@@ -93,7 +93,7 @@ public class AddAggregator extends AppCompatActivity {
 
         mandiList = new Mandi().getAllMandis();
         villageList = new Village().getAllVillages();
-        userList = new User().getAllUsers();
+        /*userList = new User().getAllUsers();
 
         // Drop down UserName functionality
         aggregatorUserName.setOnClickListener(new View.OnClickListener() {
@@ -246,7 +246,7 @@ public class AddAggregator extends AppCompatActivity {
                     }
 
                     if (isSaved == false) {
-                        LoopUser loopUser = new LoopUser(pic, username, name, "Aggregator", null, null, contact, aggregatorsVillage);
+                        LoopUser loopUser = new LoopUser(pic, username, name, "Aggregator", contact, aggregatorsVillage);
                         loopUser.save();
                         isSaved = true;
                         savedAggregatorID = loopUser.getId();

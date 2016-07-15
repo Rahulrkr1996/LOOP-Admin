@@ -23,15 +23,15 @@ public class ParseMandi {
                 int mandi_id = obj.optInt(ResponseConstants.ID, -1);
                 double latitude = obj.optDouble(ResponseConstants.LATITUDE, 0.0);
                 double longitude = obj.optDouble(ResponseConstants.LONGITUDE, 0.0);
+
                 JSONObject district = obj.getJSONObject(ResponseConstants.DISTRICT);
                 int district_id = district.optInt(ResponseConstants.ID, -1);
+
                 Boolean is_visible = obj.optBoolean(ResponseConstants.IS_VISIBLE, true);
 
                 District dist = new Select().from(District.class).where("online_id = ? ", district_id).executeSingle();
-
                 Mandi mandi = new Mandi(mandi_id, mandi_name, latitude, longitude, dist, is_visible);
                 mandi.save();
-
             } catch (Exception e) {
                 e.printStackTrace();
             }

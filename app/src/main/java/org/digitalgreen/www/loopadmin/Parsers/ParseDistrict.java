@@ -30,7 +30,7 @@ public class ParseDistrict {
             try {
                 JSONObject obj = objectsArray.getJSONObject(i);
                 String district_name = obj.optString(ResponseConstants.DISTRICT_NAME, null);
-                String state_name = obj.optString(ResponseConstants.STATE_NAME, null);
+                String state_name = "Bihar";
                 double lat = obj.optDouble(ResponseConstants.LATITUDE, 0.0);
                 double lng = obj.optDouble(ResponseConstants.LONGITUDE, 0.0);
                 int district_id = obj.optInt(ResponseConstants.ID, -1);
